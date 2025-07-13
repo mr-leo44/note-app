@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Course;
 use App\Models\Department;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,8 +22,15 @@ class Promotion extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function promotions(): BelongsToMany
+    public function courses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class);
+    }
+
+    public function students(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'promotion_student')
+            ->withPivot(['period', 'status'])
+            ->withTimestamps();
     }
 }
