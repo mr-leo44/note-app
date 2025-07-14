@@ -49,10 +49,11 @@ class JuryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('users')->ignore($jury->id)],
-            'password' => 'nullable|string|min:8|confirmed',
         ]);
         $jury->name = $validated['name'];
+        $jury->username = $validated['username'];
         $jury->email = $validated['email'];
         if (!empty($validated['password'])) {
             $jury->password = Hash::make($validated['password']);
