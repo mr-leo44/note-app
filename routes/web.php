@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\JuryController;
 use App\Http\Controllers\PromotionController;
 
 Route::get('/', function () {
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show','update','destroy']);
     Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
