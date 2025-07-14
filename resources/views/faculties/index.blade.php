@@ -59,17 +59,18 @@
                                 <td class="px-6 py-4 font-semibold">{{ $faculty->name }}</td>
                                 <td class="px-6 py-4">{{ $faculty->short_name }}</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <a href="{{ route('faculties.edit', $faculty) }}" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier">
+                                    <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-faculty-id="{{ $faculty->id }}" data-modal-target="editFacultyModal-{{ $faculty->id }}" data-modal-toggle="editFacultyModal-{{ $faculty->id }}">
                                         <svg class="w-6 h-6 text-blue-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h6a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z"/>
                                         </svg>
-                                    </a>
+                                    </button>
                                     <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-faculty-id="{{ $faculty->id }}" data-action-url="{{ route('faculties.destroy', $faculty) }}" data-modal-target="deleteFacultyModal" data-modal-toggle="deleteFacultyModal">
                                         <svg class="w-6 h-6 text-red-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
                                         </svg>
                                     </button>
-        <x-delete-faculty-modal />
+                                    <x-faculties.edit-faculty-modal :faculty="$faculty" />
+                                    <x-delete-faculty-modal />
                                 </td>
                             </tr>
                         @endforeach
@@ -113,7 +114,7 @@
             </div>
         @endif
 
-        <x-faculties._faculty-modal />
+        <!-- Suppression de l'ancien composant modal inutile -->
         <x-faculties.create-faculty />
     </div>
 </x-app-layout>
