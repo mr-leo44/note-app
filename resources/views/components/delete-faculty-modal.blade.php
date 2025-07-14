@@ -22,6 +22,7 @@
         </div>
     </div>
 </div>
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('button[data-faculty-id]');
@@ -33,8 +34,11 @@
                 const facultyId = btn.getAttribute('data-faculty-id');
                 const action = btn.getAttribute('data-action-url');
                 form.action = action;
-                window.flowbite.Modal.getInstance(modal).show();
+                if (window.flowbite && window.flowbite.Modal) {
+                    window.flowbite.Modal.getInstance(modal).show();
+                }
             });
         });
     });
 </script>
+@endpush
