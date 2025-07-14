@@ -11,17 +11,31 @@
     </x-slot>
     <div class="container mx-auto px-4 py-8">
         @if (session('success'))
-            <div class="mb-4 p-4 text-green-800 rounded-lg bg-green-100 dark:bg-green-200 dark:text-green-900">
-                {{ session('success') }}
+            <div id="alert-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-100 dark:bg-green-200 dark:text-green-900" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z"/><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/></svg>
+                <span class="sr-only">Succès</span>
+                <div class="ms-2 text-sm font-medium">{{ session('success') }}</div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-green-200 dark:text-green-600 dark:hover:bg-green-300" data-dismiss-target="#alert-success" aria-label="Fermer">
+                    <span class="sr-only">Fermer</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1l12 12M13 1L1 13"/></svg>
+                </button>
             </div>
         @endif
         @if ($errors->any())
-            <div class="mb-4 p-4 text-red-800 rounded-lg bg-red-100 dark:bg-red-200 dark:text-red-900">
-                <ul class="list-disc pl-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div id="alert-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-100 dark:bg-red-200 dark:text-red-900" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0ZM9 9V5a1 1 0 1 1 2 0v4a1 1 0 0 1-2 0Zm1 8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/></svg>
+                <span class="sr-only">Erreur</span>
+                <div class="ms-2 text-sm font-medium">
+                    <ul class="list-disc pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-red-200 dark:text-red-600 dark:hover:bg-red-300" data-dismiss-target="#alert-error" aria-label="Fermer">
+                    <span class="sr-only">Fermer</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1l12 12M13 1L1 13"/></svg>
+                </button>
             </div>
         @endif
 
@@ -45,16 +59,19 @@
                                 <td class="px-6 py-4 font-semibold">{{ $faculty->name }}</td>
                                 <td class="px-6 py-4">{{ $faculty->short_name }}</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    @php
-                                        // Icônes SVG pour les actions
-                                        $editIcon = '<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.6 2.6 0 1 1 3.677 3.677L7.5 20.203l-4.243.566a.75.75 0 0 1-.848-.848l.566-4.243L16.862 3.487Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75l1.5 1.5"/></svg>';
-                                        $deleteIcon = '<svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>';
-                                    @endphp
-                                    <a href="{{ route('faculties.edit', $faculty) }}" class="hover:bg-blue-50 p-1 rounded" title="Modifier">{!! $editIcon !!}</a>
+                                    <a href="{{ route('faculties.edit', $faculty) }}" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier">
+                                        <svg class="w-6 h-6 text-blue-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h6a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z"/>
+                                        </svg>
+                                    </a>
                                     <form action="{{ route('faculties.destroy', $faculty) }}" method="POST" onsubmit="return confirm('Supprimer cette faculté ?');" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="hover:bg-red-50 p-1 rounded" title="Supprimer">{!! $deleteIcon !!}</button>
+                                        <button type="submit" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer">
+                                            <svg class="w-6 h-6 text-red-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
+                                            </svg>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
