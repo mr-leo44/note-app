@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des départements</h1>
-            <button id="openModalBtn" data-modal-target="createDepartmentModal" data-modal-toggle="createDepartmentModal"
+            <h1 class="text-2xl font-bold">Liste des promotions</h1>
+            <button id="openModalBtn" data-modal-target="createPromotionModal" data-modal-toggle="createPromotionModal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button">
-                + Nouveau département
+                + Nouvelle promotion
             </button>
         </div>
     </x-slot>
@@ -23,8 +23,8 @@
             </x-alert>
         @endif
 
-        @if ($departments->isEmpty())
-            <div class="text-center text-gray-500 py-8">Aucun département enregistré.</div>
+        @if ($promotions->isEmpty())
+            <div class="text-center text-gray-500 py-8">Aucune promotion enregistrée.</div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -32,30 +32,30 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">#</th>
                             <th scope="col" class="px-6 py-3">Nom</th>
-                            <th scope="col" class="px-6 py-3">Abréviation</th>
-                            <th scope="col" class="px-6 py-3">Faculté</th>
+                            <th scope="col" class="px-6 py-3">Nom court</th>
+                            <th scope="col" class="px-6 py-3">Département</th>
                             <th scope="col" class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($departments as $department)
+                        @foreach ($promotions as $promotion)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition">
-                                <td class="px-6 py-4">{{ ($departments->currentPage() - 1) * $departments->perPage() + $loop->iteration }}</td>
-                                <td class="px-6 py-4 font-semibold">{{ $department->name }}</td>
-                                <td class="px-6 py-4">{{ $department->short_name }}</td>
-                                <td class="px-6 py-4">{{ $department->faculty->name ?? '' }}</td>
+                                <td class="px-6 py-4">{{ ($promotions->currentPage() - 1) * $promotions->perPage() + $loop->iteration }}</td>
+                                <td class="px-6 py-4 font-semibold">{{ $promotion->name }}</td>
+                                <td class="px-6 py-4 font-semibold">{{ $promotion->short_name }}</td>
+                                <td class="px-6 py-4">{{ $promotion->department->name ?? '' }}</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <a href="{{ route('departments.show', $department) }}" class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
+                                    <a href="{{ route('promotions.show', $promotion) }}" class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
                                         <x-icons.eye />
                                     </a>
-                                    <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-department-id="{{ $department->id }}" data-modal-target="editDepartmentModal-{{ $department->id }}" data-modal-toggle="editDepartmentModal-{{ $department->id }}">
+                                    <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-promotion-id="{{ $promotion->id }}" data-modal-target="editPromotionModal-{{ $promotion->id }}" data-modal-toggle="editPromotionModal-{{ $promotion->id }}">
                                         <x-icons.pencil-square />
                                     </button>
-                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-department-id="{{ $department->id }}" data-action-url="{{ route('departments.destroy', $department) }}" data-modal-target="deleteDepartmentModal" data-modal-toggle="deleteDepartmentModal">
+                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-promotion-id="{{ $promotion->id }}" data-action-url="{{ route('promotions.destroy', $promotion) }}" data-modal-target="deletePromotionModal" data-modal-toggle="deletePromotionModal">
                                         <x-icons.trash />
                                     </button>
-                                    <x-departments.edit-department-modal :department="$department" :faculties="$departments->pluck('faculty')->unique('id')->filter()->values()" />
-                                    <x-departments.delete-department-modal />
+                                    <x-promotions.edit-promotion-modal :promotion="$promotion" :departments="$promotions->pluck('department')->unique('id')->filter()->values()" />
+                                    <x-promotions.delete-promotion-modal />
                                 </td>
                             </tr>
                         @endforeach
@@ -63,9 +63,9 @@
                 </table>
             </div>
             <div class="mt-4 flex justify-center">
-                <x-pagination :paginator="$departments" />
+                <x-pagination :paginator="$promotions" />
             </div>
         @endif
-        <x-departments.create-department-modal />
+        <x-promotions.create-promotion-modal />
     </div>
 </x-app-layout>

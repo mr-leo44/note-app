@@ -38,6 +38,18 @@
                 </button>
             </div>
         @endif
+        @if (session('success'))
+            <x-alert type="success">{{ session('success') }}</x-alert>
+        @endif
+        @if ($errors->any())
+            <x-alert type="error">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-alert>
+        @endif
 
         @if ($faculties->isEmpty())
             <div class="text-center text-gray-500 py-8">Aucune faculté enregistrée.</div>
