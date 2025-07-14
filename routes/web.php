@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('periods', \App\Http\Controllers\PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
