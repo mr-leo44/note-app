@@ -48,7 +48,7 @@
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-jury-id="{{ $jury->id }}" data-modal-target="editJuryModal-{{ $jury->id }}" data-modal-toggle="editJuryModal-{{ $jury->id }}">
                                         <x-icons.pencil-square />
                                     </button>
-                                    <button type="button" class="bg-red-100 p-1.5 rounded" title="Supprimer" disabled>
+                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-jury-id="{{ $jury->id }}" data-modal-target="deleteJuryModal-{{ $jury->id }}" data-modal-toggle="deleteJuryModal-{{ $jury->id }}">
                                         <x-icons.trash />
                                     </button>
                                 </td>
@@ -65,5 +65,6 @@
         <x-juries.create-jury-modal />
         @foreach ($juries as $jury)
             <x-juries.edit-jury-modal :jury="$jury" />
+            <x-juries.delete-jury-modal :jury="$jury" />
         @endforeach
 </x-app-layout>
