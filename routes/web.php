@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Account;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     // Création automatique d'un admin si aucun user n'existe
@@ -40,5 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::resource('faculties', FacultyController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
