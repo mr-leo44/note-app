@@ -59,14 +59,24 @@
                                 <td class="px-6 py-4 font-semibold">{{ $faculty->name }}</td>
                                 <td class="px-6 py-4">{{ $faculty->short_name }}</td>
                                 <td class="px-6 py-4 flex gap-2">
+                                    <a href="{{ route('faculties.show', $faculty) }}" class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
+                                        <!-- Flowbite Eye Icon -->
+                                        <svg class="w-6 h-6 text-gray-600 p-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1.98 12.5C3.21 7.94 7.36 5 12 5c4.64 0 8.79 2.94 10.02 7.5a.98.98 0 0 1 0 .5C20.79 16.06 16.64 19 12 19c-4.64 0-8.79-2.94-10.02-7.5a.98.98 0 0 1 0-.5Z"/>
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                        </svg>
+                                    </a>
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-faculty-id="{{ $faculty->id }}" data-modal-target="editFacultyModal-{{ $faculty->id }}" data-modal-toggle="editFacultyModal-{{ $faculty->id }}">
-                                        <svg class="w-6 h-6 text-blue-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h6a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z"/>
+                                        <!-- Flowbite Pencil-Square Icon -->
+                                        <svg class="w-6 h-6 text-blue-600 p-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.862 3.487a2.06 2.06 0 0 1 2.916 2.915l-9.05 9.05a2.12 2.12 0 0 1-.707.471l-3.19 1.33a.5.5 0 0 1-.65-.65l1.33-3.19a2.12 2.12 0 0 1 .47-.707l9.05-9.05ZM19.5 12v4.75A2.25 2.25 0 0 1 17.25 19H6.75A2.25 2.25 0 0 1 4.5 16.75V6.75A2.25 2.25 0 0 1 6.75 4.5h4.75"/>
                                         </svg>
                                     </button>
                                     <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-faculty-id="{{ $faculty->id }}" data-action-url="{{ route('faculties.destroy', $faculty) }}" data-modal-target="deleteFacultyModal" data-modal-toggle="deleteFacultyModal">
-                                        <svg class="w-6 h-6 text-red-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
+                                        <!-- Flowbite Trash Icon -->
+                                        <svg class="w-6 h-6 text-red-600 p-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 7.5v-1A2.25 2.25 0 0 1 9 4.25h6A2.25 2.25 0 0 1 17.25 6.5v1m-10.5 0h13.5m-13.5 0v10.75A2.25 2.25 0 0 0 8.25 20.5h7.5a2.25 2.25 0 0 0 2.25-2.25V7.5m-13.5 0V6.5A2.25 2.25 0 0 1 6.75 4.25h10.5A2.25 2.25 0 0 1 19.5 6.5v1"/>
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 11.25v4.5m4.5-4.5v4.5"/>
                                         </svg>
                                     </button>
                                     <x-faculties.edit-faculty-modal :faculty="$faculty" />

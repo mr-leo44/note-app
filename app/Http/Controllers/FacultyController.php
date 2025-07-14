@@ -17,14 +17,6 @@ class FacultyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('faculties.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -43,14 +35,6 @@ class FacultyController extends Controller
     public function show(Faculty $faculty)
     {
         return view('faculties.show', compact('faculty'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Faculty $faculty)
-    {
-        return view('faculties.edit', compact('faculty'));
     }
 
     /**
