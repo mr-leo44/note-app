@@ -64,15 +64,12 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h6a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z"/>
                                         </svg>
                                     </a>
-                                    <form action="{{ route('faculties.destroy', $faculty) }}" method="POST" onsubmit="return confirm('Supprimer cette faculté ?');" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer">
-                                            <svg class="w-6 h-6 text-red-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-faculty-id="{{ $faculty->id }}" data-action-url="{{ route('faculties.destroy', $faculty) }}" data-modal-target="deleteFacultyModal" data-modal-toggle="deleteFacultyModal">
+                                        <svg class="w-6 h-6 text-red-600 p-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
+                                        </svg>
+                                    </button>
+        <x-delete-faculty-modal />
                                 </td>
                             </tr>
                         @endforeach
