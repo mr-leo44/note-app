@@ -36,4 +36,15 @@ class CourseController extends Controller
         $course->delete();
         return redirect()->route('courses.index')->with('success', 'Cours supprimé.');
     }
+    public function assignPromotion(Request $request, Course $course)
+    {
+        $validated = $request->validate([
+            'promotion_id' => 'required|exists:promotions,id',
+            'maxima' => 'required|numeric|min:0|max:100',
+        ]);
+        $course->promotions()->syncWithoutDetaching([
+            $validated['promotion_id'] => ['maxima' => $validated['maxima']]
+        ]);
+        return redirect()->back()->with('success', 'Promotion assignée au cours avec succès.');
+    }
 }
