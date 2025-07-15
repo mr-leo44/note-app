@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Models\Course;
-use App\Models\Department;
 use App\Models\Student;
+use App\Models\Department;
+use App\Models\JuryPromotion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,6 +17,13 @@ class Promotion extends Model
         'short_name',
         'department_id',
     ];
+
+    public function juries(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Jury::class)
+            ->using(JuryPromotion::class)
+            ->withTimestamps();
+    }
 
     public function department(): BelongsTo
     {
