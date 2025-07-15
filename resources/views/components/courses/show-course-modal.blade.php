@@ -33,7 +33,14 @@
                                     <td class="px-4 py-2 font-semibold">{{ $promotion->name }}</td>
                                     <td class="px-4 py-2">{{ $promotion->pivot->maxima ?? '-' }}</td>
                                     <td class="px-4 py-2 flex gap-2">
-                                        <!-- Actions à ajouter ici (ex: détacher, éditer maxima, etc.) -->
+                                        <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier le maxima" data-modal-target="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}" data-modal-toggle="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}">
+                                            <x-icons.pencil-square />
+                                        </button>
+                                        <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Retirer la promotion" data-modal-target="deletePromotionModal-{{ $course->id }}-{{ $promotion->id }}" data-modal-toggle="deletePromotionModal-{{ $course->id }}-{{ $promotion->id }}">
+                                            <x-icons.trash />
+                                        </button>
+                                        <x-courses.edit-maxima-modal :course="$course" :promotion="$promotion" />
+                                        <x-courses.delete-promotion-modal :course="$course" :promotion="$promotion" />
                                     </td>
                                 </tr>
                             @empty
