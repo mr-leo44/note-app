@@ -29,6 +29,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">#</th>
                             <th scope="col" class="px-6 py-3">Nom</th>
+                            <th scope="col" class="px-6 py-3">Statut</th>
                             <th scope="col" class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -37,6 +38,7 @@
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition">
                                 <td class="px-6 py-4">{{ ($periods->currentPage() - 1) * $periods->perPage() + $loop->iteration }}</td>
                                 <td class="px-6 py-4 font-semibold">{{ $period->name }}</td>
+                                <td class="px-6 py-4 font-semibold">{{ $period->current ? 'En cours' : 'Ecoulé' }}</td>
                                 <td class="px-6 py-4 flex gap-2">
                                     <button type="button" class="bg-gray-100 p-1.5 rounded" title="Voir" disabled>
                                         <x-icons.eye />
