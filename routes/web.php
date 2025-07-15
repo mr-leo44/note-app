@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('periods', \App\Http\Controllers\PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('courses/{course}/assign-promotion', [\App\Http\Controllers\CourseController::class, 'assignPromotion'])->name('courses.assignPromotion');
+    Route::put('courses/{course}/promotions/{promotion}/maxima', [\App\Http\Controllers\CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
+    Route::delete('courses/{course}/promotions/{promotion}', [\App\Http\Controllers\CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
     Route::resource('courses', \App\Http\Controllers\CourseController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
