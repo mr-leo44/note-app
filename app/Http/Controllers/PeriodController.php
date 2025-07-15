@@ -17,17 +17,42 @@ class PeriodController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:periods,name',
+            'current' => 'nullable|boolean',
         ]);
-        Period::create($validated);
+        $isCurrent = $request->has('current');
+        if ($isCurrent) {
+            // Mettre toutes les périodes à false
+            Period::query()->update(['current' => false]);
+        }
+        $period = Period::create([
+            'name' => $validated['name'],
+            'current' => $isCurrent,
+        ]);
+        // Sécurité : s'assurer qu'une seule période est à true
+        if ($isCurrent) {
+            Period::where('id', '!=', $period->id)->update(['current' => false]);
+        }
         return redirect()->route('periods.index')->with('success', 'Période créée avec succès.');
     }
 
     public function update(Request $request, Period $period)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:faculties,name,' . $period->id,
+            'name' => 'required|string|max:255|unique:periods,name,' . $period->id,
+            'current' => 'nullable|boolean',
         ]);
-        $period->update($validated);
+        $isCurrent = $request->has('current');
+        if ($isCurrent) {
+            Period::query()->update(['current' => false]);
+        }
+        $period->update([
+            'name' => $validated['name'],
+            'current' => $isCurrent,
+        ]);
+        // Sécurité : s'assurer qu'une seule période est à true
+        if ($isCurrent) {
+            Period::where('id', '!=', $period->id)->update(['current' => false]);
+        }
         return redirect()->route('periods.index')->with('success', 'Période modifiée avec succès.');
     }
 
