@@ -20,7 +20,15 @@ class JuryController extends Controller
     {
         $juries = User::whereHas('account', function ($q) {
             $q->where('accountable_type', Jury::class);
-        })->paginate(15);
+        })
+        ->with(['account.accountable.promotions'])
+        ->paginate(15);
+
+        // Injecter les promotions directement sur chaque User pour simplifier l'accès dans la vue
+        foreach ($juries as $jury) {
+            $jury->promotions = optional(optional($jury->account)->accountable)->promotions ?? collect();
+        }
+
         return view('juries.index', compact('juries'));
     }
 
