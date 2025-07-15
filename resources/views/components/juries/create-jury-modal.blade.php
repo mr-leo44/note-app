@@ -24,6 +24,32 @@
                         <input type="email" name="email" id="email" value="{{ old('email') }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('email') border-red-500 @enderror" required>
                         @error('email')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Promotion(s) à assigner</label>
+                        <div x-data="{ promotions: [null] }">
+                            <template x-for="(promotion, index) in promotions" :key="index">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <select :name="'promotions['+index+']'" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                                        <option value="">Sélectionner une promotion</option>
+                                        @foreach(App\Models\Promotion::orderBy('name')->get() as $promotion)
+                                            <option value="{{ $promotion->id }}">{{ $promotion->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" x-show="index === promotions.length - 1" @click="promotions.push(null)" class="inline-flex items-center p-1 text-sm font-medium text-blue-600 bg-blue-100 rounded-full hover:bg-blue-200" title="Ajouter une promotion">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="button" x-show="index !== promotions.length - 1" @click="promotions.splice(index, 1)" class="inline-flex items-center p-1 text-sm font-medium text-red-600 bg-red-100 rounded-full hover:bg-red-200" title="Retirer cette promotion">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        @error('promotions')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
+                    </div>
                     <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Créer</button>
                 </form>
             </div>
