@@ -32,8 +32,22 @@
                                 <div class="flex items-center gap-2 mb-2">
                                     <select :name="'promotions['+index+']'" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                         <option value="">Sélectionner une promotion</option>
+                                        @php
+                                            $currentPeriod = \App\Models\Period::where('current', true)->first();
+                                            $assignedPromotionIds = $currentPeriod
+                                                ? \DB::table('jury_promotion')
+                                                    ->where('period', $currentPeriod->name)
+                                                    ->whereNull('deleted_at')
+                                                    ->where('jury_id', '!=', $jury->account->accountable->id)
+                                                    ->pluck('promotion_id')
+                                                    ->toArray()
+                                                : [];
+                                            $juryPromotionIds = $jury->promotions->pluck('id')->toArray();
+                                        @endphp
                                         @foreach(App\Models\Promotion::orderBy('name')->get() as $promotion)
-                                            <option value="{{ $promotion->id }}" :selected="promotion == {{ $promotion->id }}">{{ $promotion->name }}</option>
+                                            @if(!in_array($promotion->id, $assignedPromotionIds) || in_array($promotion->id, $juryPromotionIds))
+                                                <option value="{{ $promotion->id }}" :selected="promotion == {{ $promotion->id }}">{{ $promotion->short_name ?? $promotion->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     <button type="button" x-show="index === promotions.length - 1" @click="promotions.push(null)" class="inline-flex items-center p-1 text-sm font-medium text-blue-600 bg-blue-100 rounded-full hover:bg-blue-200" title="Ajouter une promotion">
