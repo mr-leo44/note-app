@@ -42,9 +42,12 @@ class CourseController extends Controller
             'promotion_id' => 'required|exists:promotions,id',
             'maxima' => 'required|numeric|min:0|max:100',
         ]);
-        $course->promotions()->syncWithoutDetaching([
-            $validated['promotion_id'] => ['maxima' => $validated['maxima']]
-        ]);
+        // Vérifier si la promotion est déjà assignée à ce cours
+        $alreadyAssigned = $course->promotions()->where('promotion_id', $validated['promotion_id'])->exists();
+        if ($alreadyAssigned) {
+            return redirect()->back()->withErrors(['Cette promotion est déjà assignée à ce cours.']);
+        }
+        $course->promotions()->attach($validated['promotion_id'], ['maxima' => $validated['maxima']]);
         return redirect()->back()->with('success', 'Promotion assignée au cours avec succès.');
     }
     public function updateMaxima(Request $request, Course $course, $promotionId)
