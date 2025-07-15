@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Account;
 use App\Models\Promotion;
+use App\Models\JuryPromotion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -21,6 +22,8 @@ class Jury extends Model
 
     public function promotions(): BelongsToMany
     {
-        return $this->belongsToMany(Promotion::class);
+        return $this->belongsToMany(Promotion::class)
+            ->using(JuryPromotion::class)
+            ->withTimestamps();
     }
 }
