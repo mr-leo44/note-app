@@ -47,4 +47,18 @@ class CourseController extends Controller
         ]);
         return redirect()->back()->with('success', 'Promotion assignée au cours avec succès.');
     }
+    public function updateMaxima(Request $request, Course $course, $promotionId)
+    {
+        $validated = $request->validate([
+            'maxima' => 'required|numeric|min:0|max:100',
+        ]);
+        $course->promotions()->updateExistingPivot($promotionId, ['maxima' => $validated['maxima']]);
+        return redirect()->back()->with('success', 'Maxima mis à jour avec succès.');
+    }
+
+    public function detachPromotion(Course $course, $promotionId)
+    {
+        $course->promotions()->detach($promotionId);
+        return redirect()->back()->with('success', 'Promotion retirée du cours avec succès.');
+    }
 }
