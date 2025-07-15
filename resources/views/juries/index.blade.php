@@ -31,6 +31,7 @@
                             <th scope="col" class="px-6 py-3">Nom</th>
                             <th scope="col" class="px-6 py-3">Pseudo</th>
                             <th scope="col" class="px-6 py-3">Email</th>
+                            <th scope="col" class="px-6 py-3">Promotions assignées</th>
                             <th scope="col" class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -41,10 +42,14 @@
                                 <td class="px-6 py-4 font-semibold">{{ $jury->name }}</td>
                                 <td class="px-6 py-4 font-semibold">{{ $jury->username }}</td>
                                 <td class="px-6 py-4">{{ $jury->email }}</td>
+                                <td class="px-6 py-4">
+                                    @if($jury->promotions->isNotEmpty())
+                                        {{ $jury->promotions->pluck('name')->implode(', ') }}
+                                    @else
+                                        <span class="text-gray-400">Aucune</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <button type="button" class="bg-gray-100 p-1.5 rounded" title="Voir" disabled>
-                                        <x-icons.eye />
-                                    </button>
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-jury-id="{{ $jury->id }}" data-modal-target="editJuryModal-{{ $jury->id }}" data-modal-toggle="editJuryModal-{{ $jury->id }}">
                                         <x-icons.pencil-square />
                                     </button>
@@ -62,9 +67,9 @@
             </div>
         @endif
     </div>
-        <x-juries.create-jury-modal />
-        @foreach ($juries as $jury)
-            <x-juries.edit-jury-modal :jury="$jury" />
-            <x-juries.delete-jury-modal :jury="$jury" />
-        @endforeach
+    <x-juries.create-jury-modal />
+    @foreach ($juries as $jury)
+        <x-juries.edit-jury-modal :jury="$jury" />
+        <x-juries.delete-jury-modal :jury="$jury" />
+    @endforeach
 </x-app-layout>
