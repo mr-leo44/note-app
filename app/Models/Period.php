@@ -10,7 +10,6 @@ class Period extends Model
 {
     protected $fillable = [
         'name',
-        'short_name',
     ];
 
     public function results(): HasMany
