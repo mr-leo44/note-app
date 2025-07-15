@@ -44,7 +44,7 @@
                                 <td class="px-6 py-4">{{ $jury->email }}</td>
                                 <td class="px-6 py-4">
                                     @if($jury->promotions->isNotEmpty())
-                                        {{ $jury->promotions->pluck('name')->implode(', ') }}
+                                        {{ $jury->promotions->pluck('short_name')->implode(', ') }}
                                     @else
                                         <span class="text-gray-400">Aucune</span>
                                     @endif
