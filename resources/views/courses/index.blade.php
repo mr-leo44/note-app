@@ -38,7 +38,7 @@
                                 <td class="px-6 py-4">{{ ($courses->currentPage() - 1) * $courses->perPage() + $loop->iteration }}</td>
                                 <td class="px-6 py-4 font-semibold">{{ $course->name }}</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <button type="button" class="bg-gray-100 p-1.5 rounded" title="Voir" disabled>
+                                    <button type="button" class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir" data-modal-target="showCourseModal-{{ $course->id }}" data-modal-toggle="showCourseModal-{{ $course->id }}">
                                         <x-icons.eye />
                                     </button>
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-course-id="{{ $course->id }}" data-modal-target="editCourseModal-{{ $course->id }}" data-modal-toggle="editCourseModal-{{ $course->id }}">
@@ -60,6 +60,7 @@
     </div>
     <x-courses.create-course-modal />
     @foreach ($courses as $course)
+        <x-courses.show-course-modal :course="$course" />
         <x-courses.edit-course-modal :course="$course" />
         <x-courses.delete-course-modal :course="$course" />
     @endforeach
