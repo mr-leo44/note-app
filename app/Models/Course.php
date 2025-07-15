@@ -14,6 +14,6 @@ class Course extends Model
 
     public function promotions(): BelongsToMany
     {
-        return $this->belongsToMany(Promotion::class);
+        return $this->belongsToMany(Promotion::class)->withPivot('maxima');
     }
 }
