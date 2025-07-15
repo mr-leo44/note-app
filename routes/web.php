@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('periods', \App\Http\Controllers\PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::post('courses/{course}/assign-promotion', [\App\Http\Controllers\CourseController::class, 'assignPromotion'])->name('courses.assignPromotion');
     Route::resource('courses', \App\Http\Controllers\CourseController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
