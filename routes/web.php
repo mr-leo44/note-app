@@ -5,11 +5,14 @@ use App\Models\Admin;
 use App\Models\Account;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JuryController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\JuryController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     // Création automatique d'un admin si aucun user n'existe
@@ -48,11 +51,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('periods', \App\Http\Controllers\PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::post('courses/{course}/assign-promotion', [\App\Http\Controllers\CourseController::class, 'assignPromotion'])->name('courses.assignPromotion');
-    Route::put('courses/{course}/promotions/{promotion}/maxima', [\App\Http\Controllers\CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
-    Route::delete('courses/{course}/promotions/{promotion}', [\App\Http\Controllers\CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
-    Route::resource('courses', \App\Http\Controllers\CourseController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('periods', PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::post('courses/{course}/assign-promotion', [CourseController::class, 'assignPromotion'])->name('courses.assignPromotion');
+    Route::put('courses/{course}/promotions/{promotion}/maxima', [CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
+    Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
+    Route::resource('courses', CourseController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
