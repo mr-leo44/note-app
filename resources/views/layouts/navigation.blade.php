@@ -12,9 +12,12 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            {{ __('Dashboard') }}
+        </x-nav-link>
+        <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
+            {{ __('Étudiants') }}
+        </x-nav-link>
                     <x-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
                         {{ __('Périodes') }}
                     </x-nav-link>
