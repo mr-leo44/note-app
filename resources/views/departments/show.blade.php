@@ -1,9 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <a href="{{ url()->previous() }}" class="text-gray-600 hover:text-gray-900 p-2 rounded" title="Retour">
-                    <x-icons.arrow-left />
+                <a href="{{ route('departments.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                    Retour
                 </a>
                 <h1 class="text-2xl font-bold">{{ $department->name }}</h1>
             </div>
