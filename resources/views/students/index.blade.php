@@ -61,11 +61,11 @@
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-student-id="{{ $student->id }}" data-modal-target="editStudentModal-{{ $student->id }}" data-modal-toggle="editStudentModal-{{ $student->id }}">
                                         <x-icons.pencil-square />
                                     </button>
-                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-student-id="{{ $student->id }}" data-action-url="{{ route('students.destroy', $student) }}" data-modal-target="deleteStudentModal" data-modal-toggle="deleteStudentModal">
+                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-modal-target="deleteStudentModal-{{ $student->id }}" data-modal-toggle="deleteStudentModal-{{ $student->id }}">
                                         <x-icons.trash />
                                     </button>
                                     <x-students.edit-student-modal :student="$student" />
-                                    <x-students.delete-student-modal />
+                                    <x-students.delete-student-modal :student="$student" />
                                 </td>
                             </tr>
                         @endforeach
