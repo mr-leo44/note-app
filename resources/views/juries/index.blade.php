@@ -127,16 +127,13 @@
                                             });
                                         </script>
                                     @endpush
-                                    <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
-                                        title="Modifier" data-jury-id="{{ $jury->id }}"
-                                        data-modal-target="editJuryModal-{{ $jury->id }}"
-                                        data-modal-toggle="editJuryModal-{{ $jury->id }}">
+                                    <button type="button" class="bg-yellow-100 hover:bg-yellow-200 p-1.5 rounded" title="Réinitialiser le mot de passe" onclick="resetJuryPassword({{ $jury->id }}, '{{ $jury->name }}')">
+                                        <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-yellow-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3zm0 0V7m0 4v4m0 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z' /></svg>
+                                    </button>
+                                    <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier" data-jury-id="{{ $jury->id }}" data-modal-target="editJuryModal-{{ $jury->id }}" data-modal-toggle="editJuryModal-{{ $jury->id }}">
                                         <x-icons.pencil-square />
                                     </button>
-                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded"
-                                        title="Supprimer" data-jury-id="{{ $jury->id }}"
-                                        data-modal-target="deleteJuryModal-{{ $jury->id }}"
-                                        data-modal-toggle="deleteJuryModal-{{ $jury->id }}">
+                                    <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Supprimer" data-jury-id="{{ $jury->id }}" data-modal-target="deleteJuryModal-{{ $jury->id }}" data-modal-toggle="deleteJuryModal-{{ $jury->id }}">
                                         <x-icons.trash />
                                     </button>
                                 </td>
@@ -151,9 +148,39 @@
             @push('scripts')
                 @vite(['resources/js/app.js'])
                 <script>
+                    function resetJuryPassword(juryId, juryName) {
+                        fetch(`/juries/${juryId}/reset-password`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            
+                            const pwd = data.password;
+                            const alert = document.createElement('div');
+                            alert.className = 'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
+                            alert.innerHTML = `
+                                <svg class='w-5 h-5 text-blue-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
+                                <span>Mot de passe généré pour <b>${juryName}</b> : <b>${pwd}</b></span>
+                                <button type="button" class="ml-4 text-blue-800 hover:text-blue-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            `;
+                            document.body.appendChild(alert);
+                            setTimeout(() => { if(document.body.contains(alert)) alert.remove(); }, 9000);
+                        })
+                        .catch(() => {
+                            alert('Erreur lors de la réinitialisation du mot de passe.');
+                        });
+                    }
                     document.addEventListener('DOMContentLoaded', function() {
-                        let DataTableClass = window.DataTable && (window.DataTable.DataTable || window.DataTable.default ||
-                            window.DataTable);
+                        let DataTableClass = window.DataTable && (window.DataTable.DataTable || window.DataTable.default || window.DataTable);
                         if (DataTableClass) {
                             const dt = new DataTableClass('#juriesTable', {
                                 searchable: true,

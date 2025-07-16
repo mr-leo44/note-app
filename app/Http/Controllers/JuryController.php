@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Period;
 use App\Models\Account;
 use App\Models\Promotion;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -197,5 +198,20 @@ class JuryController extends Controller
         // On assigne la promotion à ce jury pour la période courante
         $jury->promotions()->attach($validated['promotion_id'], ['period' => $currentPeriod->name]);
         return redirect()->back()->with('success', 'Promotion assignée au jury avec succès.');
+    }
+
+    public function resetPassword(Request $request, User $jury)
+    {
+        // Récupérer le modèle User et son Jury associé
+        $accountable = optional($jury->account)->accountable;
+        if (!$accountable || !$accountable instanceof \App\Models\Jury) {
+            return response()->json(['error' => 'Jury introuvable.'], 404);
+        }
+        // Génère un mot de passe aléatoire entre 8 et 14 caractères avec Str
+        $length = rand(8, 14);
+        $pwd = Str::random($length);
+        $jury->password = Hash::make($pwd);
+        $jury->save();
+        return response()->json(['password' => $pwd]);
     }
 }
