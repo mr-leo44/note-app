@@ -7,10 +7,9 @@ use App\Models\Result;
 
 class ResultController extends Controller
 {
-
     public function index()
     {
-        $publications = Result::orderByDesc('created_at')->paginate(15);
+        $publications = Result::paginate(10);
         return view('publications.index', compact('publications'));
     }
 
