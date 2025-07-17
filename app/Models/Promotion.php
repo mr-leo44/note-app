@@ -3,15 +3,20 @@
 namespace App\Models;
 
 use App\Models\Course;
+use App\Models\Result;
+use App\Models\ResultStatus;
 use App\Models\Student;
 use App\Models\Department;
 use App\Models\JuryPromotion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Promotion extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'short_name',
@@ -40,5 +45,15 @@ class Promotion extends Model
         return $this->belongsToMany(Student::class, 'promotion_student')
             ->withPivot(['period', 'status'])
             ->withTimestamps();
+    }
+    
+    public function results(): HasMany
+    {
+        return $this->hasMany(Result::class);
+    }
+    
+    public function resultStatus(): HasMany
+    {
+        return $this->hasMany(ResultStatus::class);
     }
 }
