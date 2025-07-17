@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JuryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     // Création automatique d'un admin si aucun user n'existe
@@ -48,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show','update','destroy']);
-    Route::resource('publications', \App\Http\Controllers\ResultController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('publications', ResultController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::post('juries/{jury}/reset-password', [JuryController::class, 'resetPassword'])->name('juries.resetPassword');
