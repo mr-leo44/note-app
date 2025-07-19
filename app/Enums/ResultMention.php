@@ -4,20 +4,20 @@ namespace App\Enums;
 
 enum ResultMention: string
 {
-    case AJOURNE = 'ajourné';
-    case SATISFACTION = 'satisfaction';
-    case DISTINCTION = 'distinction';
-    case GRANDE_DISTINCTION = 'grande distinction';
-    case TRES_GRANDE_DISTINCTION = 'très grande distinction';
+    case A = 'ajourné'; // < 50
+    case S = 'satisfaction'; // >= 50 && < 70
+    case D = 'distinction'; // >=70
+    case GD = 'grande distinction'; // >= 80
+    case TGD = 'très grande distinction'; // >= 90
 
     public function label(): string
     {
         return match($this) {
-            self::AJOURNE => 'Ajourné',
-            self::SATISFACTION => 'Satisfaction',
-            self::DISTINCTION => 'Distinction',
-            self::GRANDE_DISTINCTION => 'Grande distinction',
-            self::TRES_GRANDE_DISTINCTION => 'Très grande distinction',
+            self::A => 'Ajourné',
+            self::S => 'Satisfaction',
+            self::D => 'Distinction',
+            self::GD => 'Grande distinction',
+            self::TGD => 'Très grande distinction',
         };
     }
 }

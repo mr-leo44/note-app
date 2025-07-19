@@ -5,7 +5,7 @@ namespace App\Enums;
 enum ResultByPromotionStatus: string
 {
     case COMPLETE = 'complete';
-    case IN_PROGRESS = 'in_progress';
+    case DRAFT = 'brouillon';
     case PUBLISHED = 'published';
 
     /**
@@ -17,7 +17,7 @@ enum ResultByPromotionStatus: string
     {
         return match($this) {
             self::COMPLETE => 'Complète',
-            self::IN_PROGRESS => 'En cours',
+            self::DRAFT => 'Brouillon',
             self::PUBLISHED => 'Publiée',
         };
     }

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ResultMSession: string
+enum ResultSession: string
 {
     case S1 = 'Première Session';
     case S2 = 'Deuxième Session';
