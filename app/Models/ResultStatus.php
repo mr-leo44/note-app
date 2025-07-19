@@ -3,15 +3,21 @@ namespace App\Models;
 
 use App\Models\Promotion;
 use App\Enums\ResultByPromotionStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class ResultStatus extends Model
 {
+    use HasFactory;
+
+    protected $table = 'result_status';
     protected $fillable = [
         'promotion_id',
-        'result_id',
         'status',
+        'session',
+        'period',
     ];
 
     protected $casts = [
