@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StudentPromotionStatus;
+use App\Enums\ResultByPromotionStatus;
+use App\Enums\ResultMention;
+use App\Models\Jury;
 use App\Models\Period;
+use App\Models\Result;
 use App\Models\Student;
-use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Enums\StudentPromotionStatus;
+use App\Models\ResultStatus;
 
 class StudentController extends Controller
 {
@@ -42,7 +48,7 @@ class StudentController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'matricule' => ['required','string','max:255',Rule::unique('students')->ignore($student->id)],
+            'matricule' => ['required', 'string', 'max:255', Rule::unique('students')->ignore($student->id)],
             'promotion_id' => 'required|exists:promotions,id',
         ]);
         $student->update([
@@ -74,5 +80,65 @@ class StudentController extends Controller
     {
         $student->delete();
         return redirect()->route('students.index')->with('success', 'Étudiant supprimé.');
+    }
+
+    public function assignResults(Request $request, Student $student, $currentPeriodId)
+    {
+        $request->validate([
+            'notes' => 'required|array|min:1',
+        ]);
+
+        $currentPromotion = $student->promotions()->first();
+        $session = Period::where('id', $currentPeriodId)->first()->name ?? null;
+        $promotionCoursesMaximas = DB::table('course_promotion')
+            ->where('promotion_id', $currentPromotion->id)
+            ->get()->pluck('maxima')->toArray();
+        $totalNotes = array_sum($promotionCoursesMaximas);
+        $studentNotes = array_sum($request->input('notes'));
+        $percentage = ($studentNotes / $totalNotes);
+
+        switch ($percentage) {
+            case $percentage >= 50 || $percentage < 70:
+                $mention = ResultMention::S->value;
+                break;
+            case $percentage < 0.8:
+                $mention = ResultMention::D->value;
+                break;
+            case $percentage < 0.9:
+                $mention = ResultMention::GD->value;
+                break;
+            case $percentage >= 90:
+                $mention = ResultMention::TGD->value;
+                break;
+            default:
+                $mention = ResultMention::A->value;
+        }
+
+        $result = Result::create([
+            'student_id' => $student->id,
+            'period_id' => $currentPeriodId,
+            'session' => $request->input('session'),
+            'notes' => $request->input('notes'),
+            'mention' => $mention,
+            'percentage' => round(number_format($percentage * 100, 2)),
+            'published_by' => Auth::user()->id,
+        ]);
+
+        if ($result) {
+            if (!(DB::table('result_status')->where('promotion_id', $currentPromotion->id)
+                ->where('session', $session)
+                ->where('period', $currentPeriodId)
+                ->exists())) {
+                ResultStatus::create([
+                    'period' => $currentPeriodId,
+                    'session' => $session,
+                    'status' => ResultByPromotionStatus::DRAFT->value,
+                    'promotion_id' => $currentPromotion->id,
+                ]);
+            }
+        }
+
+
+        return redirect()->route('students.index')->with('success', "Résultats assignés à l'étudiant {$student->name} pour la session {$session}.");
     }
 }
