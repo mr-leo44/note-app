@@ -18,6 +18,7 @@ class Result extends Model
         'student_id',
         'notes',
         'mention',
+        'session',
         'percentage',
         'published_by'
     ];
