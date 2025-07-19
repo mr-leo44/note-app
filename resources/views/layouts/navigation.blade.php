@@ -15,12 +15,6 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
-                        {{ __('Étudiants') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
-                        {{ __('Périodes') }}
-                    </x-nav-link>
                     
                     @if(auth()->user()->account->accountable_type !== 'App\Models\Jury')
                         <x-nav-link :href="route('faculties.index')" :active="request()->routeIs('faculties.*')">
@@ -29,16 +23,22 @@
                         <x-nav-link :href="route('departments.index')" :active="request()->routeIs('departments.*')">
                             {{ __('Départements') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('promotions.index')" :active="request()->routeIs('promotions.*')">
-                            {{ __('Promotions') }}
+                        <x-nav-link :href="route('juries.index')" :active="request()->routeIs('juries.*')">
+                            {{ __('Jurys') }}
                         </x-nav-link>
                         <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
                             {{ __('Cours') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('juries.index')" :active="request()->routeIs('juries.*')">
-                            {{ __('Jurys') }}
+                        <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
+                            {{ __('Étudiants') }}
                         </x-nav-link>
                     @endif
+                    <x-nav-link :href="route('promotions.index')" :active="request()->routeIs('promotions.*')">
+                        {{ __('Promotions') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
+                        {{ __('Périodes') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('publications.index')" :active="request()->routeIs('publications.*')">
                         {{ __('Publications') }}
                     </x-nav-link>
