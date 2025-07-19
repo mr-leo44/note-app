@@ -178,7 +178,6 @@ class JuryController extends Controller
         $validated = $request->validate([
             'promotion_id' => 'required|exists:promotions,id',
         ]);
-        dd($validated);
         $currentPeriod = Period::where('current', true)->first();
         if (!$currentPeriod) {
             return redirect()->back()->withErrors(['Aucune période en cours n\'est définie.']);
