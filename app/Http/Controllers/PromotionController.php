@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jury;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PromotionController extends Controller
 {
     public function index()
     {
-        $promotions = Promotion::with('department')->orderBy('name')->paginate(10);
+        $user = Auth::user();
+        $userRole = $user->account->accountable_type;
+        if ($userRole === Jury::class) {
+            $jury_id = $user->account->accountable_id;
+            $juryPromotions = DB::table('jury_promotion')
+                ->where('jury_id', Auth::user()->account->accountable_id)
+                ->pluck('promotion_id');
+            $promotions = Promotion::whereIn('id', $juryPromotions)->paginate();
+        } else {
+            $promotions = Promotion::with('department')->orderBy('name')->paginate(10);
+        }
         return view('promotions.index', compact('promotions'));
     }
 
