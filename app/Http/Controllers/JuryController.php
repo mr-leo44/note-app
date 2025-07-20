@@ -130,14 +130,21 @@ class JuryController extends Controller
                     ->whereNull('deleted_at')
                     ->where('jury_id', '!=', $jury->account->accountable->id)
                     ->exists();
-                if ($exists) {
+                    
+                    $alreadyExists = DB::table('jury_promotion')
+                    ->where('promotion_id', $promotionId)
+                    ->where('period', $currentPeriod->name)
+                    ->whereNull('deleted_at')
+                    ->where('jury_id', $jury->account->accountable->id)
+                    ->exists();
+                if ($exists || $alreadyExists) {
                     $promotionName = Promotion::find($promotionId)->name;
                     $alreadyAssigned[] = $promotionName;
                 }
             }
             if (count($alreadyAssigned) > 0) {
                 DB::rollBack();
-                return back()->withErrors(['Certaines promotions sont déjà affectées à un jury pour la période en cours : ' . implode(', ', $alreadyAssigned)]);
+                return back()->with('warning', 'Cette promotion a déjà été affectée à un jury pour la période en cours.');
             }
 
             // Mettre à jour les promotions pour la période courante
