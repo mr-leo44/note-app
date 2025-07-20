@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Result;
+use App\Models\ResultSession;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,8 +13,8 @@ class Period extends Model
         'current',
     ];
 
-    public function results(): HasMany
+    public function resultSessions(): HasMany
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(ResultSession::class);
     }
 }
