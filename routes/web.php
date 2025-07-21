@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::put('courses/{course}/promotions/{promotion}/maxima', [CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
     Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
     Route::resource('courses', CourseController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::post('students/{student}/periods/{period}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
+    Route::post('students/{student}/sessions/{session}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
     Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
     });
 
