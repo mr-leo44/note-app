@@ -6,7 +6,6 @@ use App\Enums\ResultByPromotionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class ResultStatus extends Model
 {
@@ -17,7 +16,6 @@ class ResultStatus extends Model
         'promotion_id',
         'status',
         'session',
-        'period',
     ];
 
     protected $casts = [
