@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Period;
 use App\Models\Student;
 use App\Enums\ResultMention;
+use App\Models\ResultSession;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +15,10 @@ class Result extends Model
     use HasFactory, SoftDeletes;
     
     protected $fillable = [
-        'period_id',
         'student_id',
         'notes',
         'mention',
-        'session',
+        'result_session_id',
         'percentage',
         'published_by'
     ];
@@ -28,9 +28,9 @@ class Result extends Model
         'mention' => ResultMention::class, // Enum cast
     ];
 
-    public function period()
+    public function resultSession()
     {
-        return $this->belongsTo(Period::class);
+        return $this->belongsTo(ResultSession::class);
     }
 
     public function student()
