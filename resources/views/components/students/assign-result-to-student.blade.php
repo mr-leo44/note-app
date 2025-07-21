@@ -8,25 +8,20 @@
             <div class="p-6">
                 @php
                     $currentPeriod = \App\Models\Period::where('current', true)->first();
+                    $currentSession = \App\Models\ResultSession::where('current', true)->first();
                     $assignedCourses = $currentPromotion->courses()->get();
                 @endphp
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Publier Resultat de {{ $student->name }}</h3>
-                <form method="POST" action="{{ route('students.assignResults', [$student, $currentPeriod]) }}">
+                <form method="POST" action="{{ route('students.assignResults', [$student, $currentSession]) }}">
                     @csrf
                     <div class="flex justify-between items-center gap-4">
-                        <div class="mb-4 w-[30%]">
+                        <div class="mb-4 w-[50%]">
                             <label for="current" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Année Académique</label>
                             <input type="text" name="current" id="current" value="{{ old('current', $currentPeriod->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
                         </div>
-                        <div class="mb-4 w-[70%]">
+                        <div class="mb-4 w-[50%]">
                             <label for="session" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Session</label>
-                            <select name="session" id="session" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 appearance-none required">
-                                <option value="">Sélectionner une session</option> 
-                                @foreach(App\Enums\ResultSession::cases() as $session)
-                                    <option value="{{ $session->name }}" :selected="session == {{ $session->name }}">{{ $session->value }}</option>
-                                @endforeach
-                            </select>
-                            @error('session')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
+                            <input type="text" name="session" id="session" value="{{ old('session', $currentSession->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -40,9 +35,10 @@
                                             ->where('promotion_id', $currentPromotion->id)
                                             ->first();
                                         $maxima = $coursePromotion ? $coursePromotion->maxima : 100; // Fallback maxima if not found
+                                        $studentResult = \App\Models\Result::where('student_id', $student->id)->where('result_session_id', $currentSession->id)->first();
                                     @endphp
                                     <label for="note-{{ $index }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $course->name }}</label>
-                                    <input type="number" min="1" max="{{ $maxima }}" name="notes[]" placeholder="entre 1 et {{ $maxima }} " id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('notes.' . $index) border-red-500 @enderror" required>
+                                    <input type="number" min="1" max="{{ $maxima }}" name="notes[][{{ $course->name }}]" placeholder="entre 1 et {{ $maxima }}" value="{{ $studentResult['notes'][$course->name] ?? '' }}" id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('notes.' . $course->name) border-red-500 @enderror">
                                 </div>
                             @endforeach
                             </div>
