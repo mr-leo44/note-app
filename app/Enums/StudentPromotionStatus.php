@@ -8,6 +8,9 @@ enum StudentPromotionStatus: string
     case DOUBLE = 'double';
     case REUSSIE = 'reussie';
     case RENVOYE = 'renvoyé';
+    case DRAFT = 'brouillon';
+    case COMPLETE = 'terminé';
+    case PUBLISHED = 'publié'; 
 
     public function label(): string
     {
@@ -16,6 +19,9 @@ enum StudentPromotionStatus: string
             self::DOUBLE => 'Double',
             self::REUSSIE => 'Réussie',
             self::RENVOYE => 'Renvoyé',
+            self::DRAFT => 'Brouillon',
+            self::COMPLETE => 'Terminé',
+            self::PUBLISHED => 'Publié',
         };
     }
 }
