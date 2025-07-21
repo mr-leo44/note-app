@@ -16,6 +16,8 @@
             <x-alert type="success">{{ session('success') }}</x-alert>
         @elseif (session('warning'))
             <x-alert type="warning">{{ session('warning') }}</x-alert>
+        @elseif (session('error'))
+            <x-alert type="error">{{ session('error') }}</x-alert>
         @endif
         @if ($errors->any())
             <x-alert type="error">
