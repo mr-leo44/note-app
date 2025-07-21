@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ResultByPromotionStatus;
 use App\Enums\ResultMention;
+use App\Enums\ResultSession as EnumsResultSession;
 use App\Models\Jury;
 use App\Models\Period;
 use App\Models\Result;
@@ -13,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\StudentPromotionStatus;
+use App\Models\ResultSession;
 use App\Models\ResultStatus;
 
 class StudentController extends Controller
@@ -82,29 +84,28 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Étudiant supprimé.');
     }
 
-    public function assignResults(Request $request, Student $student, $currentPeriodId)
+    public function assignResults(Request $request, Student $student, $currentSession)
     {
         $request->validate([
             'notes' => 'required|array|min:1',
         ]);
-
         $currentPromotion = $student->promotions()->first();
-        $session = Period::where('id', $currentPeriodId)->first()->name ?? null;
         $promotionCoursesMaximas = DB::table('course_promotion')
             ->where('promotion_id', $currentPromotion->id)
             ->get()->pluck('maxima')->toArray();
         $totalNotes = array_sum($promotionCoursesMaximas);
-        $studentNotes = array_sum($request->input('notes'));
-        $percentage = ($studentNotes / $totalNotes);
-
+        $studentNotes = collect($request['notes'])->sum(function ($item) {
+            return collect($item)->first(); // ou array_values($item)[0]
+        });
+        $percentage = round(number_format(($studentNotes / $totalNotes) * 100, 2), 2);
         switch ($percentage) {
-            case $percentage >= 50 || $percentage < 70:
+            case $percentage >= 50 && $percentage < 70:
                 $mention = ResultMention::S->value;
                 break;
-            case $percentage < 0.8:
+            case $percentage < 80 && $percentage >= 70:
                 $mention = ResultMention::D->value;
                 break;
-            case $percentage < 0.9:
+            case $percentage < 90 && $percentage >= 80:
                 $mention = ResultMention::GD->value;
                 break;
             case $percentage >= 90:
@@ -113,32 +114,35 @@ class StudentController extends Controller
             default:
                 $mention = ResultMention::A->value;
         }
+        $notes = [];
+        foreach ($request->input('notes') as $note) {
+            $notes += $note; // Assuming $note is an associative array with course_id as key and note as value
+        }
 
+        // dd($notes, $percentage, $mention);
         $result = Result::create([
             'student_id' => $student->id,
-            'period_id' => $currentPeriodId,
-            'session' => $request->input('session'),
-            'notes' => $request->input('notes'),
+            'result_session_id' => $currentSession,
+            'notes' => $notes,
             'mention' => $mention,
-            'percentage' => round(number_format($percentage * 100, 2)),
+            'percentage' => $percentage,
             'published_by' => Auth::user()->id,
         ]);
 
         if ($result) {
             if (!(DB::table('result_status')->where('promotion_id', $currentPromotion->id)
-                ->where('session', $session)
-                ->where('period', $currentPeriodId)
+                ->where('session', $currentSession)
                 ->exists())) {
                 ResultStatus::create([
-                    'period' => $currentPeriodId,
-                    'session' => $session,
+                    'session' => $currentSession,
                     'status' => ResultByPromotionStatus::DRAFT->value,
                     'promotion_id' => $currentPromotion->id,
                 ]);
             }
         }
 
+        $session = ResultSession::find($currentSession)->name === 'S1' ? EnumsResultSession::S1->label() : 'session inconnue';
 
-        return redirect()->route('students.index')->with('success', "Résultats assignés à l'étudiant {$student->name} pour la session {$session}.");
+        return redirect()->route('students.index')->with('success', "Résultats assignés à l'étudiant {$student->name} pour la {$session}.");
     }
 }
