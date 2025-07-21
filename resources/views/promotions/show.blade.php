@@ -19,6 +19,22 @@
         </div>
     </x-slot>
     <div class="container mx-auto py-8 px-4">
+        @if (session('success'))
+            <x-alert type="success">{{ session('success') }}</x-alert>
+        @elseif (session('warning'))
+            <x-alert type="warning">{{ session('warning') }}</x-alert>
+        @elseif (session('error'))
+            <x-alert type="error">{{ session('error') }}</x-alert>
+        @endif
+        @if ($errors->any())
+            <x-alert type="error">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-alert>
+        @endif
         <div class="overflow-x-auto" id="promotionStudentsTableWrapper">
             <table id="promotionStudentsTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -31,10 +47,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($promotion->students as $student)
+                    @foreach ($promotion->students as $student)
                         @php
                             $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
                             $currentPromotion = $student->promotions()->wherePivot('status', 'en cours')->first();
+                            $currentSession = \App\Models\ResultSession::where('current', true)->first() ;
+                            $currentResult = \App\Models\Result::where('result_session_id', $currentSession->id)->where('student_id', $student->id)->first();
                         @endphp
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition">
@@ -60,24 +78,20 @@
                                         data-modal-toggle="deleteStudentModal-{{ $student->id }}">
                                         <x-icons.trash />
                                     </button>
-                                @else
+                                @elseif (!$currentResult || $currentResult->status !== \App\Enums\StudentPromotionStatus::PUBLISHED->value)
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
-                                        title="Modifier" data-student-id="{{ $student->id }}"
+                                        title="Modifier les assignations" data-student-id="{{ $student->id }}"
                                         data-modal-target="assignResultToStudentModal-{{ $student->id }}"
                                         data-modal-toggle="assignResultToStudentModal-{{ $student->id }}">
                                         <x-icons.file-pen />
                                     </button>
-                                @endif
+                                @endif 
                                 <x-students.edit-student-modal :student="$student" />
                                 <x-students.delete-student-modal :student="$student" />
                                 <x-students.assign-result-to-student :student="$student" :currentPromotion="$currentPromotion" />
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="datatable-empty text-center">Aucun étudiant trouvé.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

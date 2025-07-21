@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ResultByPromotionStatus;
 use App\Enums\ResultMention;
-use App\Enums\ResultSession as EnumsResultSession;
 use App\Models\Jury;
 use App\Models\Period;
 use App\Models\Result;
@@ -90,59 +89,81 @@ class StudentController extends Controller
             'notes' => 'required|array|min:1',
         ]);
         $currentPromotion = $student->promotions()->first();
-        $promotionCoursesMaximas = DB::table('course_promotion')
+        $coursePromotionCount = DB::table('course_promotion')
             ->where('promotion_id', $currentPromotion->id)
-            ->get()->pluck('maxima')->toArray();
-        $totalNotes = array_sum($promotionCoursesMaximas);
-        $studentNotes = collect($request['notes'])->sum(function ($item) {
-            return collect($item)->first(); // ou array_values($item)[0]
-        });
-        $percentage = round(number_format(($studentNotes / $totalNotes) * 100, 2), 2);
-        switch ($percentage) {
-            case $percentage >= 50 && $percentage < 70:
-                $mention = ResultMention::S->value;
-                break;
-            case $percentage < 80 && $percentage >= 70:
-                $mention = ResultMention::D->value;
-                break;
-            case $percentage < 90 && $percentage >= 80:
-                $mention = ResultMention::GD->value;
-                break;
-            case $percentage >= 90:
-                $mention = ResultMention::TGD->value;
-                break;
-            default:
-                $mention = ResultMention::A->value;
-        }
+            ->count();
         $notes = [];
         foreach ($request->input('notes') as $note) {
-            $notes += $note; // Assuming $note is an associative array with course_id as key and note as value
-        }
-
-        // dd($notes, $percentage, $mention);
-        $result = Result::create([
-            'student_id' => $student->id,
-            'result_session_id' => $currentSession,
-            'notes' => $notes,
-            'mention' => $mention,
-            'percentage' => $percentage,
-            'published_by' => Auth::user()->id,
-        ]);
-
-        if ($result) {
-            if (!(DB::table('result_status')->where('promotion_id', $currentPromotion->id)
-                ->where('session', $currentSession)
-                ->exists())) {
-                ResultStatus::create([
-                    'session' => $currentSession,
-                    'status' => ResultByPromotionStatus::DRAFT->value,
-                    'promotion_id' => $currentPromotion->id,
-                ]);
+            foreach ($note as $course => $value) {
+                if (!is_null($value)) {
+                    $notes[$course] = $value; // Store the note with course_id as key
+                }
             }
         }
-
-        $session = ResultSession::find($currentSession)->name === 'S1' ? EnumsResultSession::S1->label() : 'session inconnue';
-
-        return redirect()->route('students.index')->with('success', "Résultats assignés à l'étudiant {$student->name} pour la {$session}.");
+        if(empty($notes)) {
+            return back()->with('warning', 'Vous ne pouvez pas envoyer un formulaire vide');
+        } else {
+            $studentResultCount = count($notes);
+            $promotionCoursesMaximas = DB::table('course_promotion')
+                ->where('promotion_id', $currentPromotion->id)
+                ->get()->pluck('maxima')->toArray();
+            $totalNotes = array_sum($promotionCoursesMaximas);
+            $studentNotes = collect($request['notes'])->sum(function ($item) {
+                return collect($item)->first(); // ou array_values($item)[0]
+            });
+            $percentage = round(number_format(($studentNotes / $totalNotes) * 100, 2), 2);
+            switch ($percentage) {
+                case $percentage >= 50 && $percentage < 70:
+                    $mention = ResultMention::S->value;
+                    break;
+                case $percentage < 80 && $percentage >= 70:
+                    $mention = ResultMention::D->value;
+                    break;
+                case $percentage < 90 && $percentage >= 80:
+                    $mention = ResultMention::GD->value;
+                    break;
+                case $percentage >= 90:
+                    $mention = ResultMention::TGD->value;
+                    break;
+                default:
+                    $mention = ResultMention::A->value;
+            }
+            $currentResult = Result::where('student_id', $student->id)
+                ->where('result_session_id', $currentSession)->first();
+                $status = $studentResultCount === $coursePromotionCount ? StudentPromotionStatus::COMPLETE->value : StudentPromotionStatus::DRAFT->value;
+            if ($currentResult && $currentResult->count() > 0) {
+                $result = $currentResult;
+                $result->notes = $notes;
+                $result->mention = $mention;
+                $result->percentage = $percentage;
+                $result->status = $status;
+                $result->published_by = Auth::user()->id;
+                $result->save();
+            } else {
+                $result = new Result();
+                $result->student_id = $student->id;
+                $result->result_session_id = $currentSession;
+                $result->notes = $notes;
+                $result->mention = $mention;
+                $result->percentage = $percentage;
+                $result->status = $status;
+                $result->published_by = Auth::user()->id;
+                $result->save();
+            }
+    
+            if ($result) {
+                if (!(DB::table('result_status')->where('promotion_id', $currentPromotion->id)
+                    ->where('session', $currentSession)
+                    ->exists())) {
+                    ResultStatus::create([
+                        'session' => $currentSession,
+                        'status' => ResultByPromotionStatus::DRAFT->value,
+                        'promotion_id' => $currentPromotion->id,
+                    ]);
+                }
+            }
+    
+            return back()->with('success', "Résultats assignés à l'étudiant {$student->name} pour la session en cours.");
+        }
     }
 }
