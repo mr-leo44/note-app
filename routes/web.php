@@ -62,7 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
     Route::resource('courses', CourseController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('students/{student}/sessions/{session}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
+    Route::post('students/{student}/results/{result}/publish', [StudentController::class, 'publishResult'])->name('students.publishResult');
     Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
     });
 
 require __DIR__.'/auth.php';
+

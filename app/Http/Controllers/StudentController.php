@@ -166,4 +166,12 @@ class StudentController extends Controller
             return back()->with('success', "Résultats assignés à l'étudiant {$student->name} pour la session en cours.");
         }
     }
+
+    public function publishResult(Request $request, Student $student, $result)
+    {
+        $currentResult = Result::find($result);
+        $currentResult->status = StudentPromotionStatus::PUBLISHED->value;
+        $currentResult->save();
+        return response()->json();
+    }
 }
