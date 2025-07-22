@@ -2,48 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ResultByPromotionStatus;
+use App\Enums\StudentPromotionStatus;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Models\Result;
+use App\Models\ResultSession;
+use App\Models\ResultStatus;
 
 class ResultController extends Controller
 {
     public function index()
     {
-        $publications = Result::paginate(10);
+        // $promotions = Promotion::all();
+        $currentSession = ResultSession::where('current', true)->first();
+        // foreach ($promotions as $promotion) {
+        //     $resultByPromotion = ResultStatus::where('promotion_id', $promotion->id)->where('session', $currentSession->id)->first();
+        //     if($resultByPromotion && $resultByPromotion->count() > 0) {
+        //         $promotionStudents = $promotion->students()->wherePivot('status', 'en cours')->get();
+        //         $resultsCount = 0;
+        //         foreach ($promotionStudents as $promotionStudent) {
+        //             $studentResult = Result::where('student_id', $promotionStudent->id)->where('result_session_id', $currentSession->id)->first();
+        //             if ($studentResult->status === StudentPromotionStatus::PUBLISHED->value) {
+        //                 $resultsCount += 1;
+        //             }
+        //         }
+        //         if ($promotionStudents->count() === $resultsCount && $resultByPromotion->status !== ResultByPromotionStatus::PUBLISHED->value) {
+        //            $resultByPromotion->status = ResultByPromotionStatus::COMPLETE->value;
+        //            $resultByPromotion->save(); 
+        //         }
+        //     }
+        // }
+        $publications = ResultStatus::
+        where('session', $currentSession->id)->where('status', '!=', ResultByPromotionStatus::DRAFT->value)->
+        paginate(10);
         return view('publications.index', compact('publications'));
     }
 
-    public function show($id)
+public function onlinePublishResults(Request $request)
     {
-        $publication = Result::findOrFail($id);
-        return view('publications.show', compact('publication'));
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-        $publication = Result::create($validated);
-        return redirect()->route('publications.index')->with('success', 'Publication créée.');
-    }
-
-    public function update(Request $request, $id)
-    {
-        $publication = Result::findOrFail($id);
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-        $publication->update($validated);
-        return redirect()->route('publications.index')->with('success', 'Publication modifiée.');
-    }
-
-    public function destroy($id)
-    {
-        $publication = Result::findOrFail($id);
-        $publication->delete();
-        return redirect()->route('publications.index')->with('success', 'Publication supprimée.');
+        $currentSession = ResultSession::where('current', true)->first();
+        $completedResults = ResultStatus::where('session', $currentSession->id)
+            ->where('status', ResultByPromotionStatus::COMPLETE->value)
+            ->get();
+        foreach ($completedResults as $completedResult) {
+            $completedResult->update([
+                'status' => ResultByPromotionStatus::PUBLISHED->value,
+            ]);
+        }
+        return response()->json();
     }
 }

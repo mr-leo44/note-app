@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show','update','destroy']);
+    Route::post('publications/publish-results', [ResultController::class, 'onlinePublishResults'])->name('publications.onlinePublishResults');
     Route::resource('publications', ResultController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);

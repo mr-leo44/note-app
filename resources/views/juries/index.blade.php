@@ -56,79 +56,6 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <div class="mt-4 flex justify-center">
-                                        <x-pagination :paginator="$juries" />
-                                    </div>
-                                    @push('scripts')
-                                        @vite(['resources/js/app.js'])
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                let DataTableClass = window.DataTable && (window.DataTable.DataTable || window.DataTable.default ||
-                                                    window.DataTable);
-                                                if (DataTableClass) {
-                                                    const dt = new DataTableClass('#juriesTable', {
-                                                        searchable: true,
-                                                        sortable: true,
-                                                        labels: {
-                                                            placeholder: "Recherche...",
-                                                            perPage: "par page",
-                                                            perPageSelect: "Afficher",
-                                                            noRows: "Aucun jury trouvé.",
-                                                            info: "Affichage de {start} à {end} sur {rows} entrées",
-                                                            loading: "Chargement...",
-                                                            infoFiltered: "(filtré à partir de {rows} entrées)",
-                                                            first: "Premier",
-                                                            last: "Dernier",
-                                                            prev: "Précédent",
-                                                            next: "Suivant"
-                                                        }
-                                                    });
-                                                    // Style la barre de recherche et le wrapper
-                                                    setTimeout(() => {
-                                                        const wrapper = document.getElementById('juriesTableWrapper');
-                                                        // Flex container pour search + pagination DataTables
-                                                        const dtTop = wrapper.querySelector('.datatable-top');
-                                                        if (dtTop) {
-                                                            dtTop.classList.remove('block'); // retire block si présent
-                                                            dtTop.classList.add('flex', 'justify-between', 'items-center', 'mb-4', 'gap-4');
-                                                        }
-                                                        const dtSearch = wrapper.querySelector('.datatable-search');
-                                                        if (dtSearch) {
-                                                            dtSearch.classList.add('max-w-md', 'flex-1');
-                                                        }
-                                                        const searchInput = wrapper.querySelector('input[type="search"]');
-                                                        if (searchInput) {
-                                                            searchInput.classList.add(
-                                                                'block', 'w-full', 'p-2', 'text-sm', 'text-gray-900', 'border',
-                                                                'border-gray-300', 'rounded-lg', 'bg-gray-50', 'focus:ring-blue-500',
-                                                                'focus:border-blue-500'
-                                                            );
-                                                        }
-                                                        // Style le select de pagination DataTable
-                                                        const dtSelect = wrapper.querySelector('.datatable-selector');
-                                                        if (dtSelect) {
-                                                            dtSelect.classList.add(
-                                                                'block',
-                                                                'w-full',
-                                                                'rounded-lg',
-                                                                'border',
-                                                                'border-gray-300',
-                                                                'bg-gray-50',
-                                                            );
-                                                        }
-                                                        // Style le label du select (datatable-dropdown > label)
-                                                        const dtDropdownLabel = wrapper.querySelector('.datatable-dropdown label');
-                                                        if (dtDropdownLabel) {
-                                                            dtDropdownLabel.classList.add('flex', 'gap-2', 'items-center', 'text-sm',
-                                                                'text-gray-700', 'dark:text-gray-400', 'flex-shrink-0', 'min-w-fit',
-                                                                'whitespace-nowrap');
-                                                        }
-                                                        wrapper.classList.add('pb-4');
-                                                    }, 100);
-                                                }
-                                            });
-                                        </script>
-                                    @endpush
                                     <button type="button" class="bg-yellow-100 hover:bg-yellow-200 p-1.5 rounded" title="Réinitialiser le mot de passe" onclick="resetJuryPassword({{ $jury->id }}, '{{ $jury->name }}')">
                                         <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-yellow-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3zm0 0V7m0 4v4m0 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z' /></svg>
                                     </button>
@@ -162,8 +89,6 @@
                         })
                         .then(res => res.json())
                         .then(data => {
-                            console.log(data);
-                            
                             const pwd = data.password;
                             const alert = document.createElement('div');
                             alert.className = 'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
