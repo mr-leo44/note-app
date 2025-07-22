@@ -169,9 +169,28 @@ class StudentController extends Controller
 
     public function publishResult(Request $request, Student $student, $result)
     {
+        $currentSession = ResultSession::where('current', true)->first();
+        $currentPromotion = $student->promotions()->first();
         $currentResult = Result::find($result);
         $currentResult->status = StudentPromotionStatus::PUBLISHED->value;
         $currentResult->save();
+
+        if($currentResult) {
+            $promotionResultStatus = ResultStatus::where('promotion_id', $currentPromotion->id)
+                ->where('session', $currentSession->id)
+                ->first();
+            $promotionStudents = $currentPromotion->students()->wherePivot('status', 'en cours')->get();
+            $resultsCount = 0;
+            foreach ($promotionStudents as $promotionStudent) {
+                $studentResult = Result::where('student_id', $promotionStudent->id)->where('result_session_id', $currentSession->id)->first();
+                if ($studentResult->status === StudentPromotionStatus::PUBLISHED->value) $resultsCount += 1;
+            }
+    
+            if ($promotionStudents->count() === $resultsCount) {
+                $promotionResultStatus->status = ResultByPromotionStatus::COMPLETE->value;
+                $promotionResultStatus->save(); 
+            }
+        }
         return response()->json();
     }
 }
