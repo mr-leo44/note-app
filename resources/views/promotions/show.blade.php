@@ -11,11 +11,13 @@
                 </a>
                 <h1 class="text-2xl font-bold">{{ $promotion->name }}</h1>
             </div>
-            <button id="openModalBtn" data-modal-target="createStudentModal" data-modal-toggle="createStudentModal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                type="button">
-                + Nouvel Etudiant
-            </button>
+            @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
+                <button id="openModalBtn" data-modal-target="createStudentModal" data-modal-toggle="createStudentModal"
+                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    type="button">
+                    + Nouvel Etudiant
+                </button>
+            @endif
         </div>
     </x-slot>
     <div class="container mx-auto py-8 px-4">
@@ -90,7 +92,8 @@
                                 @endif
                                 @if ($currentResult && $currentResult->status === \App\Enums\StudentPromotionStatus::COMPLETE->value)
                                     <button type="button" title="Publier Résultats"
-                                        class="bg-green-100 hover:bg-green-200 p-1.5 rounded" onclick="publishResult({{ $student->id }}, {{ $currentResult->id }}, '{{ $student->name }}')">
+                                        class="bg-green-100 hover:bg-green-200 p-1.5 rounded"
+                                        onclick="publishResult({{ $student->id }}, {{ $currentResult->id }}, '{{ $student->name }}')">
                                         <x-icons.check-circle />
                                     </button>
                                 @endif
@@ -108,8 +111,6 @@
             @vite(['resources/js/app.js'])
             <script>
                 function publishResult(studentId, currentResultId, studentName) {
-                    console.log(studentId, currentResultId, studentName);
-                    
                     fetch(`/students/${studentId}/results/${currentResultId}/publish`, {
                             method: 'POST',
                             headers: {
@@ -121,13 +122,12 @@
                         })
                         .then(res => res.json())
                         .then(data => {
-                            console.log(data);
                             const alert = document.createElement('div');
                             alert.className =
                                 'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
                             alert.innerHTML = `
                                 <svg class='w-5 h-5 text-blue-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
-                                <span>Résultats pour la session en cours de l'étudiant <b>${studentName}</b> Publié avec succès</span>
+                                <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
                                 <button type="button" class="ml-4 text-blue-800 hover:text-blue-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
