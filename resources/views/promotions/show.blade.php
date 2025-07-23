@@ -122,20 +122,21 @@
                         })
                         .then(res => res.json())
                         .then(data => {
+                            location.reload();
                             const alert = document.createElement('div');
                             alert.className =
                                 'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
                             alert.innerHTML = `
-                                <svg class='w-5 h-5 text-blue-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
-                                <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
-                                <button type="button" class="ml-4 text-blue-800 hover:text-blue-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <svg class='w-5 h-5 text-blue-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
+                            <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
+                            <button type="button" class="ml-4 text-blue-800 hover:text-blue-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
-                            `;
+                                `;
                             document.body.appendChild(alert);
                             setTimeout(() => {
                                 if (document.body.contains(alert)) alert.remove();
-                            }, 9000);
+                            }, 3000);
                         })
                         .catch(() => {
                             const errorAlert = document.createElement('div');
