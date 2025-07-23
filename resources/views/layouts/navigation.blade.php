@@ -15,8 +15,8 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    
-                    @if(auth()->user()->account->accountable_type !== 'App\Models\Jury')
+
+                    @if (auth()->user()->account->accountable_type !== 'App\Models\Jury')
                         <x-nav-link :href="route('faculties.index')" :active="request()->routeIs('faculties.*')">
                             {{ __('Facultés') }}
                         </x-nav-link>
@@ -69,7 +69,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Mon Profil') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -79,7 +79,7 @@
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Déconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -107,6 +107,36 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            @if (auth()->user()->account->accountable_type !== 'App\Models\Jury')
+                <x-responsive-nav-link :href="route('faculties.index')" :active="request()->routeIs('faculties.*')">
+                    {{ __('Facultés') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('departments.index')" :active="request()->routeIs('departments.*')">
+                    {{ __('Départements') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('juries.index')" :active="request()->routeIs('juries.*')">
+                    {{ __('Jurys') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                    {{ __('Cours') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
+                    {{ __('Étudiants') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
+                    {{ __('Périodes') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('sessions.index')" :active="request()->routeIs('sessions.*')">
+                    {{ __('Sessions') }}
+                </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link :href="route('promotions.index')" :active="request()->routeIs('promotions.*')">
+                {{ __('Promotions') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('publications.index')" :active="request()->routeIs('publications.*')">
+                {{ __('Publications') }}
             </x-responsive-nav-link>
         </div>
 
