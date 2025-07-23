@@ -14,25 +14,7 @@ class ResultController extends Controller
 {
     public function index()
     {
-        // $promotions = Promotion::all();
         $currentSession = ResultSession::where('current', true)->first();
-        // foreach ($promotions as $promotion) {
-        //     $resultByPromotion = ResultStatus::where('promotion_id', $promotion->id)->where('session', $currentSession->id)->first();
-        //     if($resultByPromotion && $resultByPromotion->count() > 0) {
-        //         $promotionStudents = $promotion->students()->wherePivot('status', 'en cours')->get();
-        //         $resultsCount = 0;
-        //         foreach ($promotionStudents as $promotionStudent) {
-        //             $studentResult = Result::where('student_id', $promotionStudent->id)->where('result_session_id', $currentSession->id)->first();
-        //             if ($studentResult->status === StudentPromotionStatus::PUBLISHED->value) {
-        //                 $resultsCount += 1;
-        //             }
-        //         }
-        //         if ($promotionStudents->count() === $resultsCount && $resultByPromotion->status !== ResultByPromotionStatus::PUBLISHED->value) {
-        //            $resultByPromotion->status = ResultByPromotionStatus::COMPLETE->value;
-        //            $resultByPromotion->save(); 
-        //         }
-        //     }
-        // }
         $publications = ResultStatus::
         where('session', $currentSession->id)->where('status', '!=', ResultByPromotionStatus::DRAFT->value)->
         paginate(10);

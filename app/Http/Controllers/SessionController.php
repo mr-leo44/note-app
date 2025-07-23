@@ -23,7 +23,7 @@ class SessionController extends Controller
 
         $currentPeriod = Period::where('current', true)->first();
         if (ResultSession::where('name', $request['name'])->where('period_id', $currentPeriod->id)->exists()) {
-            return redirect()->route('sessions.index')->with('warning', 'Cette session existe déjà.');
+            return redirect()->back()->with('warning', 'Cette session existe déjà.');
         } else {
             $isCurrent = $request->has('current');
             if ($isCurrent) {
@@ -39,7 +39,7 @@ class SessionController extends Controller
             if ($isCurrent) {
                 ResultSession::where('id', '!=', $session->id)->update(['current' => false]);
             }
-            return redirect()->route('sessions.index')->with('success', 'Session créée avec succès.');
+            return redirect()->back()->with('success', 'Session créée avec succès.');
         }
     }
 
@@ -64,12 +64,12 @@ class SessionController extends Controller
         if ($isCurrent) {
             ResultSession::where('id', '!=', $session->id)->update(['current' => false]);
         }
-        return redirect()->route('sessions.index')->with('success', 'Session modifiée avec succès.');
+        return redirect()->back()->with('success', 'Session modifiée avec succès.');
     }
 
     public function destroy(ResultSession $session)
     {
         $session->delete();
-        return redirect()->route('sessions.index')->with('success', 'Session supprimée.');
+        return redirect()->back()->with('success', 'Session supprimée.');
     }
 }

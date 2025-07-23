@@ -32,7 +32,7 @@ class PeriodController extends Controller
         if ($isCurrent) {
             Period::where('id', '!=', $period->id)->update(['current' => false]);
         }
-        return redirect()->route('periods.index')->with('success', 'Période créée avec succès.');
+        return redirect()->back()->with('success', 'Période créée avec succès.');
     }
 
     public function update(Request $request, Period $period)
@@ -53,12 +53,12 @@ class PeriodController extends Controller
         if ($isCurrent) {
             Period::where('id', '!=', $period->id)->update(['current' => false]);
         }
-        return redirect()->route('periods.index')->with('success', 'Période modifiée avec succès.');
+        return redirect()->back()->with('success', 'Période modifiée avec succès.');
     }
 
     public function destroy(Period $period)
     {
         $period->delete();
-        return redirect()->route('periods.index')->with('success', 'Période supprimée.');
+        return redirect()->back()->with('success', 'Période supprimée.');
     }
 }

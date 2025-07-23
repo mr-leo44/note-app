@@ -87,7 +87,7 @@ class JuryController extends Controller
                 $jury->promotions()->attach($promotionId, ['period' => $currentPeriod->name]);
             }
             DB::commit();
-            return redirect()->route('juries.index')->with('success', 'Jury créé avec succès.');
+            return redirect()->back()->with('success', 'Jury créé avec succès.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Une erreur est survenue lors de la création du jury.');
@@ -160,7 +160,7 @@ class JuryController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('juries.index')->with('success', 'Jury modifié avec succès.');
+            return redirect()->back()->with('success', 'Jury modifié avec succès.');
         } catch (Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Une erreur est survenue lors de la mise à jour du jury.');
@@ -178,7 +178,7 @@ class JuryController extends Controller
             $jury->account->delete();
         }
         $jury->delete();
-        return redirect()->route('juries.index')->with('success', 'Jury supprimé.');
+        return redirect()->back()->with('success', 'Jury supprimé.');
     }
     public function assignPromotionToJury(Request $request, Jury $jury)
     {

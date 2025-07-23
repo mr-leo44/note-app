@@ -42,7 +42,7 @@ class StudentController extends Controller
             'status' => StudentPromotionStatus::EN_COURS->value,
         ]);
 
-        return redirect()->route('students.index')->with('success', 'Étudiant créé avec succès.');
+        return redirect()->back()->with('success', 'Étudiant créé avec succès.');
     }
 
     public function update(Request $request, Student $student)
@@ -74,13 +74,13 @@ class StudentController extends Controller
             ]);
         }
 
-        return redirect()->route('students.index')->with('success', 'Étudiant modifié avec succès.');
+        return redirect()->back()->with('success', 'Étudiant modifié avec succès.');
     }
 
     public function destroy(Student $student)
     {
         $student->delete();
-        return redirect()->route('students.index')->with('success', 'Étudiant supprimé.');
+        return redirect()->back()->with('success', 'Étudiant supprimé.');
     }
 
     public function assignResults(Request $request, Student $student, $currentSession)

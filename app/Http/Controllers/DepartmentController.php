@@ -21,7 +21,7 @@ class DepartmentController extends Controller
             'faculty_id' => 'required|exists:faculties,id',
         ]);
         Department::create($validated);
-        return redirect()->route('departments.index')->with('success', 'Département créé avec succès.');
+        return redirect()->back()->with('success', 'Département créé avec succès.');
     }
 
     public function show(Department $department)
@@ -37,12 +37,12 @@ class DepartmentController extends Controller
             'faculty_id' => 'required|exists:faculties,id',
         ]);
         $department->update($validated);
-        return redirect()->route('departments.index')->with('success', 'Département modifié avec succès.');
+        return redirect()->back()->with('success', 'Département modifié avec succès.');
     }
 
     public function destroy(Department $department)
     {
         $department->delete();
-        return redirect()->route('departments.index')->with('success', 'Département supprimé avec succès.');
+        return redirect()->back()->with('success', 'Département supprimé avec succès.');
     }
 }

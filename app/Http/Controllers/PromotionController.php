@@ -34,7 +34,7 @@ class PromotionController extends Controller
             'department_id' => 'required|exists:departments,id',
         ]);
         Promotion::create($validated);
-        return redirect()->route('promotions.index')->with('success', 'Promotion créée avec succès.');
+        return redirect()->back()->with('success', 'Promotion créée avec succès.');
     }
 
     public function show(Promotion $promotion)
@@ -50,12 +50,12 @@ class PromotionController extends Controller
             'department_id' => 'required|exists:departments,id',
         ]);
         $promotion->update($validated);
-        return redirect()->route('promotions.index')->with('success', 'Promotion modifiée avec succès.');
+        return redirect()->back()->with('success', 'Promotion modifiée avec succès.');
     }
 
     public function destroy(Promotion $promotion)
     {
         $promotion->delete();
-        return redirect()->route('promotions.index')->with('success', 'Promotion supprimée avec succès.');
+        return redirect()->back()->with('success', 'Promotion supprimée avec succès.');
     }
 }
