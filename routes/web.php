@@ -48,12 +48,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show','update','destroy']);
     Route::post('publications/publish-results', [ResultController::class, 'onlinePublishResults'])->name('publications.onlinePublishResults');
     Route::resource('publications', ResultController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
-    Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+});
+
+Route::middleware(['auth', 'admin_only'])->group(function () {
+    Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::post('juries/{jury}/reset-password', [JuryController::class, 'resetPassword'])->name('juries.resetPassword');
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('periods', PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
@@ -65,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('students/{student}/sessions/{session}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
     Route::post('students/{student}/results/{result}/publish', [StudentController::class, 'publishResult'])->name('students.publishResult');
     Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
-    });
+});
 
 require __DIR__.'/auth.php';
 
