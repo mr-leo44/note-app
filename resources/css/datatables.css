@@ -1,36 +1,36 @@
-/* Conteneur principal */
-#studentsTableWrapper {
-    @apply pb-4;
-}
-
 /* Haut de la table : search + dropdown */
-#studentsTableWrapper .datatable-top {
+.datatable-top {
     @apply flex justify-between items-center mb-4 gap-4;
 }
 
 /* Zone de recherche */
-#studentsTableWrapper .datatable-search {
+.datatable-search {
     @apply max-w-md flex-1;
 }
 
 /* Input de recherche */
-#studentsTableWrapper input[type="search"] {
+input[type="search"] {
     @apply block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500;
 }
 
 /* Select de pagination */
-#studentsTableWrapper .datatable-selector {
+.datatable-selector {
     @apply block w-full rounded-lg border border-gray-300 bg-gray-50 py-2 pl-2 text-sm text-gray-900 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:bg-white transition duration-200 appearance-none;
 }
 
 /* Label du select (dropdown) */
-#studentsTableWrapper .datatable-dropdown label {
+.datatable-dropdown label {
     @apply flex gap-2 items-center text-sm text-gray-700 dark:text-gray-400 flex-shrink-0 min-w-fit whitespace-nowrap;
 }
 
 /* Conteneur bas de la datatable */
 .datatable-bottom {
   @apply flex justify-between items-center mt-4;
+}
+
+/* Informations sur les entrées */
+.datatable-info {
+  @apply text-sm text-gray-700 dark:text-gray-400;
 }
 
 /* Liste de pagination */
