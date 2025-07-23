@@ -71,9 +71,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4 flex justify-center">
-                <x-pagination :paginator="$juries" />
-            </div>
             @push('scripts')
                 @vite(['resources/js/app.js'])
                 <script>
