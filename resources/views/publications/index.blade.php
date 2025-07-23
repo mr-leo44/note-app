@@ -98,7 +98,7 @@
                             })
                             .then(res => res.json())
                             .then(data => {
-                                console.log(data);
+                                location.reload();
                                 const alert = document.createElement('div');
                                 alert.className =
                                     'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
@@ -112,7 +112,7 @@
                                 document.body.appendChild(alert);
                                 setTimeout(() => {
                                     if (document.body.contains(alert)) alert.remove();
-                                }, 9000);
+                                }, 3000);
                             })
                             .catch(() => {
                                 const errorAlert = document.createElement('div');
