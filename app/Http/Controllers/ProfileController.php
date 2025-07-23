@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('info', 'Profil mis à jour avec succès.');
     }
 
     /**
@@ -55,6 +55,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/login')->with('info', 'Compte supprimé avec succès.');
     }
 }
