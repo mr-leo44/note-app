@@ -15,7 +15,7 @@
     ][$type] ?? '<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" /></svg>';
     $classes = "$base $color";
 @endphp
-<div class="{{ $classes }} fixed top-6 left-1/2 transform -translate-x-1/2 z-50" x-data="{ show: true }" x-show="show" role="alert">
+<div class="{{ $classes }} fixed top-6 left-1/2 transform -translate-x-1/2 z-50" x-data="{ show: true }" x-show="show" role="alert" id="alert">
     {!! $icon !!}
     <span class="text-sm font-medium flex-1">
         {{ $slot }}
@@ -24,3 +24,11 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 </div>
+
+@push('scripts')
+    <script>
+        setTimeout(() => {
+            document.querySelector('div#alert').remove();
+        }, 5000);
+    </script>
+@endpush
