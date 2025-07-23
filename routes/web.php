@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('publications/publish-results', [ResultController::class, 'onlinePublishResults'])->name('publications.onlinePublishResults');
     Route::resource('publications', ResultController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('promotions', PromotionController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::post('students/{student}/sessions/{session}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
+    Route::post('students/{student}/results/{result}/publish', [StudentController::class, 'publishResult'])->name('students.publishResult');
 });
 
 Route::middleware(['auth', 'admin_only'])->group(function () {
@@ -64,8 +66,6 @@ Route::middleware(['auth', 'admin_only'])->group(function () {
     Route::put('courses/{course}/promotions/{promotion}/maxima', [CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
     Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
     Route::resource('courses', CourseController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::post('students/{student}/sessions/{session}/assign-results', [StudentController::class, 'assignResults'])->name('students.assignResults');
-    Route::post('students/{student}/results/{result}/publish', [StudentController::class, 'publishResult'])->name('students.publishResult');
     Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
