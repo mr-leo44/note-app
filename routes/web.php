@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SessionController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     // Création automatique d'un admin si aucun user n'existe
@@ -37,8 +38,12 @@ Route::get('/', function () {
             'user_id' => $user->id,
         ]);
     }
-    return view('welcome');
-});
+    if (Auth::check()) {
+        return redirect()->back();
+    } else {
+        return redirect()->route('login');
+    }
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -69,5 +74,4 @@ Route::middleware(['auth', 'admin_only'])->group(function () {
     Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
