@@ -65,7 +65,6 @@
                                             $promotionResultsCount++;
                                         }
                                     }
-                                    $status = $publication->status === 'published' ? \App\Enums\ResultByPromotionStatus::PUBLISHED->label() : 'Non publié';
                                 @endphp
                                 <td class="px-6 py-4">
                                     {{ ($publications->currentPage() - 1) * $publications->perPage() + $loop->iteration }}
@@ -74,7 +73,7 @@
                                 <td class="px-6 py-4">{{ $studentByPromotion->count() }}</td>
                                 <td class="px-6 py-4">{{ $promotionResultsCount }}</td>
                                 <td class="px-6 py-4">
-                                    {{ $publication->status }}
+                                    {{ $publication->status->label() }}
                                 </td>   
                             </tr>
                         @endforeach

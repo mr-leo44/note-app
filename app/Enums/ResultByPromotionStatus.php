@@ -16,7 +16,7 @@ enum ResultByPromotionStatus: string
     public function label(): string
     {
         return match($this) {
-            self::COMPLETE => 'Complète',
+            self::COMPLETE => 'Non publié',
             self::DRAFT => 'Brouillon',
             self::PUBLISHED => 'Publiée',
         };
