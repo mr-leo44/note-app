@@ -48,12 +48,14 @@
                         <th class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($promotion->students as $student)
+                @foreach ($promotion->students as $student)
+                    <tbody>
+                        <br>
                         @php
                             $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
-                            $currentPromotion = $student->promotions()->wherePivot('status', 'en cours')->first();
+                            $currentPeriod = \App\Models\Period::where('current', true)->first();
                             $currentSession = \App\Models\ResultSession::where('current', true)->first();
+                            $sessions = \App\Models\ResultSession::where('period_id', $currentPeriod->id)->get();
                             $currentResult = \App\Models\Result::where('result_session_id', $currentSession->id)
                                 ->where('student_id', $student->id)
                                 ->first();
@@ -67,8 +69,28 @@
                                 {{ $student->pivot->status === 'en cours' ? 'Admis' : ucfirst($student->pivot->status) }}
                             </td>
                             <td class="px-6 py-4 flex gap-2">
-                                <button class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir Resultats">
+                                <button id="dropdown-results-button" type="button"
+                                    class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded"
+                                    title="Voir les résultats de l'année en cours" aria-expanded="false"
+                                    data-dropdown-toggle="dropdown-results">
+                                    <span class="sr-only">Open user menu</span>
                                     <x-icons.eye />
+                                </button>
+                                <div class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700"
+                                    id="dropdown-results">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdown-results-button" role="none">
+                                        @foreach ($sessions as $session)
+                                            <li>
+                                                <button
+                                                    class="block px-4 py-2 w-full text-start hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-session-id="{{ $session->id }}"
+                                                    data-modal-target="showCurrentResultsModal-{{ $student->id }}-{{ $session->id }}"
+                                                    data-modal-toggle="showCurrentResultsModal-{{ $student->id }}-{{ $session->id }}">{{ $session->name }}</button>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                                 </button>
                                 @if ($isAdmin)
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
@@ -97,12 +119,16 @@
                                         <x-icons.check-circle />
                                     </button>
                                 @endif
+                                @foreach ($sessions as $session)
+                                    <x-promotions.show-current-results :student="$student" :currentPromotion="$promotion"
+                                        :session="$session" />
+                                @endforeach
                                 <x-students.edit-student-modal :student="$student" />
                                 <x-students.delete-student-modal :student="$student" />
-                                <x-students.assign-result-to-student :student="$student" :currentPromotion="$currentPromotion" />
+                                <x-students.assign-result-to-student :student="$student" :currentPromotion="$promotion" />
                             </td>
                         </tr>
-                    @endforeach
+                @endforeach
                 </tbody>
             </table>
         </div>
