@@ -63,9 +63,6 @@
                                     {{ $currentPromotion ? ($currentPromotion->pivot->status === 'en cours' ? 'Admis' : ucfirst($currentPromotion->pivot->status)) : '-' }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <button class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir Resultats">
-                                        <x-icons.eye />
-                                    </button>
                                     <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
                                         title="Modifier" data-student-id="{{ $student->id }}"
                                         data-modal-target="editStudentModal-{{ $student->id }}"
@@ -84,9 +81,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="mt-4 flex justify-center">
-                <x-pagination :paginator="$students" />
             </div>
             @push('scripts')
                 @vite(['resources/js/app.js'])
