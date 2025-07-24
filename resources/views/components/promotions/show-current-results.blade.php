@@ -14,11 +14,13 @@
             $notes = $result->notes ?? [];
             $totalMaxima = 0;
             $totalNotes = 0;
+            $resultStatus = \App\Models\ResultStatus::where('session', $session->id)->where('promotion_id', $currentPromotion->id)->first();
         @endphp
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Resultats de l'étudiant {{ $student->name }} - {{ $session->name }} - {{ $currentPeriod->name }}
+                    Resultats de l'étudiant {{ $student->name }} - {{ $session->name }} - {{ $currentPeriod->name }} 
+                    @if ($resultStatus !== null && $resultStatus->status !== \App\Enums\ResultByPromotionStatus::PUBLISHED->label()) {{ __('(Pas en ligne)') }} @endif
                 </h3>
                 <button type="button"
                     class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -33,7 +35,10 @@
                 </button>
             </div>
             <div class="p-6 space-y-6">
-                @if (empty($result) || !(Auth::user()))
+                @if (
+                        empty($result) ||
+                        (($resultStatus !== null && $resultStatus->status !== \App\Enums\ResultByPromotionStatus::PUBLISHED->label()) && !Auth::user())
+                    )
                     <div class="text-center text-gray-500 py-8">
                         <div class="text-center text-gray-500 py-6">
                             <svg class="mx-auto mb-4 w-16 h-16 text-gray-400" fill="none" stroke="currentColor"
