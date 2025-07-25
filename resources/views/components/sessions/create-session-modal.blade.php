@@ -14,7 +14,7 @@
                         <select name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 appearance-none required">
                             <option value="">Sélectionner une session</option>
                             @foreach(App\Enums\ResultSession::cases() as $session)
-                                <option value="{{ $session->name }}" :selected="session == {{ $session->name }}">{{ $session->value }}</option>
+                                <option value="{{ $session->value }}" :selected="session == {{ $session->label() }}">{{ $session->label() }}</option>
                             @endforeach
                         </select>
                         @error('session')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
