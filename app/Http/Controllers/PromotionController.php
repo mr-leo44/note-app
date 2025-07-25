@@ -7,6 +7,7 @@ use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\StudentPromotionStatus;
 
 class PromotionController extends Controller
 {
@@ -39,7 +40,8 @@ class PromotionController extends Controller
 
     public function show(Promotion $promotion)
     {
-        return view('promotions.show', compact('promotion'));
+        $students = $promotion->students()->paginate();
+        return view('promotions.show', compact(['promotion', 'students']));
     }
 
     public function update(Request $request, Promotion $promotion)
