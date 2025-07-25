@@ -15,6 +15,7 @@ class ResultSession extends Model
 
     protected $fillable = [
         'name',
+        'short_name',
         'current',
         'period_id',
     ];
