@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResultByPromotionStatus;
-use App\Enums\StudentPromotionStatus;
-use App\Models\Promotion;
 use Illuminate\Http\Request;
-use App\Models\Result;
 use App\Models\ResultSession;
 use App\Models\ResultStatus;
 
