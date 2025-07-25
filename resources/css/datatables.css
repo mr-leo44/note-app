@@ -33,6 +33,12 @@ input[type="search"] {
   @apply text-sm text-gray-700 dark:text-gray-400;
 }
 
+/* Style de l'état d'une datatable vide */
+.datatable-empty {
+  @apply text-sm text-center text-gray-700 dark:text-gray-400;
+}
+
+
 /* Liste de pagination */
 .datatable-pagination-list {
   @apply inline-flex items-center text-sm ml-[-1px];
