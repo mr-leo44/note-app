@@ -144,7 +144,7 @@
                 </tbody>
             </table>
         </div>
-        <x-students.create-student />
+        <x-students.create-student :promotion="$promotion" />
     @endif
     @push('scripts')
         @vite(['resources/js/app.js'])
