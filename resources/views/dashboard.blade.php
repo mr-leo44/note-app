@@ -1,5 +1,6 @@
 <x-app-layout>
     @php
+        \Carbon\Carbon::setLocale('fr');
         $currentPeriod = \App\Models\Period::where('current', true)->first();
         $currentSession = \App\Models\ResultSession::where('current', true)
             ->where('period_id', $currentPeriod->id)
@@ -32,6 +33,7 @@
                 \App\Models\ResultStatus::where('promotion_id', $promotion->id)
                     ->where('session', $currentSession->id)
                     ->first();
+            $promotion['resultStatus'] = $resultStatus;
         }
     @endphp
     <x-slot name="header">
@@ -119,8 +121,8 @@
                                         {{ $faculty->short_name }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $publishedResultByPromotion }}</td>
-                                    <td class="px-6 py-4 font-semibold">{{ $resultStatus ? $resultStatus->status->label() : 'Non publié' }}</td>
-                                    <td class="px-6 py-4 font-semibold">{{ $resultStatus ? \Carbon\Carbon::parse($resultStatus->updated_at)->translatedFormat('d F Y') : '-' }}</td>
+                                    <td class="px-6 py-4 font-semibold">{{ $promotion->resultStatus ? $promotion->resultStatus->status->label() : 'Non publié' }}</td>
+                                    <td class="px-6 py-4 font-semibold">{{ $promotion->resultStatus ? \Carbon\Carbon::parse($promotion->resultStatus->updated_at)->translatedFormat('d F Y') : '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
