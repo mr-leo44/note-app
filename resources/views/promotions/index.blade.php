@@ -40,11 +40,17 @@
                         <th scope="col" class="px-6 py-3">Nom</th>
                         <th scope="col" class="px-6 py-3">Nom court</th>
                         <th scope="col" class="px-6 py-3">Département</th>
+                        <th scope="col" class="px-6 py-3">Faculté</th>
+                        <th scope="col" class="px-6 py-3">Nbre Etudiants</th>
                         <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($promotions as $promotion)
+                    @php
+                        $department = $promotion->department;
+                        $faculty = \App\Models\Faculty::find($department->faculty_id);
+                    @endphp
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition">
                             <td class="px-6 py-4">
@@ -53,6 +59,8 @@
                             <td class="px-6 py-4 font-semibold">{{ $promotion->name }}</td>
                             <td class="px-6 py-4 font-semibold">{{ $promotion->short_name }}</td>
                             <td class="px-6 py-4">{{ $promotion->department->name ?? '' }}</td>
+                            <td class="px-6 py-4 font-semibold">{{ $faculty->name }}</td>
+                            <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
                             <td class="px-6 py-4 flex gap-2">
                                 <a href="{{ route('promotions.show', $promotion) }}"
                                     class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
