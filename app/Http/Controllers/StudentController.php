@@ -18,12 +18,6 @@ use App\Models\ResultStatus;
 
 class StudentController extends Controller
 {
-    public function index()
-    {
-        $students = Student::paginate(15);
-        return view('students.index', compact('students'));
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
