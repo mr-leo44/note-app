@@ -9,12 +9,6 @@ use App\Enums\ResultSession as EnumResultSession;
 
 class SessionController extends Controller
 {
-    public function index()
-    {
-        $sessions = ResultSession::orderByDesc('name')->paginate(15);
-        return view('sessions.index', compact('sessions'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
