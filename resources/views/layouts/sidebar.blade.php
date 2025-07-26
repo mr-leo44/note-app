@@ -3,6 +3,11 @@
     aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
+            @php
+                $isNotJury = auth()->user()->account->accountable_type !== 'App\Models\Jury';
+            @endphp
+
+            @if ($isNotJury)
             <li>
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -15,11 +20,6 @@
                     <span class="ms-3">{{ __('Dashboard') }}</span>
                 </x-nav-link>
             </li>
-            @php
-                $isNotJury = auth()->user()->account->accountable_type !== 'App\Models\Jury';
-            @endphp
-
-            @if ($isNotJury)
                 <li>
                     <x-nav-link :href="route('faculties.index')" :active="request()->routeIs('faculties.*')">
                         {{-- Faculty icon --}}

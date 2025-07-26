@@ -38,6 +38,7 @@ Route::get('/', function () {
             'user_id' => $user->id,
         ]);
     }
+    if($admin) return redirect()->route('dashboard');
     if (Auth::check()) {
         return redirect()->back();
     } else {
@@ -47,7 +48,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'admin_only'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
