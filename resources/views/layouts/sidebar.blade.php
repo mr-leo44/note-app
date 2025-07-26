@@ -67,16 +67,6 @@
                         <span class="ms-3">{{ __('Périodes') }}</span>
                     </x-nav-link>
                 </li>
-                <li>
-                    <x-nav-link :href="route('sessions.index')" :active="request()->routeIs('sessions.*')">
-                        {{-- Clock icon for sessions --}}
-                        <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path d="M12 8v4l2 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span class="ms-3">{{ __('Sessions') }}</span>
-                    </x-nav-link>
-                </li>
             @endif
 
             <li>
