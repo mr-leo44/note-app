@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin_only'])->group(function () {
     Route::resource('faculties', FacultyController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
-    Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('departments', DepartmentController::class)->only(['store', 'show', 'update', 'destroy']);
     Route::post('juries/{jury}/reset-password', [JuryController::class, 'resetPassword'])->name('juries.resetPassword');
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('periods', PeriodController::class)->only(['index', 'store', 'update', 'destroy']);
