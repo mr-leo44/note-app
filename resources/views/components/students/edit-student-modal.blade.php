@@ -26,7 +26,9 @@
                         <select name="promotion_id" id="promotion_id-{{ $student->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('promotion_id') border-red-500 @enderror" required>
                             <option value="">Sélectionner une promotion</option>
                             @foreach(App\Models\Promotion::orderBy('name')->get() as $promotion)
-                                <option value="{{ $promotion->id }}" {{ old('promotion_id', $student->promotion_id) == $promotion->id ? 'selected' : '' }}>{{ $promotion->short_name ?? $promotion->name }}</option>
+                                <option value="{{ $promotion->id }}" {{ old('promotion_id', $student->pivot->promotion_id) == $promotion->id ? 'selected' : '' }}>
+                                    {{ $promotion->name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('promotion_id')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
