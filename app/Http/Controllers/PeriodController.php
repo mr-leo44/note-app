@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Period;
 use Illuminate\Http\Request;
+use App\Models\ResultSession;
 
 class PeriodController extends Controller
 {
@@ -11,6 +12,12 @@ class PeriodController extends Controller
     {
         $periods = Period::orderByDesc('name')->paginate(15);
         return view('periods.index', compact('periods'));
+    }
+
+    public function show(Period $period)
+    {
+        $sessions = ResultSession::where('period_id', $period->id)->orderByDesc('name')->paginate(15);
+        return view('periods.show', compact(['period', 'sessions']));
     }
 
     public function store(Request $request)
