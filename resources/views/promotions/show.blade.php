@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('promotions.index') }}"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -21,7 +21,7 @@
         </div>
     </x-slot>
 
-    <div class="container mx-auto py-4 px-4">
+    <div class="container mx-auto py-12 px-4">
         @if (session('success'))
             <x-alert type="success">{{ session('success') }}</x-alert>
         @elseif (session('warning'))
@@ -39,7 +39,7 @@
             </x-alert>
         @endif
     </div>
-@php
+    @php
         $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
         $currentPeriod = \App\Models\Period::where('current', true)->first();
         $sessions = \App\Models\ResultSession::where('period_id', $currentPeriod->id)->get() ?? null;
@@ -175,48 +175,48 @@
 
             function publishResult(studentId, currentResultId, studentName) {
                 fetch(`/students/${studentId}/results/${currentResultId}/publish`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                .then(res => res.json())
-                .then(data => {
-                    location.reload();
-                    const alert = document.createElement('div');
-                    alert.className =
-                        'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
-                    alert.innerHTML = `
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        location.reload();
+                        const alert = document.createElement('div');
+                        alert.className =
+                            'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-blue-100 border border-blue-300 text-blue-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
+                        alert.innerHTML = `
                         <svg class='w-5 h-5 text-blue-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
                         <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
                         <button type="button" class="ml-4 text-blue-800 hover:text-blue-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                             `;
-                    document.body.appendChild(alert);
-                    setTimeout(() => {
-                        if (document.body.contains(alert)) alert.remove();
-                    }, 3000);
-                })
-                .catch(() => {
-                    const errorAlert = document.createElement('div');
-                    errorAlert.className =
-                        'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-400 border border-red-300 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
-                    errorAlert.innerHTML = `
+                        document.body.appendChild(alert);
+                        setTimeout(() => {
+                            if (document.body.contains(alert)) alert.remove();
+                        }, 3000);
+                    })
+                    .catch(() => {
+                        const errorAlert = document.createElement('div');
+                        errorAlert.className =
+                            'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-400 border border-red-300 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
+                        errorAlert.innerHTML = `
                             <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
                             <span>Erreur lors de la publication des résultats pour la session en cours</span>
                             <button type="button" class="ml-4 text-white focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         `;
-                    document.body.appendChild(errorAlert);
-                    setTimeout(() => {
-                        if (document.body.contains(errorAlert)) errorAlert.remove();
-                    }, 3000);
-                });
+                        document.body.appendChild(errorAlert);
+                        setTimeout(() => {
+                            if (document.body.contains(errorAlert)) errorAlert.remove();
+                        }, 3000);
+                    });
             }
         </script>
     @endpush
