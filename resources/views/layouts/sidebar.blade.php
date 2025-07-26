@@ -32,16 +32,7 @@
                         <span class="ms-3">{{ __('Facultés') }}</span>
                     </x-nav-link>
                 </li>
-                <li>
-                    <x-nav-link :href="route('departments.index')" :active="request()->routeIs('departments.*')">
-                        {{-- Building icon --}}
-                        <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path d="M3 21V7a2 2 0 012-2h4a2 2 0 012 2v14M14 10h4M14 14h4M14 18h4M14 6v12" />
-                        </svg>
-                        <span class="ms-3">{{ __('Départements') }}</span>
-                    </x-nav-link>
-                </li>
+                
                 <li>
                     <x-nav-link :href="route('juries.index')" :active="request()->routeIs('juries.*')">
                         {{-- User group / jury icon --}}
@@ -65,17 +56,6 @@
                         <span class="ms-3">{{ __('Cours') }}</span>
                     </x-nav-link>
                 </li>
-                {{-- <li>
-                    <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
-                        Students / user icon
-                        <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                                d="M5.121 17.804A9.004 9.004 0 0112 15c2.21 0 4.21.9 5.879 2.373M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="ms-3">{{ __('Étudiants') }}</span>
-                    </x-nav-link>
-                </li> --}}
                 <li>
                     <x-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
                         {{-- Calendar icon for périodes --}}
