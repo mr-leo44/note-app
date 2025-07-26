@@ -65,9 +65,9 @@
                         <span class="ms-3">{{ __('Cours') }}</span>
                     </x-nav-link>
                 </li>
-                <li>
+                {{-- <li>
                     <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
-                        {{-- Students / user icon --}}
+                        Students / user icon
                         <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path
@@ -75,7 +75,7 @@
                         </svg>
                         <span class="ms-3">{{ __('Étudiants') }}</span>
                     </x-nav-link>
-                </li>
+                </li> --}}
                 <li>
                     <x-nav-link :href="route('periods.index')" :active="request()->routeIs('periods.*')">
                         {{-- Calendar icon for périodes --}}
