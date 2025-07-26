@@ -1,10 +1,4 @@
 <x-app-layout>
-    @php
-        $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
-        $currentPeriod = \App\Models\Period::where('current', true)->first();
-        $sessions = \App\Models\ResultSession::where('period_id', $currentPeriod->id)->get() ?? null;
-        $currentSession = \App\Models\ResultSession::where('current', true)->first();
-    @endphp
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -37,7 +31,7 @@
         @endif
         @if ($errors->any())
             <x-alert type="error">
-                <ul class="list-disc pl-5">
+                <ul class="list-none pl-5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -45,6 +39,12 @@
             </x-alert>
         @endif
     </div>
+@php
+        $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
+        $currentPeriod = \App\Models\Period::where('current', true)->first();
+        $sessions = \App\Models\ResultSession::where('period_id', $currentPeriod->id)->get() ?? null;
+        $currentSession = \App\Models\ResultSession::where('current', true)->first();
+    @endphp
     @if ($students->isEmpty())
         <div class="text-center text-gray-500 py-8">Aucun étudiant enregistré pour cette promotion.</div>
     @else
