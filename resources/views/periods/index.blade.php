@@ -49,9 +49,9 @@
                             <td class="px-6 py-4 font-semibold">{{ $period->name }}</td>
                             <td class="px-6 py-4 font-semibold">{{ $period->current ? 'En cours' : 'Ecoulé' }}</td>
                             <td class="px-6 py-4 flex gap-2">
-                                <button type="button" class="bg-gray-100 p-1.5 rounded" title="Voir" disabled>
+                                <a href="{{ route('periods.show', $period->id) }}" class="bg-gray-100 p-1.5 rounded" title="Voir">
                                     <x-icons.eye />
-                                </button>
+                                </a>
                                 <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
                                     title="Modifier" data-period-id="{{ $period->id }}"
                                     data-modal-target="editPeriodModal-{{ $period->id }}"
