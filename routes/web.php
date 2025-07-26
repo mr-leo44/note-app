@@ -71,7 +71,7 @@ Route::middleware(['auth', 'admin_only'])->group(function () {
     Route::put('courses/{course}/promotions/{promotion}/maxima', [CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
     Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
     Route::resource('courses', CourseController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('students', StudentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('students', StudentController::class)->only(['store', 'update', 'destroy']);
 });
 
 require __DIR__ . '/auth.php';
