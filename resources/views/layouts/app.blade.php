@@ -22,11 +22,11 @@
 
         <!-- Page Content -->
 
-        <main class="p-4 mt-16 sm:ml-64">
+        <main class="px-4 pt-28 sm:ml-64">
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 dark:text-white shadow rounded-lg">
-                    <div class="max-w-8xl lg:p-4">
+                <header class="fixed flex left-64 ml-4 top-20 right-4 bg-white dark:bg-gray-800 dark:text-white shadow rounded-lg">
+                    <div class="max-w-8xl w-full lg:p-4">
                         {{ $header }}
                     </div>
                 </header>
