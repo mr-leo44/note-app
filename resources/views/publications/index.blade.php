@@ -1,18 +1,22 @@
 <x-app-layout>
+    @php
+        $isAdmin = auth()->user()->account->accountable_type === \App\Models\Admin::class;
+        $completeResultsExists = \App\Models\ResultStatus::where('status', 'complete')->exists();
+    @endphp
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold">Liste des publications</h1>
-            @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
+            @if ($isAdmin && $completeResultsExists)
                 <button type="button" title="Publier Résultats en ligne"
                     class="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    onclick="onlinePublishResults()">
+                    onclick="onlinePublishResults()" >
                     <span class="text-md">Publier les résultats</span>
                     <x-icons.check-circle />
                 </button>
             @endif
         </div>
     </x-slot>
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-20">
         @if (session('success'))
             <x-alert type="success">{{ session('success') }}</x-alert>
         @endif
@@ -21,7 +25,7 @@
         @endif
         @if ($errors->any())
             <x-alert type="error">
-                <ul class="list-disc pl-5">
+                <ul class="list-none pl-5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -74,7 +78,7 @@
                                 <td class="px-6 py-4">{{ $promotionResultsCount }}</td>
                                 <td class="px-6 py-4">
                                     {{ $publication->status->label() }}
-                                </td>   
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
