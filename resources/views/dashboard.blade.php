@@ -1,49 +1,17 @@
 <x-app-layout>
     @php
-        \Carbon\Carbon::setLocale('fr');
-        $currentPeriod = \App\Models\Period::where('current', true)->first();
-        $currentSession = \App\Models\ResultSession::where('current', true)
-            ->where('period_id', $currentPeriod->id)
-            ->first();
-        $promotions = \App\Models\Promotion::paginate();
-        $courses = \App\Models\Course::all();
-        $juries = \App\Models\Jury::all();
-        $students = \DB::table('promotion_student')
-            ->where('period', $currentPeriod->name)
-            ->where('status', 'en cours')
-            ->get();
-        $publishedResultByPromotion = 0;
-        foreach ($promotions as $promotion) {
-            $studentsByPromotion = $promotion
-                ->students()
-                ->wherePivot('promotion_id', $promotion->id)
-                ->wherePivot('period', $currentPeriod->name)
-                ->wherePivot('status', 'en cours')
-                ->get();
-            foreach ($studentsByPromotion as $student) {
-                $studentResult = \App\Models\Result::where('student_id', $student->id)
-                    ->where('result_session_id', $currentSession->id)
-                    ->first();
-                if ($studentResult) {
-                    $publishedResultByPromotion++;
-                }
-            }
 
-            $resultStatus =
-                \App\Models\ResultStatus::where('promotion_id', $promotion->id)
-                    ->where('session', $currentSession->id)
-                    ->first();
-            $promotion['resultStatus'] = $resultStatus;
-        }
     @endphp
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold">Vue d'ensemble</h1>
-            <button
-                class="block text-white dark:text-gray-900 bg-blue-700 dark:bg-gray-200 hover:bg-blue-800 dark:hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center"
-                type="button">
-                {{ $currentSession->name }} - {{ $currentPeriod->name }}
-            </button>
+            @if ($currentPeriod)
+                <button
+                    class="block text-white dark:text-gray-900 bg-blue-700 dark:bg-gray-200 hover:bg-blue-800 dark:hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center"
+                    type="button">
+                    {{ $currentSession->name - $currentPeriod->name }}
+                </button>
+            @endif
         </div>
     </x-slot>
     <div class="py-16 dark:text-white">
@@ -61,7 +29,7 @@
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex flex-col gap-2">
-                        <span class="text-4xl font-bold">{{ $students->count() }}</span>
+                        <span class="text-4xl font-bold">{{ $students ? $students->count() : 0 }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Etudiants</span>
                     </div>
                 </div>
@@ -121,8 +89,12 @@
                                         {{ $faculty->short_name }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $publishedResultByPromotion }}</td>
-                                    <td class="px-6 py-4 font-semibold">{{ $promotion->resultStatus ? $promotion->resultStatus->status->label() : 'Non publié' }}</td>
-                                    <td class="px-6 py-4 font-semibold">{{ $promotion->resultStatus ? \Carbon\Carbon::parse($promotion->resultStatus->updated_at)->translatedFormat('d F Y') : '-' }}</td>
+                                    <td class="px-6 py-4 font-semibold">
+                                        {{ $promotion->resultStatus ? $promotion->resultStatus->status->label() : 'Non publié' }}
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold">
+                                        {{ $promotion->resultStatus ? \Carbon\Carbon::parse($promotion->resultStatus->updated_at)->translatedFormat('d F Y') : '-' }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
