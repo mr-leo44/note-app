@@ -29,7 +29,7 @@
                             <path
                                 d="M12 14l6.16-3.422A12.083 12.083 0 0118 19.128M12 14l-6.16-3.422A12.083 12.083 0 006 19.128" />
                         </svg>
-                        <span class="ms-3">{{ __('Facultés') }}</span>
+                        <span class="ms-3">{{ __('Sections') }}</span>
                     </x-nav-link>
                 </li>
                 <li>

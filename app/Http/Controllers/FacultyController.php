@@ -26,7 +26,7 @@ class FacultyController extends Controller
             'short_name' => 'required|string|max:50|unique:faculties,short_name',
         ]);
         Faculty::create($validated);
-        return redirect()->back()->with('success', 'Faculté créée avec succès.');
+        return redirect()->back()->with('success', 'Section créée avec succès.');
     }
 
     /**
@@ -47,7 +47,7 @@ class FacultyController extends Controller
             'short_name' => 'required|string|max:50|unique:faculties,short_name,' . $faculty->id,
         ]);
         $faculty->update($validated);
-        return redirect()->back()->with('success', 'Faculté modifiée avec succès.');
+        return redirect()->back()->with('success', 'Section modifiée avec succès.');
     }
 
     /**
@@ -56,6 +56,6 @@ class FacultyController extends Controller
     public function destroy(Faculty $faculty)
     {
         $faculty->delete();
-        return redirect()->back()->with('success', 'Faculté supprimée avec succès.');
+        return redirect()->back()->with('success', 'Section supprimée avec succès.');
     }
 }

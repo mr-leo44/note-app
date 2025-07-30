@@ -1,4 +1,4 @@
-<!-- Modal d'édition pour une faculté -->
+<!-- Modal d'édition pour une section -->
 <div id="editFacultyModal-{{ $faculty->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full flex justify-center items-center">
     <div class="relative p-4 w-full max-w-md h-full md:h-auto">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -7,7 +7,7 @@
                 <span class="sr-only">Fermer</span>
             </button>
             <div class="p-6">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Modifier la faculté</h3>
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Modifier la section</h3>
                 <form method="POST" action="{{ route('faculties.update', $faculty) }}">
                     @csrf
                     @method('PUT')

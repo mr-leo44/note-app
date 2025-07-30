@@ -21,7 +21,7 @@
                         @error('short_name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
-                        <label for="faculty_id-{{ $department->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Faculté</label>
+                        <label for="faculty_id-{{ $department->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
                         <select name="faculty_id" id="faculty_id-{{ $department->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('faculty_id') border-red-500 @enderror" required>
                             @foreach(App\Models\Faculty::orderBy('name')->get() as $faculty)
                                 <option value="{{ $faculty->id }}" @if(old('faculty_id', $department->faculty_id) == $faculty->id) selected @endif>{{ $faculty->name }}</option>

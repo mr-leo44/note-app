@@ -40,7 +40,7 @@
                         <th scope="col" class="px-6 py-3">Nom</th>
                         <th scope="col" class="px-6 py-3">Nom court</th>
                         <th scope="col" class="px-6 py-3">Département</th>
-                        <th scope="col" class="px-6 py-3">Faculté</th>
+                        <th scope="col" class="px-6 py-3">Section</th>
                         <th scope="col" class="px-6 py-3">Nbre Etudiants</th>
                         <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>

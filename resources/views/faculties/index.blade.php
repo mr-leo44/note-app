@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des facultés</h1>
+            <h1 class="text-2xl font-bold">Liste des sections</h1>
             <button id="openModalBtn" data-modal-target="createFacultyModal" data-modal-toggle="createFacultyModal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button">
-                + Nouvelle faculté
+                + Nouvelle section
             </button>
         </div>
     </x-slot>
@@ -27,7 +27,7 @@
         @endif
     </div>
     @if ($faculties->isEmpty())
-        <div class="text-center text-gray-500 py-8">Aucune faculté enregistrée.</div>
+        <div class="text-center text-gray-500 py-8">Aucune section enregistrée.</div>
     @else
         <div class="overflow-x-auto" id="facultiesTableWrapper">
             <table id="facultiesTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

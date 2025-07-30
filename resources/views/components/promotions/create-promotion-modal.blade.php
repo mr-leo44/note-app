@@ -20,10 +20,10 @@
                         @error('short_name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
-                        <label for="faculty_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Faculté</label>
+                        <label for="faculty_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
                         <div class="relative">
                             <select name="faculty_id" id="faculty_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 appearance-none @error('faculty_id') border-red-500 @enderror" required>
-                                <option value="">Sélectionner une faculté</option>
+                                <option value="">Sélectionner une section</option>
                                 @foreach(App\Models\Faculty::orderBy('name')->get() as $faculty)
                                     <option value="{{ $faculty->id }}" @if(old('faculty_id') == $faculty->id) selected @endif>{{ $faculty->name }}</option>
                                 @endforeach

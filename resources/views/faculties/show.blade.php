@@ -46,7 +46,7 @@
     @endphp
 
     @if ($facultyDepartments->isEmpty())
-        <div class="text-center text-gray-500 py-8">Aucun département lié à cette faculté.</div>
+        <div class="text-center text-gray-500 py-8">Aucun département lié à cette section.</div>
     @else
         <div class="overflow-x-auto" id="facultyDepartmentsTableWrapper">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="facultyDepartmentsTable">

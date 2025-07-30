@@ -9,7 +9,7 @@
                 <svg class="mx-auto mb-4 text-red-600 w-12 h-12 dark:text-gray-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/>
                 </svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Êtes-vous sûr de vouloir supprimer cette faculté ?</h3>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Êtes-vous sûr de vouloir supprimer cette section ?</h3>
                 <form id="deleteFacultyForm" method="POST">
                     <input type="hidden" name="_method" value="DELETE" autocomplete="off">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" autocomplete="off">

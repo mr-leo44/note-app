@@ -6,7 +6,7 @@
                 <span class="sr-only">Fermer</span>
             </button>
             <div class="p-6">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Créer une nouvelle faculté</h3>
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Créer une nouvelle section</h3>
                 <form method="POST" action="{{ route('faculties.store') }}">
                     @csrf
                     <div class="mb-4">
