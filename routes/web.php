@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SessionController;
+use App\Models\DashboardController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -38,7 +39,6 @@ Route::get('/', function () {
             'user_id' => $user->id,
         ]);
     }
-    if($admin) return redirect()->route('dashboard');
     if (Auth::check()) {
         return redirect()->back();
     } else {
@@ -46,9 +46,7 @@ Route::get('/', function () {
     }
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'admin_only'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified', 'admin_only'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
