@@ -7,9 +7,9 @@
             <h1 class="text-2xl font-bold">Vue d'ensemble</h1>
             @if ($currentPeriod)
                 <button
-                    class="block text-white dark:text-gray-900 bg-sky-700 dark:bg-gray-200 hover:bg-sky-800 dark:hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-base px-5 py-2.5 text-center"
+                    class="block text-white dark:text-gray-900 bg-blue-700 dark:bg-gray-200 hover:bg-blue-800 dark:hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center"
                     type="button">
-                    {{ $currentSession->name - $currentPeriod->name }}
+                    @if ($currentSession) {{ $currentSession->name }} - @endif {{ $currentPeriod->name }}
                 </button>
             @endif
         </div>
