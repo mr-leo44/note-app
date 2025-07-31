@@ -14,15 +14,15 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+    <body class="font-sans text-gray-700 antialiased">
+        <div class="min-h-screen flex flex-col p-4 md:p-0 justify-center items-center bg-gray-100 dark:bg-gray-800">
             <div>
                 <a href="/">
-                    <img src="{{ asset('img/graduated-logo.png') }}" class="w-20 h-20" alt="">
+                    <img src="{{ asset('img/graduated-logo.png') }}" class="w-16 md:w-20 h-16 md:h-20" alt="">
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-lg mt-6 px-6 py-10 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-lg mt-6 px-6 py-10 rounded-md bg-white dark:bg-gray-800 shadow-lg overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
         </div>
