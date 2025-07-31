@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-    public function index()
-    {
-        $departments = Department::with('faculty')->orderBy('name')->paginate(10);
-        return view('departments.index', compact('departments'));
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
