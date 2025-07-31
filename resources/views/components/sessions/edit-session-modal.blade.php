@@ -14,7 +14,7 @@
                         <input type="checkbox" name="current" id="current-{{ $session->id }}" value="1" class="mr-2" {{ old('current', $session->current) ? 'checked' : '' }}>
                         <label for="current-{{ $session->id }}" class="text-sm text-gray-900 dark:text-white">En cours</label>
                     </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Enregistrer</button>
+                    <button type="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Enregistrer</button>
                 </form>
             </div>
         </div>

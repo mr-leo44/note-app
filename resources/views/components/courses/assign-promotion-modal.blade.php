@@ -13,7 +13,7 @@
                 @csrf
                 <div>
                     <label for="promotion_id-{{ $course->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Promotion</label>
-                    <select id="promotion_id-{{ $course->id }}" name="promotion_id" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    <select id="promotion_id-{{ $course->id }}" name="promotion_id" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required>
                         <option value="">Sélectionner une promotion</option>
                         @foreach(App\Models\Promotion::orderBy('name')->get() as $promotion)
                             <option value="{{ $promotion->id }}">{{ $promotion->name }}</option>
@@ -22,10 +22,10 @@
                 </div>
                 <div>
                     <label for="maxima-{{ $course->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maxima</label>
-                    <input type="number" step="0.01" min="0" max="100" id="maxima-{{ $course->id }}" name="maxima" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    <input type="number" step="0.01" min="0" max="100" id="maxima-{{ $course->id }}" name="maxima" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Assigner</button>
+                    <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded">Assigner</button>
                 </div>
             </form>
         </div>

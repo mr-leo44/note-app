@@ -17,7 +17,7 @@
             @foreach ($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
                 @if ($page == $paginator->currentPage())
                     <li>
-                        <span class="px-3 py-2 leading-tight text-blue-600 bg-blue-50 border border-blue-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white">{{ $page }}</span>
+                        <span class="px-3 py-2 leading-tight text-sky-600 bg-sky-50 border border-sky-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white">{{ $page }}</span>
                     </li>
                 @else
                     <li>

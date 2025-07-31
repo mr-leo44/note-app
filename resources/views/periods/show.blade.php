@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <a href="{{ url()->previous() }}"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -13,7 +13,7 @@
             </div>
             @if ($sessions->count() < count(App\Enums\ResultSession::cases()))
                 <button id="openModalBtn" data-modal-target="createSessionModal" data-modal-toggle="createSessionModal"
-                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     type="button">
                     + Nouvelle session
                 </button>
@@ -62,7 +62,7 @@
                             <td class="px-6 py-4 font-semibold">{{ $session->period->name }}</td>
                             <td class="px-6 py-4 font-semibold">{{ $session->current ? 'En cours' : 'Ecoulé' }}</td>
                             <td class="px-6 py-4 flex gap-2">
-                                <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
+                                <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                                     title="Modifier" data-session-id="{{ $session->id }}"
                                     data-modal-target="editSessionModal-{{ $session->id }}"
                                     data-modal-toggle="editSessionModal-{{ $session->id }}">

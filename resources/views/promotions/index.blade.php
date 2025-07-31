@@ -5,7 +5,7 @@
                         @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
 
             <button id="openModalBtn" data-modal-target="createPromotionModal" data-modal-toggle="createPromotionModal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button">
                 + Nouvelle promotion
             </button>
@@ -66,7 +66,7 @@
                                     class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
                                     <x-icons.eye />
                                 </a>
-                                <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
+                                <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                                     title="Modifier" data-promotion-id="{{ $promotion->id }}"
                                     data-modal-target="editPromotionModal-{{ $promotion->id }}"
                                     data-modal-toggle="editPromotionModal-{{ $promotion->id }}">

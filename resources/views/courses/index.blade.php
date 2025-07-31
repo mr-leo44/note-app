@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold">Liste des cours</h1>
             <button id="openModalBtn" data-modal-target="createCourseModal" data-modal-toggle="createCourseModal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button">
                 + Nouveau cours
             </button>
@@ -51,7 +51,7 @@
                                     data-modal-toggle="showCourseModal-{{ $course->id }}">
                                     <x-icons.eye />
                                 </button>
-                                <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
+                                <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                                     title="Modifier" data-course-id="{{ $course->id }}"
                                     data-modal-target="editCourseModal-{{ $course->id }}"
                                     data-modal-toggle="editCourseModal-{{ $course->id }}">

@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold">Liste des périodes</h1>
             <button id="openModalBtn" data-modal-target="createPeriodModal" data-modal-toggle="createPeriodModal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button">
                 + Nouvelle période
             </button>
@@ -52,7 +52,7 @@
                                 <a href="{{ route('periods.show', $period->id) }}" class="bg-gray-100 p-1.5 rounded" title="Voir">
                                     <x-icons.eye />
                                 </a>
-                                <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
+                                <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                                     title="Modifier" data-period-id="{{ $period->id }}"
                                     data-modal-target="editPeriodModal-{{ $period->id }}"
                                     data-modal-toggle="editPeriodModal-{{ $period->id }}">

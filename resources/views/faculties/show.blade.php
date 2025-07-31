@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <a href="{{ url()->previous() }}"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -12,7 +12,7 @@
                 <h1 class="text-2xl font-bold">{{ $faculty->name }}</h1>
             </div>
             <button type="button"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
+                class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
                 data-modal-target="createDepartmentModal" data-modal-toggle="createDepartmentModal">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5">
@@ -70,7 +70,7 @@
                                     class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
                                     <x-icons.eye />
                                 </a>
-                                <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded"
+                                <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                                     title="Modifier" data-department-id="{{ $department->id }}"
                                     data-modal-target="editDepartmentModal-{{ $department->id }}"
                                     data-modal-toggle="editDepartmentModal-{{ $department->id }}">

@@ -13,17 +13,17 @@
                     @method('PUT')
                     <div class="mb-4">
                         <label for="name-{{ $student->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>
-                        <input type="text" name="name" id="name-{{ $student->id }}" value="{{ old('name', $student->name) }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-500 @enderror" required>
+                        <input type="text" name="name" id="name-{{ $student->id }}" value="{{ old('name', $student->name) }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('name') border-red-500 @enderror" required>
                         @error('name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="matricule-{{ $student->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Matricule</label>
-                        <input type="text" name="matricule" id="matricule-{{ $student->id }}" value="{{ old('matricule', $student->matricule) }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('matricule') border-red-500 @enderror" required>
+                        <input type="text" name="matricule" id="matricule-{{ $student->id }}" value="{{ old('matricule', $student->matricule) }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('matricule') border-red-500 @enderror" required>
                         @error('matricule')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="promotion_id-{{ $student->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Promotion</label>
-                        <select name="promotion_id" id="promotion_id-{{ $student->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('promotion_id') border-red-500 @enderror" required>
+                        <select name="promotion_id" id="promotion_id-{{ $student->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('promotion_id') border-red-500 @enderror" required>
                             <option value="">Sélectionner une promotion</option>
                             @foreach(App\Models\Promotion::orderBy('name')->get() as $promotion)
                                 <option value="{{ $promotion->id }}" {{ old('promotion_id', $student->pivot->promotion_id) == $promotion->id ? 'selected' : '' }}>
@@ -33,7 +33,7 @@
                         </select>
                         @error('promotion_id')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Modifier</button>
+                    <button type="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Modifier</button>
                 </form>
             </div>
         </div>

@@ -17,11 +17,11 @@
                     <div class="flex justify-between items-center gap-4">
                         <div class="mb-4 w-[50%]">
                             <label for="current" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Année Académique</label>
-                            <input type="text" name="current" id="current" value="{{ old('current', $currentPeriod->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
+                            <input type="text" name="current" id="current" value="{{ old('current', $currentPeriod->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" disabled>
                         </div>
                         <div class="mb-4 w-[50%]">
                             <label for="session" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Session</label>
-                            <input type="text" name="session" id="session" value="{{ old('session', $currentSession->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
+                            <input type="text" name="session" id="session" value="{{ old('session', $currentSession->name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" disabled>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -38,12 +38,12 @@
                                         $studentResult = \App\Models\Result::where('student_id', $student->id)->where('result_session_id', $currentSession->id)->first();
                                     @endphp
                                     <label for="note-{{ $index }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $course->name }}</label>
-                                    <input type="number" min="1" max="{{ $maxima }}" name="notes[][{{ $course->name }}]" placeholder="entre 1 et {{ $maxima }}" value="{{ $studentResult['notes'][$course->name] ?? '' }}" id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('notes.' . $course->name) border-red-500 @enderror">
+                                    <input type="number" min="1" max="{{ $maxima }}" name="notes[][{{ $course->name }}]" placeholder="entre 1 et {{ $maxima }}" value="{{ $studentResult['notes'][$course->name] ?? '' }}" id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('notes.' . $course->name) border-red-500 @enderror">
                                 </div>
                             @endforeach
                             </div>
                     </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Enregistrer</button>
+                    <button type="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Enregistrer</button>
                 </form>
             </div>
         </div>

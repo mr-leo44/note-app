@@ -11,18 +11,18 @@
                     @csrf
                     <div class="mb-4">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-500 @enderror" required>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('name') border-red-500 @enderror" required>
                         @error('name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="short_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom court</label>
-                        <input type="text" name="short_name" id="short_name" value="{{ old('short_name') }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('short_name') border-red-500 @enderror" required>
+                        <input type="text" name="short_name" id="short_name" value="{{ old('short_name') }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('short_name') border-red-500 @enderror" required>
                         @error('short_name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="faculty_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
                         <div class="relative">
-                            <select name="faculty_id" id="faculty_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 appearance-none @error('faculty_id') border-red-500 @enderror" required>
+                            <select name="faculty_id" id="faculty_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 pr-10 appearance-none @error('faculty_id') border-red-500 @enderror" required>
                                 <option value="">Sélectionner une section</option>
                                 @foreach(App\Models\Faculty::orderBy('name')->get() as $faculty)
                                     <option value="{{ $faculty->id }}" @if(old('faculty_id') == $faculty->id) selected @endif>{{ $faculty->name }}</option>
@@ -37,7 +37,7 @@
                     <div class="mb-4">
                         <label for="department_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Département</label>
                         <div class="relative">
-                            <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 appearance-none @error('department_id') border-red-500 @enderror" required data-departments='@json(App\Models\Department::query()->select(["id","name","faculty_id"])->orderBy("name")->get())' data-old="{{ old('department_id') }}">
+                            <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 pr-10 appearance-none @error('department_id') border-red-500 @enderror" required data-departments='@json(App\Models\Department::query()->select(["id","name","faculty_id"])->orderBy("name")->get())' data-old="{{ old('department_id') }}">
                                 <option value="">Sélectionner un département</option>
                                 {{-- Les options seront injectées dynamiquement par JS --}}
                             </select>
@@ -47,7 +47,7 @@
                         </div>
                         @error('department_id')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Créer</button>
+                    <button type="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Créer</button>
                 </form>
                 @push('scripts')
                 <script src="/js/components/create-promotion-modal.js"></script>

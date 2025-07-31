@@ -11,7 +11,7 @@
             </div>
             <div class="p-6 space-y-4">
                 <div class="flex items-center justify-end mb-2">
-                    <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded flex items-center gap-2" data-modal-target="assignPromotionModal-{{ $course->id }}" data-modal-toggle="assignPromotionModal-{{ $course->id }}">
+                    <button type="button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-1 px-3 rounded flex items-center gap-2" data-modal-target="assignPromotionModal-{{ $course->id }}" data-modal-toggle="assignPromotionModal-{{ $course->id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
@@ -33,7 +33,7 @@
                                     <td class="px-4 py-2 font-semibold">{{ $promotion->name }}</td>
                                     <td class="px-4 py-2">{{ $promotion->pivot->maxima ?? '-' }}</td>
                                     <td class="px-4 py-2 flex gap-2">
-                                        <button type="button" class="bg-blue-100 hover:bg-blue-200 p-1.5 rounded" title="Modifier le maxima" data-modal-target="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}" data-modal-toggle="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}">
+                                        <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded" title="Modifier le maxima" data-modal-target="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}" data-modal-toggle="editMaximaModal-{{ $course->id }}-{{ $promotion->id }}">
                                             <x-icons.pencil-square />
                                         </button>
                                         <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded" title="Retirer la promotion" data-modal-target="deletePromotionModal-{{ $course->id }}-{{ $promotion->id }}" data-modal-toggle="deletePromotionModal-{{ $course->id }}-{{ $promotion->id }}">
@@ -54,7 +54,7 @@
                 <x-courses.assign-promotion-modal :course="$course" />
             </div>
             <div class="flex justify-end p-4 border-t border-gray-200 rounded-b dark:border-gray-700">
-                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-modal-hide="showCourseModal-{{ $course->id }}">
+                <button type="button" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" data-modal-hide="showCourseModal-{{ $course->id }}">
                     Fermer
                 </button>
             </div>
