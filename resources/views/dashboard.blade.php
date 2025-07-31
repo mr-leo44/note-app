@@ -1,24 +1,18 @@
 <x-app-layout>
-    @php
-
-    @endphp
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Vue d'ensemble</h1>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Vue d'ensemble</h1>
             @if ($currentPeriod)
-                <button
-                    class="block text-white dark:text-gray-900 bg-blue-700 dark:bg-gray-200 hover:bg-blue-800 dark:hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center"
-                    type="button">
+                <span class="inline-flex items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
                     @if ($currentSession) {{ $currentSession->name }} - @endif {{ $currentPeriod->name }}
-                </button>
+                </span>
             @endif
         </div>
     </x-slot>
-    <div class="py-16 dark:text-white">
-
-        <div class="my-4">
+    <div class="py-4 md:py-16 dark:text-white">
+        <div class="my-6">
             <h3 class="text-2xl font-semibold mb-4">Statistiques</h3>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid md:grid-cols-4 gap-4">
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex flex-col gap-2">
