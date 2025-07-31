@@ -1,11 +1,11 @@
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 px-4">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
-        <div class="flex items-center justify-between ">
-            <div class="flex items-center justify-start rtl:justify-end">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start rtl:justify-end gap-3">
                 <a href="{{ route('dashboard') }}" class="flex md:me-24">
                     <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     <span
-                        class="self-center ms-2 text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Note
+                        class="self-center ms-2 text-md md:text-xl font-semibold whitespace-nowrap dark:text-white">Note
                         App</span>
                 </a>
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
