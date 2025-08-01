@@ -65,7 +65,7 @@
                         <td class="px-6 py-4 font-semibold">{{ $promotion->name }}</td>
                         <td class="px-6 py-4">{{ $promotion->short_name }}</td>
                         <td class="px-6 py-4">{{ $promotion->students()->count() }}</td>
-                        <td class="px-6 py-4">{{ $jury->name }}</td>
+                        <td class="px-6 py-4">{{ $jury ? $jury->name : __('-') }}</td>
                         <td class="px-6 py-4 flex gap-2">
                                 <a href="{{ route('promotions.show', $promotion) }}"
                                 class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
