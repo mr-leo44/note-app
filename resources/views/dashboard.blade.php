@@ -14,28 +14,28 @@
             <h3 class="text-2xl font-semibold mb-4">Statistiques</h3>
             <div class="grid md:grid-cols-4 gap-4">
                 <div
-                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $promotions->count() }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Promotion @if($promotions->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
-                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $students ? $students->count() : 0 }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Etudiant @if($students->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
-                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $juries->count() }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Jury @if($juries->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
-                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $courses->count() }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Cours</span>
