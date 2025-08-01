@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center py-2">
             <div class="flex items-center gap-2">
-                <a href="{{ route('faculties.show', $department->faculty) }}"
+                <a href="{{ route('sections.show', $department->faculty) }}"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
