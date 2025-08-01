@@ -32,8 +32,9 @@ class FacultyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Faculty $faculty)
+    public function show(Faculty $section)
     {
+        $faculty = $section;
         return view('faculties.show', compact('faculty'));
     }
 
