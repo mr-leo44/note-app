@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @PwaHead
     </head>
     <body class="font-sans text-gray-700 antialiased">
         <div class="min-h-screen flex flex-col p-4 md:p-0 justify-center items-center bg-gray-100 dark:bg-gray-800">
@@ -26,5 +27,6 @@
                 {{ $slot }}
             </div>
         </div>
+        @RegisterServiceWorkerScript
     </body>
 </html>
