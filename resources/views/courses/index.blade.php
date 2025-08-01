@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des cours</h1>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Liste des cours</h1>
             <button id="openModalBtn" data-modal-target="createCourseModal" data-modal-toggle="createCourseModal"
                 class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                type="button">
-                + Nouveau cours
+                type="button" title="Ajouter un cours">
+                + <span class="hidden md:inline">Nouveau cours</span>
             </button>
         </div>
     </x-slot>
