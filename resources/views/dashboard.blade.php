@@ -17,21 +17,21 @@
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $promotions->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Promotions</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">Promotion @if($promotions->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $students ? $students->count() : 0 }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Etudiants</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">Etudiant @if($students->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $juries->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Jurys</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">Jury @if($juries->count() > 1)s @endif</span>
                     </div>
                 </div>
                 <div
@@ -41,7 +41,6 @@
                         <span class="text-base text-gray-600 dark:text-gray-400">Cours</span>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -84,10 +83,10 @@
                                     <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $publishedResultByPromotion }}</td>
                                     <td class="px-6 py-4 font-semibold">
-                                        {{ $promotion->resultStatus ? $promotion->resultStatus->status->label() : 'Non publié' }}
+                                        {{  $promotion->statusOfResult?->status->label() ??'Non publié' }}
                                     </td>
-                                    <td class="px-6 py-4 font-semibold">
-                                        {{ $promotion->resultStatus ? \Carbon\Carbon::parse($promotion->resultStatus->updated_at)->translatedFormat('d F Y') : '-' }}
+                                    <td class="px-6 py-4 font-semibold text-center">
+                                        {{ $promotion->statusOfResult?->updated_at->diffForHumans() ?? '-' }}
                                     </td>
                                 </tr>
                             @endforeach
