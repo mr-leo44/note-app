@@ -1,14 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des promotions</h1>
-                        @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
-
-            <button id="openModalBtn" data-modal-target="createPromotionModal" data-modal-toggle="createPromotionModal"
-                class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                type="button">
-                + Nouvelle promotion
-            </button>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Liste des promotions</h1>
+            @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
+                <button id="openModalBtn" data-modal-target="createPromotionModal" data-modal-toggle="createPromotionModal"
+                    class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    type="button" title="Ajouter une promotion">
+                    + <span class="hidden md:inline">Nouvelle promotion</span>
+                </button>
             @endif
         </div>
     </x-slot>
@@ -47,10 +46,10 @@
                 </thead>
                 <tbody>
                     @foreach ($promotions as $promotion)
-                    @php
-                        $department = $promotion->department;
-                        $faculty = \App\Models\Faculty::find($department->faculty_id);
-                    @endphp
+                        @php
+                            $department = $promotion->department;
+                            $faculty = \App\Models\Faculty::find($department->faculty_id);
+                        @endphp
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition">
                             <td class="px-6 py-4">
@@ -75,8 +74,7 @@
                                 <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded"
                                     title="Supprimer" data-promotion-id="{{ $promotion->id }}"
                                     data-action-url="{{ route('promotions.destroy', $promotion) }}"
-                                    data-modal-target="deletePromotionModal"
-                                    data-modal-toggle="deletePromotionModal">
+                                    data-modal-target="deletePromotionModal" data-modal-toggle="deletePromotionModal">
                                     <x-icons.trash />
                                 </button>
                                 <x-promotions.edit-promotion-modal :promotion="$promotion" :departments="$promotions->pluck('department')->unique('id')->filter()->values()" />

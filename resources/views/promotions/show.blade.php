@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center py-2">
             <div class="flex items-center gap-2">
                 <a href="{{ route('promotions.index') }}"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Retour
+                    <span class="hidden md:inline">Retour</span>
                 </a>
-                <h1 class="text-2xl font-bold">{{ $promotion->name }}</h1>
+                <h1 class="text-base md:text-2xl font-bold">{{ $promotion->name }}</h1>
             </div>
             @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
                 <button id="openModalBtn" data-modal-target="createStudentModal" data-modal-toggle="createStudentModal"
-                    class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    type="button">
-                    + Nouvel Etudiant
+                    class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    title="Ajouter un nouvel étudiant">
+                    + <span class="hidden md:inline">Nouvel étudiant</span>
                 </button>
             @endif
         </div>
@@ -144,80 +144,80 @@
                 </tbody>
             </table>
         </div>
-        <x-students.create-student :promotion="$promotion" />
-    @endif
-    @push('scripts')
-        @vite(['resources/js/app.js'])
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                let DataTableClass = window.DataTable && (window.DataTable.DataTable || window.DataTable.default ||
-                    window.DataTable);
-                if (DataTableClass) {
-                    const dt = new DataTableClass('#promotionStudentsTable', {
-                        searchable: true,
-                        sortable: true,
-                        labels: {
-                            placeholder: "Recherche...",
-                            perPage: "par page",
-                            perPageSelect: "Afficher",
-                            noRows: "Aucun étudiant trouvé.",
-                            info: "Affichage de {start} à {end} sur {rows} entrées",
-                            loading: "Chargement...",
-                            infoFiltered: "(filtré à partir de {rows} entrées)",
-                            first: "Premier",
-                            last: "Dernier",
-                            prev: "Précédent",
-                            next: "Suivant"
-                        }
-                    });
-                }
-            });
-
-            function publishResult(studentId, currentResultId, studentName) {
-                fetch(`/students/${studentId}/results/${currentResultId}/publish`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({})
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        location.reload();
-                        const alert = document.createElement('div');
-                        alert.className =
-                            'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-sky-100 border border-sky-300 text-sky-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
-                        alert.innerHTML = `
-                        <svg class='w-5 h-5 text-sky-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
-                        <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
-                        <button type="button" class="ml-4 text-sky-800 hover:text-sky-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                            `;
-                        document.body.appendChild(alert);
-                        setTimeout(() => {
-                            if (document.body.contains(alert)) alert.remove();
-                        }, 3000);
-                    })
-                    .catch(() => {
-                        const errorAlert = document.createElement('div');
-                        errorAlert.className =
-                            'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-400 border border-red-300 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
-                        errorAlert.innerHTML = `
-                            <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
-                            <span>Erreur lors de la publication des résultats pour la session en cours</span>
-                            <button type="button" class="ml-4 text-white focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
+        @push('scripts')
+            @vite(['resources/js/app.js'])
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    let DataTableClass = window.DataTable && (window.DataTable.DataTable || window.DataTable.default ||
+                        window.DataTable);
+                    if (DataTableClass) {
+                        const dt = new DataTableClass('#promotionStudentsTable', {
+                            searchable: true,
+                            sortable: true,
+                            labels: {
+                                placeholder: "Recherche...",
+                                perPage: "par page",
+                                perPageSelect: "Afficher",
+                                noRows: "Aucun étudiant trouvé.",
+                                info: "Affichage de {start} à {end} sur {rows} entrées",
+                                loading: "Chargement...",
+                                infoFiltered: "(filtré à partir de {rows} entrées)",
+                                first: "Premier",
+                                last: "Dernier",
+                                prev: "Précédent",
+                                next: "Suivant"
+                            }
+                        });
+                    }
+                });
+    
+                function publishResult(studentId, currentResultId, studentName) {
+                    fetch(`/students/${studentId}/results/${currentResultId}/publish`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            location.reload();
+                            const alert = document.createElement('div');
+                            alert.className =
+                                'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-sky-100 border border-sky-300 text-sky-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
+                            alert.innerHTML = `
+                            <svg class='w-5 h-5 text-sky-600' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
+                            <span>Les résultats pour la session en cours de l'étudiant <b>${studentName}</b> ont été publié avec succès</span>
+                            <button type="button" class="ml-4 text-sky-800 hover:text-sky-900 focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        `;
-                        document.body.appendChild(errorAlert);
-                        setTimeout(() => {
-                            if (document.body.contains(errorAlert)) errorAlert.remove();
-                        }, 3000);
-                    });
-            }
-        </script>
-    @endpush
+                                </button>
+                                `;
+                            document.body.appendChild(alert);
+                            setTimeout(() => {
+                                if (document.body.contains(alert)) alert.remove();
+                            }, 3000);
+                        })
+                        .catch(() => {
+                            const errorAlert = document.createElement('div');
+                            errorAlert.className =
+                                'fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-red-400 border border-red-300 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2';
+                            errorAlert.innerHTML = `
+                                <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z' /></svg>
+                                <span>Erreur lors de la publication des résultats pour la session en cours</span>
+                                <button type="button" class="ml-4 text-white focus:outline-none" aria-label="Fermer" onclick="this.closest('div').remove()">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            `;
+                            document.body.appendChild(errorAlert);
+                            setTimeout(() => {
+                                if (document.body.contains(errorAlert)) errorAlert.remove();
+                            }, 3000);
+                        });
+                }
+            </script>
+        @endpush
+    @endif
+    <x-students.create-student :promotion="$promotion" />
 </x-app-layout>
