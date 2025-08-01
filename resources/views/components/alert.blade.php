@@ -17,7 +17,7 @@
 @endphp
 <div class="{{ $classes }} fixed top-6 left-1/2 transform -translate-x-1/2 z-50" x-data="{ show: true }" x-show="show" role="alert" id="alert">
     {!! $icon !!}
-    <span class="text-sm font-medium flex-1">
+    <span class="text-xs md:text-sm font-medium flex-1">
         {{ $slot }}
     </span>
     <button type="button" @click="show = false" class="ml-4 text-inherit hover:text-black focus:outline-none" aria-label="Fermer">
