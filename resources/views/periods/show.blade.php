@@ -1,22 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center py-2">
             <div class="flex items-center gap-2">
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('periods.index') }}"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Retour
+                    <span class="hidden md:inline">Retour</span>
                 </a>
-            <h1 class="text-2xl font-bold">Periode de l'année {{ $period->name }}</h1>
+                <h1 class="text-base md:text-2xl font-bold">Periode de l'année {{ $period->name }}</h1>
             </div>
             @if ($sessions->count() < count(App\Enums\ResultSession::cases()))
                 <button id="openModalBtn" data-modal-target="createSessionModal" data-modal-toggle="createSessionModal"
                     class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    type="button">
-                    + Nouvelle session
-                </button>
+                    type="button" title="Ajouter une nouvelle session">
+                + <span class="hidden md:inline">Nouvelle session</span>
+            </button>
             @endif
         </div>
     </x-slot>

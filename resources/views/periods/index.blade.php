@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des périodes</h1>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Liste des périodes</h1>
             <button id="openModalBtn" data-modal-target="createPeriodModal" data-modal-toggle="createPeriodModal"
                 class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                type="button">
-                + Nouvelle période
+                type="button" title="Ajouter une période">
+                + <span class="hidden md:inline">Nouvelle période</span>
             </button>
         </div>
     </x-slot>
