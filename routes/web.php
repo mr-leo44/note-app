@@ -15,7 +15,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SessionController;
-use App\Models\DashboardController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
