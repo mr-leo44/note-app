@@ -4,14 +4,14 @@
         $completeResultsExists = \App\Models\ResultStatus::where('status', 'complete')->exists();
     @endphp
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des publications</h1>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Liste des publications</h1>
             @if ($isAdmin && $completeResultsExists)
                 <button type="button" title="Publier Résultats en ligne"
-                    class="flex items-center gap-2 text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    onclick="onlinePublishResults()" >
-                    <span class="text-md">Publier les résultats</span>
+                    class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" title="Publier les résultats en ligne"
+                    onclick="onlinePublishResults()">
                     <x-icons.check-circle />
+                    <span class="hidden md:inline text-sm md:text-base">Publier les résultats</span>
                 </button>
             @endif
         </div>
