@@ -8,7 +8,7 @@
             </button>
             <div class="p-6">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Modifier la section</h3>
-                <form method="POST" action="{{ route('faculties.update', $faculty) }}">
+                <form method="POST" action="{{ route('sections.update', $faculty) }}">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">

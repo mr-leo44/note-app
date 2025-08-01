@@ -21,7 +21,7 @@
                     </x-nav-link>
                 </li>
                 <li>
-                    <x-nav-link :href="route('faculties.index')" :active="request()->routeIs('faculties.*')">
+                    <x-nav-link :href="route('sections.index')" :active="request()->routeIs('sections.*')">
                         {{-- Faculty icon --}}
                         <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
