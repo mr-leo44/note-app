@@ -1,24 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center py-2">
             <div class="flex items-center gap-2">
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('sections.index') }}"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-sky-700 bg-sky-100 hover:bg-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Retour
+                    <span class="hidden md:inline">Retour</span>
                 </a>
-                <h1 class="text-2xl font-bold">{{ $faculty->name }}</h1>
+                <h1 class="text-base md:text-2xl font-bold">{{ $faculty->name }}</h1>
             </div>
             <button type="button"
-                class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
-                data-modal-target="createDepartmentModal" data-modal-toggle="createDepartmentModal">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                Ajouter
+                class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                data-modal-target="createDepartmentModal" data-modal-toggle="createDepartmentModal" title="Ajouter un département">
+                + <span class="hidden md:inline">Ajouter un département</span>
             </button>
         </div>
     </x-slot>

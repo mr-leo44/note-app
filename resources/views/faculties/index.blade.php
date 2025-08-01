@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Liste des sections</h1>
+        <div class="flex justify-between items-center py-2">
+            <h1 class="text-base md:text-2xl font-bold">Liste des sections</h1>
             <button id="openModalBtn" data-modal-target="createFacultyModal" data-modal-toggle="createFacultyModal"
                 class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                type="button">
-                + Nouvelle section
+                type="button" title="Ajouter un cours">
+                + <span class="hidden md:inline">Nouvealle section</span>
             </button>
         </div>
     </x-slot>
@@ -49,7 +49,7 @@
                             <td class="px-6 py-4 font-semibold">{{ $faculty->name }}</td>
                             <td class="px-6 py-4">{{ $faculty->short_name }}</td>
                             <td class="px-6 py-4 flex gap-2">
-                                <a href="{{ route('faculties.show', $faculty) }}"
+                                <a href="{{ route('sections.show', $faculty) }}"
                                     class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
                                     <x-icons.eye />
                                 </a>
@@ -61,7 +61,7 @@
                                 </button>
                                 <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded"
                                     title="Supprimer" data-faculty-id="{{ $faculty->id }}"
-                                    data-action-url="{{ route('faculties.destroy', $faculty) }}"
+                                    data-action-url="{{ route('sections.destroy', $faculty) }}"
                                     data-modal-target="deleteFacultyModal" data-modal-toggle="deleteFacultyModal">
                                     <x-icons.trash />
                                 </button>
