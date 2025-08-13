@@ -37,7 +37,10 @@
                     <div class="mb-4">
                         <label for="department_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Département</label>
                         <div class="relative">
-                            <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 pr-10 appearance-none @error('department_id') border-red-500 @enderror" required data-departments='@json(App\Models\Department::query()->select(["id","name","faculty_id"])->orderBy("name")->get())' data-old="{{ old('department_id') }}">
+                            @php
+                                $departments = App\Models\Department::query()->select(["id","name","faculty_id"])->orderBy("name")->get();
+                            @endphp
+                            <select name="department_id" id="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 pr-10 appearance-none @error('department_id') border-red-500 @enderror" required data-departments="{{ json_encode($departments) }}" data-old="{{ old('department_id') }}">
                                 <option value="">Sélectionner un département</option>
                                 {{-- Les options seront injectées dynamiquement par JS --}}
                             </select>

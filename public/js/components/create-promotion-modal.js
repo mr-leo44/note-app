@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Store all departments in a data attribute as JSON
     const allDepartments = JSON.parse(departmentSelect.dataset.departments || '[]');
 
-    function filterDepartments() {
+function filterDepartments() {
         const facultyId = facultySelect.value;
         departmentSelect.innerHTML = '<option value="">Sélectionner un département</option>';
         allDepartments.filter(dep => dep.faculty_id == facultyId).forEach(dep => {
@@ -27,5 +27,5 @@ document.addEventListener('DOMContentLoaded', function () {
         if (oldDepartmentId) {
             departmentSelect.value = oldDepartmentId;
         }
-    }
+    }    
 });
