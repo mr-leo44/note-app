@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\ResultSession;
+use App\Models\Semester;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,8 +13,8 @@ class Period extends Model
         'current',
     ];
 
-    public function resultSessions(): HasMany
+    public function semesters(): HasMany
     {
-        return $this->hasMany(ResultSession::class);
+        return $this->hasMany(Semester::class);
     }
 }
