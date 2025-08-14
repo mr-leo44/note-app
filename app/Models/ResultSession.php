@@ -17,7 +17,7 @@ class ResultSession extends Model
         'name',
         'short_name',
         'current',
-        'period_id',
+        'semester_id',
     ];
 
     public function semester(): BelongsTo
