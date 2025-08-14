@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Period;
 use Illuminate\Http\Request;
 use App\Models\ResultSession;
+use App\Models\Semester;
 
 class PeriodController extends Controller
 {
@@ -16,8 +17,8 @@ class PeriodController extends Controller
 
     public function show(Period $period)
     {
-        $sessions = ResultSession::where('period_id', $period->id)->orderByDesc('name')->paginate(15);
-        return view('periods.show', compact(['period', 'sessions']));
+        $semesters = Semester::where('period_id', $period->id)->orderByDesc('name')->paginate(15);
+        return view('periods.show', compact(['period', 'semesters']));
     }
 
     public function store(Request $request)
