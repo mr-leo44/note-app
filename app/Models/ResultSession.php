@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Period;
+use App\Models\Semester;
 use App\Models\Result;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,9 +20,9 @@ class ResultSession extends Model
         'period_id',
     ];
 
-    public function period(): BelongsTo
+    public function semester(): BelongsTo
     {
-        return $this->belongsTo(Period::class);
+        return $this->belongsTo(Semester::class);
     }
 
     public function results(): HasMany
