@@ -16,6 +16,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SemesterController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -65,7 +66,8 @@ Route::middleware(['auth', 'admin_only'])->group(function () {
     Route::post('juries/{jury}/reset-password', [JuryController::class, 'resetPassword'])->name('juries.resetPassword');
     Route::resource('juries', JuryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('periods', PeriodController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-    Route::resource('sessions', SessionController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('semesters', SemesterController::class)->only(['show', 'store', 'update', 'destroy']);
+    Route::resource('sessions', SessionController::class)->only(['store', 'update', 'destroy']);
     Route::post('courses/{course}/assign-promotion', [CourseController::class, 'assignPromotion'])->name('courses.assignPromotion');
     Route::put('courses/{course}/promotions/{promotion}/maxima', [CourseController::class, 'updateMaxima'])->name('courses.updateMaxima');
     Route::delete('courses/{course}/promotions/{promotion}', [CourseController::class, 'detachPromotion'])->name('courses.detachPromotion');
