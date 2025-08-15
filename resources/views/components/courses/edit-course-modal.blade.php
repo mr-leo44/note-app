@@ -15,6 +15,15 @@
                         <input type="text" name="name" id="name-{{ $course->id }}" value="{{ old('name', $course->name) }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('name') border-red-500 @enderror" required>
                         @error('name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                     </div>
+                    <div class="mb-4">
+                        <label for="course_category_id-{{ $course->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
+                        <select name="course_category_id" id="course_category_id-{{ $course->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('course_category_id') border-red-500 @enderror" required>
+                            @foreach(App\Models\CourseCategory::orderBy('name')->get() as $category)
+                                <option value="{{ $category->id }}" @if(old('course_category_id', $course->course_category_id) == $category->id) selected @endif>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('course_category_id')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
+                    </div>
                     <button type="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Enregistrer</button>
                 </form>
             </div>
