@@ -6,7 +6,7 @@
                 <span class="sr-only">Fermer</span>
             </button>
             <div class="p-6">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Créer une nouvelle période</h3>
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Créer un nouveau semestre</h3>
                 <form method="POST" action="{{ route('semesters.store') }}">
                     @csrf
                     <div class="mb-4">
