@@ -41,8 +41,8 @@
     </div>
     @php
         $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
-        $currentPeriod = \App\Models\Period::where('current', true)->first();
-        $sessions = \App\Models\ResultSession::where('period_id', $currentPeriod->id)->get() ?? null;
+        $currentSemester = \App\Models\Semester::where('current', true)->first();
+        $sessions = \App\Models\ResultSession::where('semester_id', $currentSemester->id)->get() ?? null;
         $currentSession = \App\Models\ResultSession::where('current', true)->first();
     @endphp
     @if ($students->isEmpty())
