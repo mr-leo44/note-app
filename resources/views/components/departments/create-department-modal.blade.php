@@ -1,3 +1,4 @@
+@props(['faculty' => null])
 <div id="createDepartmentModal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full flex justify-center items-center">
     <div class="relative p-4 w-full max-w-md h-full md:h-auto">
@@ -39,8 +40,23 @@
                             <span class="text-red-600 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
-                    <input class="mb-4" type="hidden" name="faculty_id" id="faculty_id" value="{{ $faculty->id }}">
-                    
+                    @if ($faculty && $faculty !== null)
+                        <input class="mb-4" type="hidden" name="faculty_id" id="faculty_id"
+                            value="{{ $faculty->id }}">
+                    @else
+                        <div class="mb-4">
+                            <label for="faculty_id"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
+                            <select id="faculty_id" name="faculty_id"
+                                class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
+                                required>
+                                <option value="">Sélectionner une section</option>
+                                @foreach (App\Models\Faculty::orderBy('name')->get() as $section)
+                                    <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <button type="submit"
                         class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Créer</button>
                 </form>
