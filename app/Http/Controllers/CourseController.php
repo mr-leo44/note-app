@@ -17,6 +17,7 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:courses,name',
+            'course_category_id' => 'required|exists:course_categories,id',
         ]);
         Course::create($validated);
         return redirect()->back()->with('success', 'Cours créé avec succès.');
