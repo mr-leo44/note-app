@@ -23,11 +23,13 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'matricule' => 'required|string|max:255|unique:students,matricule',
+            'gender' => 'required|string|max:1',
             'promotion_id' => 'required|exists:promotions,id',
         ]);
         $currentPeriod = Period::where('current', true)->first()->name ?? null;
         $student = Student::create([
             'name' => $validated['name'],
+            'gender' => $validated['gender'],
             'matricule' => $validated['matricule'],
         ]);
 
@@ -44,10 +46,12 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'matricule' => ['required', 'string', 'max:255', Rule::unique('students')->ignore($student->id)],
+                        'gender' => 'required|string|max:1',
             'promotion_id' => 'required|exists:promotions,id',
         ]);
         $student->update([
             'name' => $validated['name'],
+            'gender' => $validated['gender'],
             'matricule' => $validated['matricule'],
         ]);
 
