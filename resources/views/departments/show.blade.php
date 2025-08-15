@@ -71,19 +71,19 @@
                                 class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded" title="Voir">
                                 <x-icons.eye />
                             </a>
-                            <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
+                            {{-- <button type="button" class="bg-sky-100 hover:bg-sky-200 p-1.5 rounded"
                             title="Modifier" data-promotion-id="{{ $promotion->id }}"
                             data-modal-target="editPromotionModal-{{ $promotion->id }}"
                             data-modal-toggle="editPromotionModal-{{ $promotion->id }}">
                             <x-icons.pencil-square />
-                        </button>
+                        </button> --}}
                         <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded"
                                     title="Supprimer" data-promotion-id="{{ $promotion->id }}"
                                     data-action-url="{{ route('promotions.destroy', $promotion) }}"
                                     data-modal-target="deletePromotionModal" data-modal-toggle="deletePromotionModal">
                                     <x-icons.trash />
                                 </button>
-                                <x-promotions.edit-promotion-modal :promotion="$promotion" :departments="App\Models\Department::orderBy('name')->get()" />
+                                {{-- <x-promotions.edit-promotion-modal :promotion="$promotion" :departments="App\Models\Department::orderBy('name')->get()" /> --}}
                                     <x-promotions.delete-promotion-modal />
                                 </td>
                             </tr>
