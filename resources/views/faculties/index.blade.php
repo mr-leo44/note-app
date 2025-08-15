@@ -5,7 +5,7 @@
             <button id="openModalBtn" data-modal-target="createFacultyModal" data-modal-toggle="createFacultyModal"
                 class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 type="button" title="Ajouter un cours">
-                + <span class="hidden md:inline">Nouvealle section</span>
+                + <span class="hidden md:inline">Ajouter section</span>
             </button>
         </div>
     </x-slot>
@@ -35,7 +35,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">#</th>
                         <th scope="col" class="px-6 py-3">Nom</th>
-                        <th scope="col" class="px-6 py-3">Abréviation</th>
+                        <th scope="col" class="px-6 py-3">Code</th>
                         <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
