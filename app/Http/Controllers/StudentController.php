@@ -46,7 +46,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'matricule' => ['required', 'string', 'max:255', Rule::unique('students')->ignore($student->id)],
-                        'gender' => 'required|string|max:1',
+            'gender' => 'string|max:1',
             'promotion_id' => 'required|exists:promotions,id',
         ]);
         $student->update([
@@ -98,7 +98,7 @@ class StudentController extends Controller
                 }
             }
         }
-        if(empty($notes)) {
+        if (empty($notes)) {
             return back()->with('warning', 'Vous ne pouvez pas envoyer un formulaire vide');
         } else {
             $studentResultCount = count($notes);
@@ -128,7 +128,7 @@ class StudentController extends Controller
             }
             $currentResult = Result::where('student_id', $student->id)
                 ->where('result_session_id', $currentSession)->first();
-                $status = $studentResultCount === $coursePromotionCount ? StudentPromotionStatus::COMPLETE->value : StudentPromotionStatus::DRAFT->value;
+            $status = $studentResultCount === $coursePromotionCount ? StudentPromotionStatus::COMPLETE->value : StudentPromotionStatus::DRAFT->value;
             if ($currentResult && $currentResult->count() > 0) {
                 $result = $currentResult;
                 $result->notes = $notes;
@@ -148,7 +148,7 @@ class StudentController extends Controller
                 $result->published_by = Auth::user()->id;
                 $result->save();
             }
-    
+
             if ($result) {
                 if (!(DB::table('result_status')->where('promotion_id', $currentPromotion->id)
                     ->where('session', $currentSession)
@@ -160,7 +160,7 @@ class StudentController extends Controller
                     ]);
                 }
             }
-    
+
             return back()->with('success', "Résultats assignés à l'étudiant {$student->name} pour la session en cours.");
         }
     }
@@ -173,7 +173,7 @@ class StudentController extends Controller
         $currentResult->status = StudentPromotionStatus::PUBLISHED->value;
         $currentResult->save();
 
-        if($currentResult) {
+        if ($currentResult) {
             $promotionResultStatus = ResultStatus::where('promotion_id', $currentPromotion->id)
                 ->where('session', $currentSession->id)
                 ->first();
@@ -183,10 +183,10 @@ class StudentController extends Controller
                 $studentResult = Result::where('student_id', $promotionStudent->id)->where('result_session_id', $currentSession->id)->first();
                 if ($studentResult->status === StudentPromotionStatus::PUBLISHED->value) $resultsCount += 1;
             }
-    
+
             if ($promotionStudents->count() === $resultsCount) {
                 $promotionResultStatus->status = ResultByPromotionStatus::COMPLETE->value;
-                $promotionResultStatus->save(); 
+                $promotionResultStatus->save();
             }
         }
         return response()->json();
