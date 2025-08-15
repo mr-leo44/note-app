@@ -9,6 +9,11 @@ use App\Enums\ResultSemester;
 
 class SemesterController extends Controller
 {
+    public function index()
+    {
+        $semesters = Semester::orderByDesc('created_at')->paginate(15);
+        return view('semesters.index', compact('semesters'));
+    }
     /**
      * Store a newly created resource in storage.
      */
