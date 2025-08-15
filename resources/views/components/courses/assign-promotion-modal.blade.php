@@ -21,8 +21,8 @@
                     </select>
                 </div>
                 <div>
-                    <label for="maxima-{{ $course->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maxima</label>
-                    <input type="number" step="0.01" min="0" max="100" id="maxima-{{ $course->id }}" name="maxima" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required>
+                    <label for="maxima-{{ $course->id }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Crédit EC</label>
+                    <input type="number" step="1" min="1" max="30" id="maxima-{{ $course->id }}" name="maxima" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required>
                 </div>
                 <div class="flex justify-end">
                     <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded">Assigner</button>
