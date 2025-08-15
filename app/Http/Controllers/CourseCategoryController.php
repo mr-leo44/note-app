@@ -24,7 +24,7 @@ class CourseCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name',
             'short_name' => 'required|string|max:50|unique:course_categories,short_name',
-            'category_alias' => 'string',
+            'category_alias' => 'nullable|string',
             'ue' => 'required|integer'
         ]);
 
@@ -37,7 +37,7 @@ class CourseCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name,' . $course_category->id,
             'short_name' => 'required|string|max:255|unique:course_categories,short_name,' . $course_category->id,
-            'name' => 'string',
+            'category_alias' => 'nullable|string',
             'ue' => 'required|integer',
         ]);
 
