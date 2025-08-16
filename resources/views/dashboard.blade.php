@@ -4,7 +4,7 @@
             <h1 class="text-base md:text-2xl font-bold">Vue d'ensemble</h1>
             @if ($currentPeriod)
                 <span class="inline-flex items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
-                    @if ($currentSession) {{ $currentSession->name }} - @endif {{ $currentPeriod->name }}
+                    @if ($currentSession) {{ $currentSession->name }} ({{ $currentSemester->short_name }}) - @endif {{ $currentPeriod->name }}
                 </span>
             @endif
         </div>

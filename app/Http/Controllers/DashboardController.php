@@ -10,6 +10,7 @@ use App\Models\Result;
 use App\Models\Promotion;
 use App\Models\ResultStatus;
 use App\Models\ResultSession;
+use App\Models\Semester;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,13 +20,15 @@ class DashboardController extends Controller
     {
         Carbon::setLocale('fr');
         $currentPeriod = Period::where('current', true)->first();
-        $currentSession = $currentPeriod ? ResultSession::where('current', true)->where('period_id', $currentPeriod->id)->first() : null;
+        $currentSemester = $currentPeriod ? Semester::where('current', true)->where('period_id', $currentPeriod->id)->first() : null;
         $promotions = Promotion::paginate();
         $courses = Course::all();
         $juries = Jury::all();
         $students = $currentPeriod ? DB::table('promotion_student')->where('period', $currentPeriod->name)->where('status', 'en cours')->get() : null;
         $publishedResultByPromotion = 0;
-        if ($currentSession) {
+        if ($currentSemester) {
+            $currentSession = $currentSemester->result_sessions()->where('current', true)->first();
+            // dd($currentSession);
             foreach ($promotions as $promotion) {
                 $studentsByPromotion = $promotion
                     ->students()
@@ -50,6 +53,6 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard', compact('currentPeriod', 'currentSession', 'promotions', 'courses', 'juries', 'students', 'publishedResultByPromotion'));
+        return view('dashboard', compact('currentPeriod', 'currentSemester', 'currentSession', 'promotions', 'courses', 'juries', 'students', 'publishedResultByPromotion'));
     }
 }
