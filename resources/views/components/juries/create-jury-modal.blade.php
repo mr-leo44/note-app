@@ -32,10 +32,10 @@
                                     <select :name="'promotions['+index+']'" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required>
                                         <option value="">Sélectionner une promotion</option>
                                         @php
-                                            $currentPeriod = \App\Models\Period::where('current', true)->first();
-                                            $assignedPromotionIds = $currentPeriod
+                                            $currentSemester = \App\Models\Semester::where('current', true)->first();
+                                            $assignedPromotionIds = $currentSemester
                                                 ? \DB::table('jury_promotion')
-                                                    ->where('period', $currentPeriod->name)
+                                                    ->where('semester_id', $currentSemester->name)
                                                     ->whereNull('deleted_at')
                                                     ->pluck('promotion_id')
                                                     ->toArray()
