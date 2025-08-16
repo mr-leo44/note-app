@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Period;
 use App\Models\Account;
 use App\Models\Promotion;
+use App\Models\Semester;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -22,8 +23,8 @@ class JuryController extends Controller
         $juries = User::whereHas('account', function ($q) {
             $q->where('accountable_type', Jury::class);
         })
-        ->with(['account.accountable.promotions'])
-        ->paginate(15);
+            ->with(['account.accountable.promotions'])
+            ->paginate(15);
 
         // Injecter les promotions directement sur chaque User pour simplifier l'accès dans la vue
         foreach ($juries as $jury) {
@@ -104,7 +105,6 @@ class JuryController extends Controller
             'promotions' => 'required|array|min:1',
             'promotions.*' => 'required|exists:promotions,id'
         ]);
-
         DB::beginTransaction();
         try {
             $jury->name = $validated['name'];
@@ -114,49 +114,35 @@ class JuryController extends Controller
                 $jury->password = Hash::make($validated['password']);
             }
             $jury->save();
-
-            $currentPeriod = Period::where('current', true)->first();
-            if (!$currentPeriod) {
+            $currentSemester = Semester::where('current', true)->first();
+            if (!$currentSemester) {
                 DB::rollBack();
-                return back()->with('error', 'Aucune période en cours n\'est définie.');
+                return back()->with('error', 'Aucun semestre en cours n\'est définie.');
             }
-
+            $juryToAssign = $jury->account->accountable;
             // Vérifier pour chaque promotion si elle est déjà assignée à un autre jury pour la période courante
-            $alreadyAssigned = [];
             foreach ($validated['promotions'] as $promotionId) {
-                $exists = DB::table('jury_promotion')
+                $otherJuryExists = DB::table('jury_promotion')
                     ->where('promotion_id', $promotionId)
-                    ->where('period', $currentPeriod->name)
+                    ->where('semester_id', $currentSemester->id)
                     ->whereNull('deleted_at')
                     ->where('jury_id', '!=', $jury->account->accountable->id)
                     ->exists();
-                    
-                    $alreadyExists = DB::table('jury_promotion')
-                    ->where('promotion_id', $promotionId)
-                    ->where('period', $currentPeriod->name)
-                    ->whereNull('deleted_at')
-                    ->where('jury_id', $jury->account->accountable->id)
-                    ->exists();
-                if ($exists || $alreadyExists) {
-                    $promotionName = Promotion::find($promotionId)->name;
-                    $alreadyAssigned[] = $promotionName;
+                if($otherJuryExists) {
+                    $currentPromotion = Promotion::find($promotionId)->name;
+                    DB::rollBack();
+                    return back()->with('warning', "Un autre jury a déjà été affectée à la promotion {$currentPromotion}");
                 }
             }
-            if (count($alreadyAssigned) > 0) {
-                DB::rollBack();
-                return back()->with('warning', 'Cette promotion a déjà été affectée à un jury pour la période en cours.');
-            }
-
             // Mettre à jour les promotions pour la période courante
-            $juryModel = $jury->account->accountable;
-            // On retire toutes les promotions pour la période courante
+            // (On retire toutes les promotions pour la période courante
             DB::table('jury_promotion')
-                ->where('jury_id', $juryModel->id)
-                ->where('period', $currentPeriod->name)
+                ->where('jury_id', $juryToAssign->id)
+                ->where('semester_id', $currentSemester->id)
                 ->delete();
             // On assigne les nouvelles promotions pour la période courante
             foreach ($validated['promotions'] as $promotionId) {
-                $juryModel->promotions()->attach($promotionId, ['period' => $currentPeriod->name]);
+                $juryToAssign->promotions()->attach($promotionId, ['semester_id' => $currentSemester->id]);
             }
 
             DB::commit();
