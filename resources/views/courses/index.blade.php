@@ -35,7 +35,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">#</th>
                         <th scope="col" class="px-6 py-3">Nom</th>
-                        <th scope="col" class="px-6 py-3">Catégories</th>
+                        <th scope="col" class="px-6 py-3">Catégorie</th>
                         <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
@@ -46,7 +46,8 @@
                             <td class="px-6 py-4">
                                 {{ ($courses->currentPage() - 1) * $courses->perPage() + $loop->iteration }}</td>
                             <td class="px-6 py-4 font-semibold">{{ $course->name }}</td>
-                            <td class="px-6 py-4 font-semibold">{{ $course->course_category->name }} - {{ $course->course_category->short_name }}</td>
+                            <td class="px-6 py-4 font-semibold">{{ $course->course_category->name }} -
+                                {{ $course->course_category->short_name }}</td>
                             <td class="px-6 py-4 flex gap-2">
                                 <button type="button" class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded"
                                     title="Voir" data-modal-target="showCourseModal-{{ $course->id }}"
