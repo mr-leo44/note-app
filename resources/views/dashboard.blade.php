@@ -17,21 +17,21 @@
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $promotions->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Promotion @if($promotions->count() > 1)s @endif</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $promotions->count() > 1 ? __('Promotions') : __('Promotion') }}</span>
                     </div>
                 </div>
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $students ? $students->count() : 0 }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Etudiant @if($students->count() > 1)s @endif</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $students->count() > 1 ? __('Etudiants') : __('Etudiant') }}</span>
                     </div>
                 </div>
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $juries->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">Jury @if($juries->count() > 1)s @endif</span>
+                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $juries->count() > 1 ? __('Jurys') : __('Jury') }}</span>
                     </div>
                 </div>
                 <div
