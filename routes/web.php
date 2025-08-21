@@ -44,10 +44,11 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->back();
     } else {
-        return redirect()->route('login');
+        return view('home');
     }
 })->name('home');
 
+Route::post('/results/search', [ResultController::class, 'search'])->name('results.search');
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified', 'admin_only'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
