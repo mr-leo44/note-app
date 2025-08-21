@@ -86,30 +86,45 @@ class StudentController extends Controller
         $request->validate([
             'notes' => 'required|array|min:1',
         ]);
-        $currentPromotion = $student->promotions()->first();
-        $coursePromotionCount = DB::table('course_promotion')
+        $currentPromotion = $student->promotions()->wherePivot('status', 'en cours')->first();
+        $promotionCourses = DB::table('course_promotion')
+            ->join('courses', 'course_promotion.course_id', '=', 'courses.id')
             ->where('promotion_id', $currentPromotion->id)
-            ->count();
+            ->select('course_promotion.*', 'courses.*')
+            ->get();
         $notes = [];
+        // dd($request->input('notes'), $promotionCourses, $promotionCourses->count());
         foreach ($request->input('notes') as $note) {
-            foreach ($note as $course => $value) {
+            foreach ($note as $courseKey => $value) {
                 if (!is_null($value)) {
-                    $notes[$course] = $value; // Store the note with course_id as key
+                    $course = $promotionCourses->where('name', $courseKey)->first();
+                    // mettre note et credit en fonction du cours
+                    $notes[$courseKey]['note'] = $value;
+                    $notes[$courseKey]['credit'] = (int)$course->maxima;
                 }
             }
         }
         if (empty($notes)) {
             return back()->with('warning', 'Vous ne pouvez pas envoyer un formulaire vide');
         } else {
-            $studentResultCount = count($notes);
-            $promotionCoursesMaximas = DB::table('course_promotion')
-                ->where('promotion_id', $currentPromotion->id)
-                ->get()->pluck('maxima')->toArray();
-            $totalNotes = array_sum($promotionCoursesMaximas);
-            $studentNotes = collect($request['notes'])->sum(function ($item) {
-                return collect($item)->first(); // ou array_values($item)[0]
-            });
-            $percentage = round(number_format(($studentNotes / $totalNotes) * 100, 2), 2);
+            $totalCredits = 0;
+            $noteByCourse = 0;
+            $noteToStore = [];
+            $validatedCourses = 0;
+            foreach ($notes as $key => $value) {
+                $totalCredits += $value['credit'];
+                $noteByCourse += $value['note'] * $value['credit'];
+                $noteToStore[$key] = $value['note'];
+                if ($value['note'] >= 10 && $value['note'] <= 20) {
+                    $validatedCourses++;
+                }
+            }
+            $decision = $validatedCourses === count($notes) ? 'V' : 'NV';
+            $semesterAverage = $noteByCourse / $totalCredits;
+            $percentage = round(($semesterAverage / 20) * 100, 2);
+            $status = $promotionCourses->count() === count($notes) ? StudentPromotionStatus::COMPLETE->value : StudentPromotionStatus::DRAFT->value;
+
+
             switch ($percentage) {
                 case $percentage >= 50 && $percentage < 70:
                     $mention = ResultMention::S->value;
@@ -126,25 +141,29 @@ class StudentController extends Controller
                 default:
                     $mention = ResultMention::A->value;
             }
+            // dd($totalCredits, $noteByCourse, $semesterAverage, $noteToStore, $percentage, $mention, $decision, count($notes),$status);
             $currentResult = Result::where('student_id', $student->id)
                 ->where('result_session_id', $currentSession)->first();
-            $status = $studentResultCount === $coursePromotionCount ? StudentPromotionStatus::COMPLETE->value : StudentPromotionStatus::DRAFT->value;
             if ($currentResult && $currentResult->count() > 0) {
                 $result = $currentResult;
-                $result->notes = $notes;
+                $result->notes = $noteToStore;
                 $result->mention = $mention;
                 $result->percentage = $percentage;
                 $result->status = $status;
+                $result->average = $semesterAverage;
+                $result->decision = $decision;
                 $result->published_by = Auth::user()->id;
                 $result->save();
             } else {
                 $result = new Result();
                 $result->student_id = $student->id;
                 $result->result_session_id = $currentSession;
-                $result->notes = $notes;
+                $result->notes = $noteToStore;
                 $result->mention = $mention;
                 $result->percentage = $percentage;
                 $result->status = $status;
+                $result->average = $semesterAverage;
+                $result->decision = $decision;
                 $result->published_by = Auth::user()->id;
                 $result->save();
             }
