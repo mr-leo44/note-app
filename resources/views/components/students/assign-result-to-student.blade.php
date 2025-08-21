@@ -38,7 +38,7 @@
                                         $studentResult = \App\Models\Result::where('student_id', $student->id)->where('result_session_id', $currentSession->id)->first();
                                     @endphp
                                     <label for="note-{{ $index }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $course->name }}</label>
-                                    <input type="number" min="1" max="{{ $maxima }}" name="notes[][{{ $course->name }}]" placeholder="entre 1 et {{ $maxima }}" value="{{ $studentResult['notes'][$course->name] ?? '' }}" id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('notes.' . $course->name) border-red-500 @enderror">
+                                    <input type="number" min="1" max="20" name="notes[][{{ $course->name }}]" placeholder="entre 1 et 20" value="{{ $studentResult['notes'][$course->name] ?? '' }}" id="note-{{ $index }}" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 @error('notes.' . $course->name) border-red-500 @enderror">
                                 </div>
                             @endforeach
                             </div>
