@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="my-8 flex items-center justify-between">
-                    <a href="{{ route('login') }}" class="dark:text-gray-300 underline">Espace Jury</a>
+                    <a href="{{ route('login') }}" class="dark:text-gray-300 underline text-xs md:text-base">Espace Jury</a>
                     <x-primary-button type="submit">
                         Consulter les résultats
                     </x-primary-button>
