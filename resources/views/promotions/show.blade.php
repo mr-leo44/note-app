@@ -41,9 +41,11 @@
     </div>
     @php
         $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
-        $currentSemester = \App\Models\Semester::where('current', true)->first();
-        $sessions = \App\Models\ResultSession::where('semester_id', $currentSemester->id)->get() ?? null;
-        $currentSession = \App\Models\ResultSession::where('current', true)->first();
+        $currentPeriod = \App\Models\Period::where('current', true)->first();
+        $currentSemester = $currentPeriod->semesters()->where('current', true)->first();
+        $currentSession = $currentSemester->result_sessions()->where('current', true)->first();
+        // $students = $promotion->students()->get();
+        $periodSemesters = \App\Models\Semester::where('period_id', $currentPeriod->id)->get() ?? null;
     @endphp
     @if ($students->isEmpty())
         <div class="text-center text-gray-500 py-8">Aucun étudiant enregistré pour cette promotion.</div>
@@ -65,7 +67,7 @@
                             $currentResult = $currentSession
                                 ? \App\Models\Result::where(
                                     'result_session_id',
-                                    \App\Models\ResultSession::where('current', true)->first()->id,
+                                    $currentSession->id,
                                 )
                                     ->where('student_id', $student->id)
                                     ->first()
@@ -91,13 +93,13 @@
                                     id="dropdown-{{ $student->id }}">
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdown-results-button" role="none">
-                                        @foreach ($sessions as $session)
+                                        @foreach ($periodSemesters as $semester)
                                             <li>
                                                 <button
                                                     class="block px-4 py-2 w-full text-start hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    data-session-id="{{ $session->id }}"
-                                                    data-modal-target="showCurrentResultsModal-{{ $student->id }}-{{ $session->id }}"
-                                                    data-modal-toggle="showCurrentResultsModal-{{ $student->id }}-{{ $session->id }}">{{ $session->name }}
+                                                    data-semester-id="{{ $semester->id }}"
+                                                    data-modal-target="showCurrentResultsModal-{{ $student->id }}-{{ $semester->id }}"
+                                                    data-modal-toggle="showCurrentResultsModal-{{ $student->id }}-{{ $semester->id }}">{{ $semester->name }}
                                                 </button>
                                             </li>
                                         @endforeach
@@ -131,9 +133,9 @@
                                         <x-icons.check-circle />
                                     </button>
                                 @endif
-                                @foreach ($sessions as $session)
+                                @foreach ($periodSemesters as $semester)
                                     <x-promotions.show-current-results :student="$student" :currentPromotion="$promotion"
-                                        :session="$session" />
+                                        :semester="$semester" />
                                 @endforeach
                                 <x-students.edit-student-modal :student="$student" />
                                 <x-students.delete-student-modal :student="$student" />
