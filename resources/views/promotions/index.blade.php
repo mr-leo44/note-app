@@ -2,9 +2,12 @@
     <x-slot name="header">
         <div class="flex justify-between items-center py-2">
             <h1 class="text-base md:text-2xl font-bold">Liste des promotions</h1>
+            @php
+                $departmentsCount = \App\Models\Department::count();
+            @endphp
             @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
                 <button id="openModalBtn" data-modal-target="createPromotionModal" data-modal-toggle="createPromotionModal"
-                    class="block text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class=@if($departmentsCount === 0) "hidden" @endif . " text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     type="button" title="Ajouter une promotion">
                     + <span class="hidden md:inline">Nouvelle promotion</span>
                 </button>
