@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ResultSemester;
+use App\Enums\ResultSession as EnumsResultSession;
 use Carbon\Carbon;
 use App\Models\Jury;
 use App\Models\Course;
@@ -20,15 +22,40 @@ class DashboardController extends Controller
     {
         Carbon::setLocale('fr');
         $currentPeriod = Period::where('current', true)->first();
-        $currentSemester = $currentPeriod ? Semester::where('current', true)->where('period_id', $currentPeriod->id)->first() : null;
-        $promotions = Promotion::paginate();
+        if(is_null($currentPeriod)) {
+            $yearNow = now()->year;
+            $currentPeriod = Period::create([
+                "name" => $yearNow. "-" . (now()->year + 1),
+                "current" => true
+            ]);
+        } else {
+            $currentSemester = Semester::where('current', true)->first();
+            if (is_null($currentSemester)) {
+                $currentSemester = Semester::where('current', true)->first() ?? Semester::create([
+                    "name" => ResultSemester::SEM1->label(),
+                    "short_name" => ResultSemester::SEM1->name,
+                    "current" => true,
+                    "period_id" => $currentPeriod->id
+                ]);
+            } else {
+                $currentSession = ResultSession::where('current', true)->first();
+                if (is_null($currentSession)) {
+                    $currentSession = ResultSession::create([
+                        "name" => EnumsResultSession::S1->label(),
+                        "short_name" => EnumsResultSession::S1->name,
+                        "current" => true,
+                        "semester_id" => $currentSemester->id
+                    ]);
+                }
+            }
+        }
         $courses = Course::all();
         $juries = Jury::all();
         $students = $currentPeriod ? DB::table('promotion_student')->where('period', $currentPeriod->name)->where('status', 'en cours')->get() : null;
+        
         $publishedResultByPromotion = 0;
-        if ($currentSemester) {
-            $currentSession = $currentSemester->result_sessions()->where('current', true)->first();
-            // dd($currentSession);
+        $promotions = Promotion::paginate();
+        if($promotions->items() !== []) {
             foreach ($promotions as $promotion) {
                 $studentsByPromotion = $promotion
                     ->students()
