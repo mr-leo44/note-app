@@ -2,45 +2,47 @@
     <x-slot name="header">
         <div class="flex justify-between items-center py-2">
             <h1 class="text-base md:text-2xl font-bold">Vue d'ensemble</h1>
-            @if ($currentPeriod)
-                <span class="inline-flex items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
-                    @if ($currentSession) {{ $currentSession->name }} ({{ $currentSemester->short_name }}) - @endif {{ $currentPeriod->name }}
-                </span>
-            @endif
+            <span
+                class="inline-flex items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
+                {{ $currentSession->name }} ({{ $currentSemester->short_name }}) - {{ $currentPeriod->name }}
+            </span>
         </div>
     </x-slot>
     <div class="py-4 md:py-16 dark:text-white">
         <div class="my-6">
             <h3 class="text-2xl font-semibold mb-4">Statistiques</h3>
             <div class="grid md:grid-cols-4 gap-4">
-                <div
+                <a href="{{ route('promotions.index') }}"
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $promotions->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $promotions->count() > 1 ? __('Promotions') : __('Promotion') }}</span>
+                        <span
+                            class="text-base text-gray-600 dark:text-gray-400">{{ $promotions->count() > 1 ? __('Promotions') : __('Promotion') }}</span>
                     </div>
-                </div>
+                </a>
                 <div
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $students ? $students->count() : 0 }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $students->count() > 1 ? __('Etudiants') : __('Etudiant') }}</span>
+                        <span
+                            class="text-base text-gray-600 dark:text-gray-400">{{ $students->count() > 1 ? __('Etudiants') : __('Etudiant') }}</span>
                     </div>
                 </div>
-                <div
+                <a href="{{ route('juries.index') }}"
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $juries->count() }}</span>
-                        <span class="text-base text-gray-600 dark:text-gray-400">{{ $juries->count() > 1 ? __('Jurys') : __('Jury') }}</span>
+                        <span
+                            class="text-base text-gray-600 dark:text-gray-400">{{ $juries->count() > 1 ? __('Jurys') : __('Jury') }}</span>
                     </div>
-                </div>
-                <div
+                </a>
+                <a href="{{ route('courses.index') }}"
                     class="border border-gray-400 dark:border-gray-600 dark:text-white bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg p-6">
                     <div class="flex flex-col gap-2">
                         <span class="text-4xl font-bold">{{ $courses->count() }}</span>
                         <span class="text-base text-gray-600 dark:text-gray-400">Cours</span>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -83,7 +85,7 @@
                                     <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $publishedResultByPromotion }}</td>
                                     <td class="px-6 py-4 font-semibold">
-                                        {{  $promotion->statusOfResult?->status->label() ??'Non publié' }}
+                                        {{ $promotion->statusOfResult?->status->label() ?? 'Non publié' }}
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-center">
                                         {{ $promotion->statusOfResult?->updated_at->diffForHumans() ?? '-' }}
