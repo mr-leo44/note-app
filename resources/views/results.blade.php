@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ISIPA Resultat Checker') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -77,7 +77,8 @@
                             {{ $currentPeriod->name }}
                         </h3>
                     </div>
-                    <div class="p-4 flex flex-col items-start justify-center text-xs md:text-base font-bold uppercase dark:text-white">
+                    <div
+                        class="p-4 flex flex-col items-start justify-center text-xs md:text-base font-bold uppercase dark:text-white">
                         <span>Etudiant : {{ $student->name }}</span>
                         <span>Matricule : {{ $student->matricule }}</span>
                         <span>Promotion : {{ $currentPromotion->name }}</span>
@@ -133,139 +134,155 @@
                         </ul>
                     </div>
                     <div id="default-tab-content-{{ $student->id }}-{{ $semester->id }}" class="p-1 md:p-4">
-                        @foreach ($semesterSessions as $session)
-                            @php
-                                $result = $session->results()->where('student_id', $student->id)->first() ?? null;
-                                $isDisabled =
-                                    $hasValidatedFirstSession &&
-                                    $session->name === \App\Enums\ResultSession::S2->label();
-                            @endphp
-                            <div class="{{ $loop->first ? '' : 'hidden' }} p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-                                id="content-{{ $session->short_name }}-{{ $student->id }}" role="tabpanel"
-                                aria-labelledby="tab-{{ $session->short_name }}-{{ $student->id }}">
-                                @if (is_null($result))
-                                    <div class="flex flex-col items-center justify-center py-8">
-                                        <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                                        </svg>
-                                        <p class="text-xl font-medium text-gray-500 dark:text-gray-400 mb-2">
-                                            Aucun résultat disponible
-                                        </p>
-                                        <p class="text-sm text-center my-1 text-gray-500 dark:text-gray-400">
-                                            Les résultats pour cette session seront affichés ici une fois publiés.
-                                        </p>
-                                    </div>
-                                @else
-                                    <div class="overflow-auto">
-                                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                                <tr>
-                                                    <th scope="col"
-                                                        class="px-1 md:px-6 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        Cours
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="px-1 md:px-6 py-2 text-left md:text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        Crédit EC
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="px-1 md:px-6 py-2 text-left md:text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        Cote /20
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody
-                                                class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-600">
-                                                @foreach ($coursesByPromotion as $course)
+                        @if ($semester->current === 0)
+                            <div class="flex flex-col items-center justify-center py-8">
+                                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                </svg>
+                                <p class="text-xl font-medium text-gray-500 dark:text-gray-400 mb-2">
+                                    Aucun résultat disponible
+                                </p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    Les résultats pour ce Semestre seront affichés ici une fois publiés.
+                                </p>
+                            </div>
+                        @else
+                            @foreach ($semesterSessions as $session)
+                                @php
+                                    $result = $session->results()->where('student_id', $student->id)->first() ?? null;
+                                    $isDisabled =
+                                        $hasValidatedFirstSession &&
+                                        $session->name === \App\Enums\ResultSession::S2->label();
+                                @endphp
+                                <div class="{{ $loop->first ? '' : 'hidden' }} p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                                    id="content-{{ $session->short_name }}-{{ $student->id }}" role="tabpanel"
+                                    aria-labelledby="tab-{{ $session->short_name }}-{{ $student->id }}">
+                                    @if (is_null($result))
+                                        <div class="flex flex-col items-center justify-center py-8">
+                                            <svg class="w-16 h-16 text-gray-400 mb-4" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                            </svg>
+                                            <p class="text-xl font-medium text-gray-500 dark:text-gray-400 mb-2">
+                                                Aucun résultat disponible
+                                            </p>
+                                            <p class="text-sm text-center my-1 text-gray-500 dark:text-gray-400">
+                                                Les résultats pour cette session seront affichés ici une fois publiés.
+                                            </p>
+                                        </div>
+                                    @else
+                                        <div class="overflow-auto">
+                                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                                                <thead class="bg-gray-50 dark:bg-gray-700">
                                                     <tr>
-                                                        <td
-                                                            class="px-1 md:px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                                            {{ $course->name }}
+                                                        <th scope="col"
+                                                            class="px-1 md:px-6 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            Cours
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="px-1 md:px-6 py-2 text-left md:text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            Crédit EC
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="px-1 md:px-6 py-2 text-left md:text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            Cote /20
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-600">
+                                                    @foreach ($coursesByPromotion as $course)
+                                                        <tr>
+                                                            <td
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                                                {{ $course->name }}
+                                                            </td>
+                                                            <td
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center">
+                                                                {{ (int) $course->maxima }}
+                                                            </td>
+                                                            <td
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center font-bold">
+                                                                @if (isset($result->notes[$course->name]))
+                                                                    {{ $result->notes[$course->name] }}
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot class="bg-gray-50 dark:bg-gray-700">
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Total credits (EC)
                                                         </td>
                                                         <td
-                                                            class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center">
-                                                            {{ (int) $course->maxima }}
-                                                        </td>
-                                                        <td
-                                                            class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center font-bold">
-                                                            @if (isset($result->notes[$course->name]))
-                                                                {{ $result->notes[$course->name] }}
-                                                            @else
-                                                                -
-                                                            @endif
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ $totalCredits }}
                                                         </td>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot class="bg-gray-50 dark:bg-gray-700">
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Total credits (EC)
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ $totalCredits }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Moyenne Semestre
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ number_format($result->average, 5) }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Credits capitalisés
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ $capitalizedCredits }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Décision semestre
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ $result->decision }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Pourcentage
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ $result->percentage }}%
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                                                        colspan="2">
-                                                        Mention
-                                                    </td>
-                                                    <td
-                                                        class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                        {{ $result->mention }}
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                @endif
-                            </div>
-                        @endforeach
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Moyenne Semestre
+                                                        </td>
+                                                        <td
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ number_format($result->average, 5) }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Credits capitalisés
+                                                        </td>
+                                                        <td
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ $capitalizedCredits }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Décision semestre
+                                                        </td>
+                                                        <td
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ $result->decision }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Pourcentage
+                                                        </td>
+                                                        <td
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ $result->percentage }}%
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-1 md:px-6 py-1.5 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                                            colspan="2">
+                                                            Mention
+                                                        </td>
+                                                        <td
+                                                            class="px-1 md:px-6 py-1.5 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                            {{ $result->mention }}
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
