@@ -9,7 +9,7 @@
                 $sectionsCount = \App\Models\Faculty::count();
             @endphp
             <button type="button"
-                class=@if ($sectionsCount === 0) "hidden" @endif.  " text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="@if($sectionsCount === 0) hidden @endif text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 data-modal-target="createDepartmentModal" data-modal-toggle="createDepartmentModal"
                 title="Ajouter un département">
                 + <span class="hidden md:inline">Ajouter un département</span>
