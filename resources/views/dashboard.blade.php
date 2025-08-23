@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center py-2">
             <h1 class="text-base md:text-2xl font-bold">Vue d'ensemble</h1>
             <span
-                class="inline-flex items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
+                class="flex md:inline-flex flex-col md:flex-row items-center px-2 md:px-5 py-1.5 md:py-2.5 text-xs md:text-base font-medium rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300">
                 {{ $currentSession->name }} ({{ $currentSemester->short_name }}) - {{ $currentPeriod->name }}
             </span>
         </div>
@@ -83,7 +83,7 @@
                                     <td class="px-6 py-4 font-semibold" title="{{ $faculty->name }}">
                                         {{ $faculty->short_name }}</td>
                                     <td class="px-6 py-4 font-semibold">{{ $promotion->students()->count() }}</td>
-                                    <td class="px-6 py-4 font-semibold">{{ $publishedResultByPromotion }}</td>
+                                    <td class="px-6 py-4 font-semibold">{{ $promotion->publishedResultByPromotion }}</td>
                                     <td class="px-6 py-4 font-semibold">
                                         {{ $promotion->statusOfResult?->status->label() ?? 'Non publié' }}
                                     </td>

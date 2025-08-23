@@ -53,10 +53,10 @@ class DashboardController extends Controller
         $juries = Jury::all();
         $students = $currentPeriod ? DB::table('promotion_student')->where('period', $currentPeriod->name)->where('status', 'en cours')->get() : null;
         
-        $publishedResultByPromotion = 0;
         $promotions = Promotion::paginate();
         if($promotions->items() !== []) {
             foreach ($promotions as $promotion) {
+                $publishedResultByPromotion = 0;
                 $studentsByPromotion = $promotion
                     ->students()
                     ->wherePivot('promotion_id', $promotion->id)
@@ -66,20 +66,22 @@ class DashboardController extends Controller
                 foreach ($studentsByPromotion as $student) {
                     $studentResult = \App\Models\Result::where('student_id', $student->id)
                         ->where('result_session_id', $currentSession->id)
+                        ->where('status', 'publié')
                         ->first();
                     if ($studentResult) {
                         $publishedResultByPromotion++;
                     }
                 }
-    
+                $promotion['publishedResultByPromotion'] = $publishedResultByPromotion;
+                
                 $resultStatus =
-                    ResultStatus::where('promotion_id', $promotion->id)
-                    ->where('session', $currentSession->id)
-                    ->first();
+                ResultStatus::where('promotion_id', $promotion->id)
+                ->where('session', $currentSession->id)
+                ->first();
                 $promotion['statusOfResult'] = $resultStatus;
             }
         }
 
-        return view('dashboard', compact('currentPeriod', 'currentSemester', 'currentSession', 'promotions', 'courses', 'juries', 'students', 'publishedResultByPromotion'));
+        return view('dashboard', compact('currentPeriod', 'currentSemester', 'currentSession', 'promotions', 'courses', 'juries', 'students'));
     }
 }
