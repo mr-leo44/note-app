@@ -280,14 +280,14 @@
                                                         <tr>
                                                             <td colspan="3">
                                                                 <div
-                                                                    class="flex items-center justify-end px-4 border-b rounded-t dark:border-gray-700">
+                                                                    class="flex items-center justify-end px-4 py-1.5 border-b rounded-t dark:border-gray-700">
 
                                                                     <!-- PDF export button (opens in new tab) -->
                                                                     <a href="{{ route('results.pdf', ['student' => $student->id, 'session' => $session->id, 'promotion' => $currentPromotion->id ?? null]) }}"
                                                                         target="_blank" rel="noopener" +
                                                                         class="inline-flex items-center gap-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md px-2 py-1.5 shadow-sm"
                                                                         title="Générer le PDF">
-                                                                        <svg class="w-6 h-6"
+                                                                        <svg class="w-5 md:w-6 h5 md:h-6"
                                                                             aria-hidden="true"
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             fill="currentColor" viewBox="0 0 24 24">
