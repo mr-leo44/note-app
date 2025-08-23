@@ -49,7 +49,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/results/search', [ResultController::class, 'search'])->name('results.search');
-Route::get('/results/{student}/{semester}/pdf', [ResultController::class, 'pdf'])
+Route::get('/results/{student}/{session}/pdf', [ResultController::class, 'pdf'])
     ->name('results.pdf');
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified', 'admin_only'])->name('dashboard');
 
