@@ -1,6 +1,6 @@
 {
-    "name": "Isipa Note App",
-    "short_name": "Notes",
+    "name": "Isipa Resultat checker",
+    "short_name": "Isipa Resultat",
     "background_color": "#ffffff",
     "display": "standalone",
     "description": "Application pour verifier ses resultats \u00e0 l'ISIPA.",
