@@ -40,7 +40,7 @@
                                 ->where('result_session_id', $session->id)
                                 ->first() ?? null;
 
-                        if ($result) {
+                        if ($result && $result->status === 'publié') {
                             $semesterResults[] = $result;
                         }
                     }
@@ -90,9 +90,8 @@
                             role="tablist">
                             @foreach ($semesterSessions as $session)
                                 @php
-                                    $result = $session->results()->where('student_id', $student->id)->first() ?? null;
-
-                                    if ($result) {
+                                    $result = $session->results()->where('student_id', $student->id)->where('status', 'publié')->first() ?? null;
+                                    if (!is_null($result)) {
                                         // Vérifie si la première session est validée
                                         if (
                                             $session->name === \App\Enums\ResultSession::S1->label() &&
@@ -151,7 +150,7 @@
                         @else
                             @foreach ($semesterSessions as $session)
                                 @php
-                                    $result = $session->results()->where('student_id', $student->id)->first() ?? null;
+                                    $result = $session->results()->where('student_id', $student->id)->where('status', 'publié')->first() ?? null;
                                     $isDisabled =
                                         $hasValidatedFirstSession &&
                                         $session->name === \App\Enums\ResultSession::S2->label();
