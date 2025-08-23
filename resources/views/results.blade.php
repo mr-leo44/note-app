@@ -17,9 +17,9 @@
 </head>
 
 <body class="font-sans text-gray-700 antialiased">
-    <div class="min-h-screen flex flex-col p-4 md:p-0 justify-center items-center bg-gray-100 dark:bg-gray-800">
+    <div class="flex flex-col p-4 md:p-0 justify-center items-center bg-gray-100 dark:bg-gray-800">
         <div
-            class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full flex justify-center items-center">
+            class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-full flex justify-center items-center">
             <div class="relative p-4 w-full max-w-5xl h-full md:h-auto">
                 @php
                     $currentPeriod = \App\Models\Period::where('current', true)->first();
