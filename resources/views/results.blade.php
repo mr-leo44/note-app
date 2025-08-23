@@ -111,7 +111,7 @@
                                     if ($isDisabled) {
                                         $tabClasses .= ' cursor-not-allowed opacity-50';
                                     } elseif ($loop->first) {
-                                        $tabClasses .= ' text-blue-600 border-blue-600 active';
+                                        $tabClasses .= ' text-sky-600 border-sky-600 active';
                                     } else {
                                         $tabClasses .= ' border-transparent';
                                     }
@@ -133,7 +133,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div id="default-tab-content-{{ $student->id }}-{{ $semester->id }}" class="p-1 md:p-4">
+                    <div id="default-tab-content-{{ $student->id }}-{{ $semester->id }}" class="py-1 md:p-4">
                         @if ($semester->current === 0)
                             <div class="flex flex-col items-center justify-center py-8">
                                 <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor"
@@ -197,15 +197,15 @@
                                                     @foreach ($coursesByPromotion as $course)
                                                         <tr>
                                                             <td
-                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-xs font-medium text-gray-900 dark:text-white">
                                                                 {{ $course->name }}
                                                             </td>
                                                             <td
-                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center">
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 dark:text-gray-300 text-center">
                                                                 {{ (int) $course->maxima }}
                                                             </td>
                                                             <td
-                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 text-center font-bold">
+                                                                class="px-1 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-500 dark:text-gray-300 text-center font-bold">
                                                                 @if (isset($result->notes[$course->name]))
                                                                     {{ $result->notes[$course->name] }}
                                                                 @else
