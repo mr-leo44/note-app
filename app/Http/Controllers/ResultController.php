@@ -39,22 +39,21 @@ class ResultController extends Controller
 
     public function search(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'matricule' => 'required|string',
             'semester' => 'required|integer|exists:semesters,id',
         ]);
 
-        $student = Student::where('matricule', $request->matricule)->firstOrFail();
-        if (!$student) {
-            return back()->with('error', 'Étudiant non trouvé');
+        $student = Student::where('matricule', $request->matricule)->first();
+        if (is_null($student)) {
+            $warning = nl2br("Le matricule que vous avez saisi est incorrect ou n'existe pas dans notre base de données.");
+            return back()->with('warning', $warning);
         } else {
             $currentPromotion = $student->promotions()
                 ->where('status', 'en cours')
                 ->first();
         }
         $semester = Semester::findOrFail($request->semester);
-        // dd($semester, $currentPromotion, $student);
         return view('results', compact(['student', 'currentPromotion', 'semester']));
     }
 
@@ -67,7 +66,7 @@ class ResultController extends Controller
         // promotion (optionnel) — récupération best-effort
         $promotionId = $request->query('promotion') ?? $student->promotion_id ?? null;
         $promotion = $promotionId ? \App\Models\Promotion::find($promotionId) : null;
-        
+
         // courses for promotion
         $coursesByPromotion = collect();
         if ($promotion) {
@@ -78,7 +77,7 @@ class ResultController extends Controller
                 ->get();
         }
 
-        
+
         // try get the result for the semester (first session / aggregate view)
         $result = \App\Models\Result::where('student_id', $student->id)
             ->whereHas('resultSession', function ($q) use ($session) {
