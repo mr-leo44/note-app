@@ -30,7 +30,7 @@
     <div class="min-h-screen flex flex-col p-4 md:p-0 justify-center items-center bg-gray-100 dark:bg-gray-800">
         <div>
             <a href="/">
-                <img src="{{ asset('img/graduated-logo.png') }}" class="w-16 md:w-20 h-16 md:h-20" alt="">
+                <img src="{{ asset('logo.png') }}" class="w-20 md:w-28 h-20 md:h-28" alt="">
             </a>
         </div>
 
