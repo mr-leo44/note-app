@@ -5,8 +5,7 @@
                 <a href="{{ route('dashboard') }}" class="flex md:me-24">
                     <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     <span
-                        class="self-center ms-2 text-md md:text-xl font-semibold whitespace-nowrap dark:text-white">Note
-                        App</span>
+                        class="self-center ms-2 text-md md:text-xl font-semibold whitespace-nowrap dark:text-white">Resultat App</span>
                 </a>
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
