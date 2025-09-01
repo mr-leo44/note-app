@@ -68,12 +68,11 @@
                                 </button>
                                 <button type="button" class="bg-red-100 hover:bg-red-200 p-1.5 rounded"
                                     title="Supprimer" data-department-id="{{ $department->id }}"
-                                    data-action-url="{{ route('departments.destroy', $department) }}"
-                                    data-modal-target="deleteDepartmentModal" data-modal-toggle="deleteDepartmentModal">
+                                    data-modal-target="deleteDepartmentModal-{{ $department->id }}" data-modal-toggle="deleteDepartmentModal-{{ $department->id }}">
                                     <x-icons.trash />
                                 </button>
                                 <x-departments.edit-department-modal :department="$department" :faculties="App\Models\Faculty::orderBy('name')->get()" />
-                                <x-departments.delete-department-modal />
+                                <x-departments.delete-department-modal :department="$department" />
                             </td>
                         </tr>
                     @endforeach
