@@ -1,4 +1,11 @@
 <x-app-layout>
+    @php
+        $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
+        $currentPeriod = \App\Models\Period::where('current', true)->first();
+        $currentSemester = $currentPeriod->semesters()->where('current', true)->first();
+        $currentSession = $currentSemester->result_sessions()->where('current', true)->first();
+        $periodSemesters = \App\Models\Semester::where('period_id', $currentPeriod->id)->get() ?? null;
+    @endphp
     <x-slot name="header">
         <div class="flex justify-between items-center py-2">
             <div class="flex items-center gap-2">
@@ -11,7 +18,7 @@
                 </a>
                 <h1 class="text-base md:text-2xl font-bold">{{ $promotion->name }}</h1>
             </div>
-            @if (auth()->user()->account->accountable_type === \App\Models\Admin::class)
+            @if ($isAdmin)
                 <button id="openModalBtn" data-modal-target="createStudentModal" data-modal-toggle="createStudentModal"
                     class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     title="Ajouter un nouvel étudiant">
@@ -39,14 +46,7 @@
             </x-alert>
         @endif
     </div>
-    @php
-        $isAdmin = auth()->user()->account->accountable_type === 'App\Models\Admin' ? true : false;
-        $currentPeriod = \App\Models\Period::where('current', true)->first();
-        $currentSemester = $currentPeriod->semesters()->where('current', true)->first();
-        $currentSession = $currentSemester->result_sessions()->where('current', true)->first();
-        // $students = $promotion->students()->get();
-        $periodSemesters = \App\Models\Semester::where('period_id', $currentPeriod->id)->get() ?? null;
-    @endphp
+    
     @if ($students->isEmpty())
         <div class="text-center text-gray-500 py-8">Aucun étudiant enregistré pour cette promotion.</div>
     @else
@@ -126,7 +126,7 @@
                                         <x-icons.file-pen />
                                     </button>
                                 @endif
-                                @if ($currentResult && $currentResult->status === \App\Enums\StudentPromotionStatus::COMPLETE->value)
+                                @if ($currentResult && ($currentResult->status === \App\Enums\StudentPromotionStatus::COMPLETE->value || $currentResult->status !== \App\Enums\StudentPromotionStatus::PUBLISHED->value))
                                     <button type="button" title="Publier Résultats"
                                         class="bg-green-100 hover:bg-green-200 p-1.5 rounded"
                                         onclick="publishResult({{ $student->id }}, {{ $currentResult->id }}, '{{ $student->name }}')">
