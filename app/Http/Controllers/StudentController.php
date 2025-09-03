@@ -93,7 +93,6 @@ class StudentController extends Controller
             ->select('course_promotion.*', 'courses.*')
             ->get();
         $notes = [];
-        // dd($request->input('notes'), $promotionCourses, $promotionCourses->count());
         foreach ($request->input('notes') as $note) {
             foreach ($note as $courseKey => $value) {
                 if (!is_null($value)) {
@@ -141,7 +140,6 @@ class StudentController extends Controller
                 default:
                     $mention = ResultMention::A->value;
             }
-            // dd($totalCredits, $noteByCourse, $semesterAverage, $noteToStore, $percentage, $mention, $decision, count($notes),$status);
             $currentResult = Result::where('student_id', $student->id)
                 ->where('result_session_id', $currentSession)->first();
             if ($currentResult && $currentResult->count() > 0) {
