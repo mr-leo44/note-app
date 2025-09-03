@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Faculty;
-use App\Models\Promotion;
+use App\Models\{Faculty, Promotion};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
