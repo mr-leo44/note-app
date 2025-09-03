@@ -39,9 +39,20 @@
                             \App\Models\Result::where('student_id', $student->id)
                                 ->where('result_session_id', $session->id)
                                 ->first() ?? null;
-
                         if ($result && $result->status === 'publié') {
-                            $semesterResults[] = $result;
+                            $studentResultPromotion = $result->student->promotions()
+                            ->where('promotion_id', $currentPromotion->id)
+                                ->first();
+                            $resultStatus = \App\Models\ResultStatus::where('session', $session->id)->where('promotion_id', $studentResultPromotion->id)->first();
+                            if ($resultStatus->status->value === 'brouillon') {
+                                $published = false;
+                            } else {
+                                $published = true;
+                            }
+                            
+                            if($published) {
+                                $semesterResults[] = $result;
+                            }
                         }
                     }
 
@@ -90,7 +101,12 @@
                             role="tablist">
                             @foreach ($semesterSessions as $session)
                                 @php
-                                    $result = $session->results()->where('student_id', $student->id)->where('status', 'publié')->first() ?? null;
+                                    $result =
+                                        $session
+                                            ->results()
+                                            ->where('student_id', $student->id)
+                                            ->where('status', 'publié')
+                                            ->first() ?? null;
                                     if (!is_null($result)) {
                                         // Vérifie si la première session est validée
                                         if (
@@ -133,7 +149,7 @@
                         </ul>
                     </div>
                     <div id="default-tab-content-{{ $student->id }}-{{ $semester->id }}" class="py-1 md:p-4">
-                        @if ($semester->current === 0)
+                        @if ($semester->current === 0 || !$published)
                             <div class="flex flex-col items-center justify-center py-8">
                                 <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -150,7 +166,12 @@
                         @else
                             @foreach ($semesterSessions as $session)
                                 @php
-                                    $result = $session->results()->where('student_id', $student->id)->where('status', 'publié')->first() ?? null;
+                                    $result =
+                                        $session
+                                            ->results()
+                                            ->where('student_id', $student->id)
+                                            ->where('status', 'publié')
+                                            ->first() ?? null;
                                     $isDisabled =
                                         $hasValidatedFirstSession &&
                                         $session->name === \App\Enums\ResultSession::S2->label();
@@ -275,7 +296,7 @@
                                                             {{ $result->mention }}
                                                         </td>
                                                     </tr>
-                                                    @if(!is_null($result))
+                                                    @if (!is_null($result))
                                                         <tr>
                                                             <td colspan="3">
                                                                 <div
@@ -294,7 +315,9 @@
                                                                                 d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z"
                                                                                 clip-rule="evenodd" />
                                                                         </svg>
-                                                                        <span class="hidden md:block text-sm md:text-base font-semibold">Générer le
+                                                                        <span
+                                                                            class="hidden md:block text-sm md:text-base font-semibold">Générer
+                                                                            le
                                                                             PDF</span>
                                                                     </a>
                                                                 </div>
